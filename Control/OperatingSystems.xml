@@ -41,4 +41,25 @@
     <Size>15904</Size>
     <Language>en-US</Language>
   </os>
+  <os guid="{d86e753c-4fc0-42eb-8f3b-a7767fd70f39}" enable="True">
+    <Name>SharePoint 2013 - Development</Name>
+    <CreatedTime>4/7/2015 4:10:39 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/7/2015 4:10:39 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>6.3.9600.17415</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\SP2013-DEV</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV_4-6-2015-1-57-20-PM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>SP2013-DEVCDrive</ImageName>
+    <Flags>ServerStandard</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>39234</Size>
+    <Language>en-US</Language>
+  </os>
 </oss>
