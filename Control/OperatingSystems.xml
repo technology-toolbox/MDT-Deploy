@@ -1,1 +1,44 @@
-<oss><os guid="{2bf134ee-8dd4-41dc-a3be-28cf8325b411}" enable="True"><Name>Windows 8.1 Enterprise x64 - Baseline</Name><CreatedTime>4/7/2015 3:05:16 PM</CreatedTime><CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy><LastModifiedTime>4/7/2015 3:05:16 PM</LastModifiedTime><LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy><Description>Windows IBS image</Description><Platform>x64</Platform><Build>6.3.9600.17415</Build><OSType>Windows IBS</OSType><Source>.\Operating Systems\W81Ent-x64-Update</Source><IncludesSetup>True</IncludesSetup><SMSImage>False</SMSImage><ImageFile>.\Operating Systems\W81Ent-x64-Update\W81ENT-X64_3-28-2015-9-02-25-PM.wim</ImageFile><ImageIndex>1</ImageIndex><ImageName>W81ENT-X64CDrive</ImageName><Flags>Enterprise</Flags><HAL>acpiapic</HAL><Size>19886</Size><Language>en-US</Language></os><os guid="{97a157d8-adce-49b6-8bf4-98c68fa53ceb}" enable="True"><Name>Windows Server 2012 R2 Standard - Baseline</Name><CreatedTime>4/7/2015 3:08:50 PM</CreatedTime><CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy><LastModifiedTime>4/7/2015 3:08:50 PM</LastModifiedTime><LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy><Description>Windows IBS image</Description><Platform>x64</Platform><Build>6.3.9600.17415</Build><OSType>Windows IBS</OSType><Source>.\Operating Systems\WS2012-R2-Update</Source><IncludesSetup>True</IncludesSetup><SMSImage>False</SMSImage><ImageFile>.\Operating Systems\WS2012-R2-Update\WS2012-R2_3-28-2015-8-20-37-AM.wim</ImageFile><ImageIndex>1</ImageIndex><ImageName>WS2012-R2CDrive</ImageName><Flags>ServerStandard</Flags><HAL>acpiapic</HAL><Size>15904</Size><Language>en-US</Language></os></oss>
+<oss>
+  <os guid="{2bf134ee-8dd4-41dc-a3be-28cf8325b411}" enable="True">
+    <Name>Windows 8.1 Enterprise x64 - Baseline</Name>
+    <CreatedTime>4/7/2015 3:05:16 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/7/2015 3:05:16 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>6.3.9600.17415</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\W81Ent-x64-Update</Source>
+    <IncludesSetup>True</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\W81Ent-x64-Update\W81ENT-X64_3-28-2015-9-02-25-PM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>W81ENT-X64CDrive</ImageName>
+    <Flags>Enterprise</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>19886</Size>
+    <Language>en-US</Language>
+  </os>
+  <os guid="{97a157d8-adce-49b6-8bf4-98c68fa53ceb}" enable="True">
+    <Name>Windows Server 2012 R2 Standard - Baseline</Name>
+    <CreatedTime>4/7/2015 3:08:50 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/7/2015 3:08:50 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>6.3.9600.17415</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\WS2012-R2-Update</Source>
+    <IncludesSetup>True</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\WS2012-R2-Update\WS2012-R2_3-28-2015-8-20-37-AM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>WS2012-R2CDrive</ImageName>
+    <Flags>ServerStandard</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>15904</Size>
+    <Language>en-US</Language>
+  </os>
+</oss>
