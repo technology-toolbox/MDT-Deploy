@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DomainOUs>
+  <DomainOU>OU=Servers,OU=Resources,OU=Development,DC=corp,DC=technologytoolbox,DC=com</DomainOU>
+  <DomainOU>OU=Workstations,OU=Resources,OU=Development,DC=corp,DC=technologytoolbox,DC=com</DomainOU>
+  <DomainOU>OU=Laptops,OU=Resources,OU=IT,DC=corp,DC=technologytoolbox,DC=com</DomainOU>
+  <DomainOU>OU=Servers,OU=Resources,OU=IT,DC=corp,DC=technologytoolbox,DC=com</DomainOU>
+  <DomainOU>OU=Workstations,OU=Resources,OU=IT,DC=corp,DC=technologytoolbox,DC=com</DomainOU>
+</DomainOUs>
