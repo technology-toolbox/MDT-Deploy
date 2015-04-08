@@ -1,1 +1,68 @@
-<applications />
+<applications>
+  <application guid="{a8ae15fb-8e33-42f9-b9ae-238b82b0c15a}" hide="True">
+    <Name>Adobe Reader 8.3</Name>
+    <CreatedTime>4/8/2015 1:54:27 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:54:27 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Adobe-Reader-83</ShortName>
+    <CommandLine>msiexec /i "\\iceman\Products\Adobe\AdbeRdr830_en_US.msi" /q</CommandLine>
+  </application>
+  <application guid="{3e027eda-3d2c-491c-9dbe-ccbd0e0d8914}" hide="True">
+    <Name>Adobe Reader 8.3.1 Update</Name>
+    <CreatedTime>4/8/2015 1:54:27 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:54:27 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Adobe-Reader-831-Update</ShortName>
+    <CommandLine>msiexec /update "\\iceman\Products\Adobe\AdbeRdrUpd831_all_incr.msp" /q</CommandLine>
+  </application>
+  <application guid="{a9d3dd62-e58d-4d00-9aa7-f951eaf23a95}">
+    <Name>Adobe Reader 8.3.1</Name>
+    <CreatedTime>4/8/2015 1:54:27 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:54:50 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Adobe-Reader-831</ShortName>
+    <Dependency>{a8ae15fb-8e33-42f9-b9ae-238b82b0c15a}</Dependency>
+    <Dependency>{3e027eda-3d2c-491c-9dbe-ccbd0e0d8914}</Dependency>
+  </application>
+  <application guid="{ecd3e349-f7e0-40c5-ab2b-7fabc4026eb9}">
+    <Name>Chrome</Name>
+    <CreatedTime>4/8/2015 1:55:02 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:55:02 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Chrome</ShortName>
+    <CommandLine>msiexec /i "\\ICEMAN\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
+  </application>
+  <application guid="{ce8d8553-c054-4894-bcb0-a485dc5aa447}">
+    <Name>SharePoint Designer 2013 with Service Pack 1 - x86</Name>
+    <CreatedTime>4/8/2015 1:55:47 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:55:47 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SPD2013-x86-SP1</ShortName>
+    <Source>.\Applications\SPD2013-x86-SP1</Source>
+    <CommandLine>setup.exe /config sharepointdesigner.ww\config.xml</CommandLine>
+    <WorkingDirectory>.\Applications\SPD2013-x86-SP1</WorkingDirectory>
+  </application>
+  <application guid="{d9ca33b6-bbf0-42f5-a84b-9a952a78a0fd}">
+    <Name>Firefox 36.0</Name>
+    <CreatedTime>4/8/2015 1:58:14 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:58:14 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Firefox</ShortName>
+    <CommandLine>"\\ICEMAN\Products\Mozilla\Firefox\Firefox Setup 36.0.exe" -ms</CommandLine>
+  </application>
+  <application guid="{54cc1803-0acc-4a3d-b3f1-ff634447c4f2}">
+    <Name>Thunderbird 31.3.0</Name>
+    <CreatedTime>4/8/2015 1:58:16 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:58:16 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Thunderbird</ShortName>
+    <CommandLine>"\\ICEMAN\Products\Mozilla\Thunderbird\Thunderbird Setup 31.3.0.exe" -ms</CommandLine>
+  </application>
+</applications>

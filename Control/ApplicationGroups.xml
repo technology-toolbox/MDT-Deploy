@@ -7,4 +7,39 @@
     <Name>hidden</Name>
     <Comments>This folder contains shared source items that have not been made explicitly visible in this deployment share.</Comments>
   </group>
+  <group guid="{5d4343a7-1edb-4d41-bc10-b46447e8c384}" enable="True">
+    <Name>Adobe</Name>
+    <CreatedTime>4/8/2015 1:54:26 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:54:27 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{a8ae15fb-8e33-42f9-b9ae-238b82b0c15a}</Member>
+    <Member>{a9d3dd62-e58d-4d00-9aa7-f951eaf23a95}</Member>
+    <Member>{3e027eda-3d2c-491c-9dbe-ccbd0e0d8914}</Member>
+  </group>
+  <group guid="{6fbfe2f1-f201-4297-9139-519701b5b4da}" enable="True">
+    <Name>Google</Name>
+    <CreatedTime>4/8/2015 1:55:01 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:55:02 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{ecd3e349-f7e0-40c5-ab2b-7fabc4026eb9}</Member>
+  </group>
+  <group guid="{82cc0d3a-f087-498b-b14a-cd3a43d29008}" enable="True">
+    <Name>Microsoft</Name>
+    <CreatedTime>4/8/2015 1:55:11 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:55:47 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{ce8d8553-c054-4894-bcb0-a485dc5aa447}</Member>
+  </group>
+  <group guid="{fb2792ad-16fb-401d-88a1-b55784b3d170}" enable="True">
+    <Name>Mozilla</Name>
+    <CreatedTime>4/8/2015 1:58:14 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/8/2015 1:58:16 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{d9ca33b6-bbf0-42f5-a84b-9a952a78a0fd}</Member>
+    <Member>{54cc1803-0acc-4a3d-b3f1-ff634447c4f2}</Member>
+  </group>
 </groups>
