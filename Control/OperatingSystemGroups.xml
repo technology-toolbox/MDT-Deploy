@@ -7,6 +7,23 @@
     <Name>hidden</Name>
     <Comments>This folder contains shared source items that have not been made explicitly visible in this deployment share.</Comments>
   </group>
+  <group guid="{c063e4f5-047e-4a9e-8bc1-4c53e058bae7}" enable="True">
+    <Name>Windows 7</Name>
+    <CreatedTime>4/14/2015 1:30:34 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 1:46:51 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{b434d18d-8784-48da-9fae-938c4f9095b8}</Member>
+    <Member>{6542dd1e-383a-4dd7-87fc-ea0991ca18a8}</Member>
+  </group>
+  <group guid="{c5c8a0e6-206c-4f8f-846a-feb9744efa00}" enable="True">
+    <Name>Windows Server 2008 R2</Name>
+    <CreatedTime>4/14/2015 1:45:12 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 1:46:58 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{e2ca838a-5fa2-4a42-9551-6b74d9543f7e}</Member>
+  </group>
   <group guid="{0d5dc41c-e4d0-46d8-86ce-01f4a87fe2c3}" enable="True">
     <Name>Windows 8.1</Name>
     <Comments></Comments>

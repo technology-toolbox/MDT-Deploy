@@ -1,4 +1,67 @@
 <oss>
+  <os guid="{6542dd1e-383a-4dd7-87fc-ea0991ca18a8}" enable="True">
+    <Name>Windows 7 Ultimate (x86) - Baseline</Name>
+    <CreatedTime>4/14/2015 1:41:36 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 1:41:36 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x86</Platform>
+    <Build>6.1.7601.18409</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\W7Ult-x86</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_4-19-2015-5-39-04-PM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>W7ULT-X86-REFCDrive</ImageName>
+    <Flags>Ultimate</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>15866</Size>
+    <Language>en-US</Language>
+  </os>
+  <os guid="{b434d18d-8784-48da-9fae-938c4f9095b8}" enable="True">
+    <Name>Windows 7 Ultimate (x64) - Baseline</Name>
+    <CreatedTime>4/14/2015 1:44:36 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 1:44:36 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>6.1.7601.18409</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\W7Ult-x64</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_4-19-2015-10-15-01-PM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>W7ULT-X64-REFCDrive</ImageName>
+    <Flags>Ultimate</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>22213</Size>
+    <Language>en-US</Language>
+  </os>
+  <os guid="{e2ca838a-5fa2-4a42-9551-6b74d9543f7e}" enable="True">
+    <Name>Windows Server 2008 R2 Standard - Baseline</Name>
+    <CreatedTime>4/14/2015 1:46:26 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 1:46:26 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>6.1.7601.18409</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\WS2008-R2</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_4-20-2015-5-51-00-AM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>WS2008-R2-REFCDrive</ImageName>
+    <Flags>ServerStandard</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>14021</Size>
+    <Language>en-US</Language>
+  </os>
   <os guid="{2bf134ee-8dd4-41dc-a3be-28cf8325b411}" enable="True">
     <Name>Windows 8.1 Enterprise x64 - Baseline</Name>
     <CreatedTime>4/7/2015 3:05:16 PM</CreatedTime>
