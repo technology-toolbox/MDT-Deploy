@@ -1,4 +1,37 @@
 <tss>
+  <ts guid="{27b640a7-ba6a-48a3-a507-fa88c7c9a7f2}" hide="False" enable="True">
+    <Name>Windows 7 Ultimate (x86)</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>4/14/2015 1:57:22 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 9:37:35 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>W7ULT-X86</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+  </ts>
+  <ts guid="{f4399002-35ff-4ff7-8790-b959209d4acc}" hide="False" enable="True">
+    <Name>Windows 7 Ultimate (x64)</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>4/14/2015 1:58:03 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 9:37:25 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>W7ULT-X64</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+  </ts>
+  <ts guid="{423196ba-1c86-46bb-84fa-53695093d772}" hide="False" enable="True">
+    <Name>Windows Server 2008 R2</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>4/14/2015 1:59:12 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>4/14/2015 9:37:30 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>WS2008-R2</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+  </ts>
   <ts guid="{68e71d90-efe0-473d-9343-f58523a2c62e}" enable="True">
     <Name>Windows 8.1 Enterprise x64</Name>
     <Comments>Production image</Comments>
