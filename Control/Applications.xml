@@ -36,17 +36,6 @@
     <ShortName>Chrome</ShortName>
     <CommandLine>msiexec /i "\\ICEMAN\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
   </application>
-  <application guid="{78a9eea0-8f91-42b5-985b-2197fa7cf23c}">
-    <Name>SharePoint Designer 2013 with Service Pack 1 (x86)</Name>
-    <CreatedTime>4/14/2015 3:00:44 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/14/2015 3:00:44 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ShortName>SPD2013-x86-SP1</ShortName>
-    <Source>.\Applications\SPD2013-x86-SP1</Source>
-    <CommandLine>setup.exe /config sharepointdesigner.ww\config.xml</CommandLine>
-    <WorkingDirectory>.\Applications\SPD2013-x86-SP1</WorkingDirectory>
-  </application>
   <application guid="{ece7b4ae-48b5-4214-9b22-5a95e942cc62}">
     <Name>Firefox 36.0</Name>
     <CreatedTime>4/14/2015 3:06:22 PM</CreatedTime>
