@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sequence version="3.00" name="Standard Server Task Sequence" description="A complete task sequence for deploying a server operating system">
   <globalVarList>
-    <variable name="OSGUID" property="OSGUID">{d86e753c-4fc0-42eb-8f3b-a7767fd70f39}</variable>
+    <variable name="OSGUID" property="OSGUID">{ac3d3031-7f35-405a-baa5-756781908b07}</variable>
     <variable name="DestinationDisk" property="DestinationDisk">0</variable>
     <variable name="DestinationPartition" property="DestinationPartition">1</variable>
     <variable name="DestinationOSVariable" property="DestinationOSVariable">OSDisk</variable>
@@ -194,7 +194,7 @@
     </condition>
     <step type="BDD_InstallOS" name="Install Operating System" description="" disable="false" continueOnError="false" runIn="WinPEandFullOS" successCodeList="0 3010">
       <defaultVarList>
-        <variable name="OSGUID" property="OSGUID">{d86e753c-4fc0-42eb-8f3b-a7767fd70f39}</variable>
+        <variable name="OSGUID" property="OSGUID">{ac3d3031-7f35-405a-baa5-756781908b07}</variable>
         <variable name="DestinationDisk" property="DestinationDisk">0</variable>
         <variable name="DestinationPartition" property="DestinationPartition">1</variable>
         <variable name="DestinationOSDriveLetter" property="DestinationOSDriveLetter"></variable>

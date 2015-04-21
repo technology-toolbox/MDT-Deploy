@@ -10,7 +10,7 @@
             <PartitionID>1</PartitionID>
           </InstallTo>
           <InstallFrom>
-            <Path>.\Operating Systems\WS2012-R2-Update\WS2012-R2_3-28-2015-8-20-37-AM.wim</Path>
+            <Path>.\Operating Systems\WS2012-R2\WS2012-R2-REF_4-20-2015-2-11-42-PM.wim</Path>
             <MetaData>
               <Key>/IMAGE/INDEX</Key>
               <Value>1</Value>

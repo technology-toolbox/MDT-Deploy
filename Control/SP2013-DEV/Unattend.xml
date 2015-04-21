@@ -10,7 +10,7 @@
             <PartitionID>1</PartitionID>
           </InstallTo>
           <InstallFrom>
-            <Path>.\Operating Systems\SP2013-DEV\SP2013-DEV_4-6-2015-1-57-20-PM.wim</Path>
+            <Path>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_4-20-2015-3-33-56-PM.wim</Path>
             <MetaData>
               <Key>/IMAGE/INDEX</Key>
               <Value>1</Value>

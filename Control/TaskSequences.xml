@@ -32,34 +32,34 @@
     <Version>1.0</Version>
     <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
   </ts>
-  <ts guid="{68e71d90-efe0-473d-9343-f58523a2c62e}" enable="True">
-    <Name>Windows 8.1 Enterprise x64</Name>
+  <ts guid="{7c9500f2-2af8-41ad-8cd1-70da53056244}" enable="True">
+    <Name>Windows 8.1 Enterprise (x64)</Name>
     <Comments>Production image</Comments>
-    <CreatedTime>4/7/2015 3:16:25 PM</CreatedTime>
+    <CreatedTime>4/20/2015 9:40:32 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/7/2015 3:16:25 PM</LastModifiedTime>
+    <LastModifiedTime>4/20/2015 9:40:32 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ID>W81ENT-X64</ID>
     <Version>1.0</Version>
     <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
   </ts>
-  <ts guid="{c1d9b9ec-cfbb-4877-a0bc-a54553841262}" enable="True">
-    <Name>Windows Server 2012 R2 Standard</Name>
+  <ts guid="{437b851e-096a-4e58-add0-ccf3f06907f2}" enable="True">
+    <Name>Windows Server 2012 R2</Name>
     <Comments>Production image</Comments>
-    <CreatedTime>4/7/2015 3:54:59 PM</CreatedTime>
+    <CreatedTime>4/21/2015 4:04:03 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/7/2015 3:54:59 PM</LastModifiedTime>
+    <LastModifiedTime>4/21/2015 4:04:03 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ID>WS2012-R2</ID>
     <Version>1.0</Version>
     <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
   </ts>
-  <ts guid="{0a3fb952-ffaf-4ee8-9736-403f09264085}" enable="True">
+  <ts guid="{a92769f2-32ea-4d38-84c1-1aec05f7864f}" enable="True">
     <Name>SharePoint Server 2013 - Development</Name>
-    <Comments>Windows Server 2012 R2, SQL Server 2014, Visual Studio 2013 with Update 4, Office 2013, and SharePoint Server 2013</Comments>
-    <CreatedTime>4/7/2015 4:15:04 PM</CreatedTime>
+    <Comments>Production image</Comments>
+    <CreatedTime>4/21/2015 4:04:12 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/7/2015 4:15:04 PM</LastModifiedTime>
+    <LastModifiedTime>4/21/2015 4:04:12 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ID>SP2013-DEV</ID>
     <Version>1.0</Version>

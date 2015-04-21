@@ -62,53 +62,53 @@
     <Size>14021</Size>
     <Language>en-US</Language>
   </os>
-  <os guid="{2bf134ee-8dd4-41dc-a3be-28cf8325b411}" enable="True">
-    <Name>Windows 8.1 Enterprise x64 - Baseline</Name>
-    <CreatedTime>4/7/2015 3:05:16 PM</CreatedTime>
+  <os guid="{5cd99bd8-f502-4263-b3ad-b44e7d7ed90b}" enable="True">
+    <Name>Windows 8.1 Enterprise (x64) - Baseline</Name>
+    <CreatedTime>4/20/2015 8:52:42 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/7/2015 3:05:16 PM</LastModifiedTime>
+    <LastModifiedTime>4/20/2015 8:52:42 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <Description>Windows IBS image</Description>
     <Platform>x64</Platform>
     <Build>6.3.9600.17415</Build>
     <OSType>Windows IBS</OSType>
-    <Source>.\Operating Systems\W81Ent-x64-Update</Source>
-    <IncludesSetup>True</IncludesSetup>
+    <Source>.\Operating Systems\W81Ent-x64</Source>
+    <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W81Ent-x64-Update\W81ENT-X64_3-28-2015-9-02-25-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_4-20-2015-11-07-15-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
-    <ImageName>W81ENT-X64CDrive</ImageName>
+    <ImageName>W81ENT-X64-REFCDrive</ImageName>
     <Flags>Enterprise</Flags>
     <HAL>acpiapic</HAL>
-    <Size>19886</Size>
+    <Size>19071</Size>
     <Language>en-US</Language>
   </os>
-  <os guid="{97a157d8-adce-49b6-8bf4-98c68fa53ceb}" enable="True">
+  <os guid="{c0eb3e53-7c9f-4163-90cf-658f5ed01bf8}" enable="True">
     <Name>Windows Server 2012 R2 Standard - Baseline</Name>
-    <CreatedTime>4/7/2015 3:08:50 PM</CreatedTime>
+    <CreatedTime>4/20/2015 9:37:26 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/7/2015 3:08:50 PM</LastModifiedTime>
+    <LastModifiedTime>4/20/2015 9:37:26 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <Description>Windows IBS image</Description>
     <Platform>x64</Platform>
     <Build>6.3.9600.17415</Build>
     <OSType>Windows IBS</OSType>
-    <Source>.\Operating Systems\WS2012-R2-Update</Source>
-    <IncludesSetup>True</IncludesSetup>
+    <Source>.\Operating Systems\WS2012-R2</Source>
+    <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2012-R2-Update\WS2012-R2_3-28-2015-8-20-37-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_4-20-2015-2-11-42-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
-    <ImageName>WS2012-R2CDrive</ImageName>
+    <ImageName>WS2012-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
     <HAL>acpiapic</HAL>
-    <Size>15904</Size>
+    <Size>13957</Size>
     <Language>en-US</Language>
   </os>
-  <os guid="{d86e753c-4fc0-42eb-8f3b-a7767fd70f39}" enable="True">
-    <Name>SharePoint 2013 - Development</Name>
-    <CreatedTime>4/7/2015 4:10:39 PM</CreatedTime>
+  <os guid="{ac3d3031-7f35-405a-baa5-756781908b07}" enable="True">
+    <Name>SharePoint Server 2013 - Development</Name>
+    <CreatedTime>4/21/2015 3:55:37 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/7/2015 4:10:39 PM</LastModifiedTime>
+    <LastModifiedTime>4/21/2015 3:55:37 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <Description>Windows IBS image</Description>
     <Platform>x64</Platform>
@@ -117,12 +117,12 @@
     <Source>.\Operating Systems\SP2013-DEV</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV_4-6-2015-1-57-20-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_4-20-2015-3-33-56-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
-    <ImageName>SP2013-DEVCDrive</ImageName>
+    <ImageName>SP2013-DEV-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
     <HAL>acpiapic</HAL>
-    <Size>39234</Size>
+    <Size>37866</Size>
     <Language>en-US</Language>
   </os>
 </oss>

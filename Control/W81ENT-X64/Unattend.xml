@@ -10,7 +10,7 @@
             <PartitionID>1</PartitionID>
           </InstallTo>
           <InstallFrom>
-            <Path>.\Operating Systems\W81Ent-x64-Update\W81ENT-X64_3-28-2015-9-02-25-PM.wim</Path>
+            <Path>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_4-20-2015-11-07-15-AM.wim</Path>
             <MetaData>
               <Key>/IMAGE/INDEX</Key>
               <Value>1</Value>
