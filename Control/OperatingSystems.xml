@@ -12,7 +12,7 @@
     <Source>.\Operating Systems\W7Ult-x86</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_4-19-2015-5-39-04-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_8-16-2015-7-01-17-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W7ULT-X86-REFCDrive</ImageName>
     <Flags>Ultimate</Flags>
@@ -33,7 +33,7 @@
     <Source>.\Operating Systems\W7Ult-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_4-19-2015-10-15-01-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_8-16-2015-12-05-46-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W7ULT-X64-REFCDrive</ImageName>
     <Flags>Ultimate</Flags>
@@ -54,7 +54,7 @@
     <Source>.\Operating Systems\WS2008-R2</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_4-20-2015-5-51-00-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_8-16-2015-7-26-36-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2008-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -75,7 +75,7 @@
     <Source>.\Operating Systems\W81Ent-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_4-20-2015-11-07-15-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_8-17-2015-4-37-31-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W81ENT-X64-REFCDrive</ImageName>
     <Flags>Enterprise</Flags>
@@ -96,7 +96,7 @@
     <Source>.\Operating Systems\WS2012-R2</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_4-20-2015-2-11-42-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_8-17-2015-8-18-24-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2012-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -117,7 +117,7 @@
     <Source>.\Operating Systems\SP2013-DEV</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_4-20-2015-3-33-56-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_8-17-2015-11-26-37-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>SP2013-DEV-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
