@@ -36,14 +36,14 @@
     <ShortName>Chrome</ShortName>
     <CommandLine>msiexec /i "\\ICEMAN\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
   </application>
-  <application guid="{917b485f-2800-4d12-ba5a-aef39696f1d0}">
-    <Name>Firefox 50.0.1</Name>
-    <CreatedTime>12/27/2016 4:25:52 PM</CreatedTime>
+  <application guid="{b134c260-3edc-4def-9248-4709bda20139}">
+    <Name>Firefox 50.1.0</Name>
+    <CreatedTime>12/27/2016 5:08:24 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>12/27/2016 4:25:52 PM</LastModifiedTime>
+    <LastModifiedTime>12/27/2016 5:08:24 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox</ShortName>
-    <CommandLine>"\\ICEMAN\Products\Mozilla\Firefox\Firefox Setup 50.0.1.exe" -ms</CommandLine>
+    <CommandLine>"\\ICEMAN\Products\Mozilla\Firefox\Firefox Setup 50.1.0.exe" -ms</CommandLine>
   </application>
   <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}">
     <Name>Thunderbird 38.8.0</Name>
