@@ -17,41 +17,41 @@
     <ShortName>Adobe-Reader-831-Update</ShortName>
     <CommandLine>msiexec /update "\\iceman\Products\Adobe\AdbeRdrUpd831_all_incr.msp" /q</CommandLine>
   </application>
-  <application guid="{21500a40-7a01-4bf7-8b55-e3d7d19d95a9}">
+  <application guid="{21500a40-7a01-4bf7-8b55-e3d7d19d95a9}" hide="False" enable="True">
     <Name>Adobe Reader 8.3.1</Name>
     <CreatedTime>4/14/2015 2:51:32 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/14/2015 2:56:58 PM</LastModifiedTime>
+    <LastModifiedTime>3/21/2016 12:05:20 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Adobe-Reader-831</ShortName>
     <Dependency>{55b3013c-90ca-4f9a-9aac-96f3d2c3fb0d}</Dependency>
     <Dependency>{6c1d1035-23a2-4724-bcca-7dd226c7e1d1}</Dependency>
   </application>
-  <application guid="{13e96063-09a9-4665-97af-491ee3347d05}">
+  <application guid="{13e96063-09a9-4665-97af-491ee3347d05}" hide="False" enable="True">
     <Name>Chrome</Name>
     <CreatedTime>4/14/2015 2:57:46 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/14/2015 2:57:46 PM</LastModifiedTime>
+    <LastModifiedTime>3/21/2016 12:05:28 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Chrome</ShortName>
     <CommandLine>msiexec /i "\\ICEMAN\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
   </application>
-  <application guid="{ece7b4ae-48b5-4214-9b22-5a95e942cc62}">
-    <Name>Firefox 36.0</Name>
-    <CreatedTime>4/14/2015 3:06:22 PM</CreatedTime>
+  <application guid="{917b485f-2800-4d12-ba5a-aef39696f1d0}">
+    <Name>Firefox 50.0.1</Name>
+    <CreatedTime>12/27/2016 4:25:52 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/14/2015 3:06:22 PM</LastModifiedTime>
+    <LastModifiedTime>12/27/2016 4:25:52 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox</ShortName>
-    <CommandLine>"\\ICEMAN\Products\Mozilla\Firefox\Firefox Setup 36.0.exe" -ms</CommandLine>
+    <CommandLine>"\\ICEMAN\Products\Mozilla\Firefox\Firefox Setup 50.0.1.exe" -ms</CommandLine>
   </application>
-  <application guid="{01a00e9d-919b-43b1-93af-6ee52623742a}">
-    <Name>Thunderbird 31.3.0</Name>
-    <CreatedTime>4/14/2015 3:06:26 PM</CreatedTime>
+  <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}">
+    <Name>Thunderbird 38.8.0</Name>
+    <CreatedTime>12/27/2016 4:26:24 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/14/2015 3:06:26 PM</LastModifiedTime>
+    <LastModifiedTime>12/27/2016 4:26:24 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Thunderbird</ShortName>
-    <CommandLine>"\\ICEMAN\Products\Mozilla\Thunderbird\Thunderbird Setup 31.3.0.exe" -ms</CommandLine>
+    <CommandLine>"\\ICEMAN\Products\Mozilla\Thunderbird\Thunderbird Setup 38.8.0.exe" -ms</CommandLine>
   </application>
 </applications>
