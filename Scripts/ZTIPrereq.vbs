@@ -6,7 +6,7 @@
 ' //
 ' // File:      ZTIPrereq.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Check to see if the machine has the prerequisite software
 ' //            installed, and that it is functional.
@@ -53,7 +53,6 @@ WScript.Quit iRetVal
 '//---------------------------------------------------------------------------
 Function ValidatePrereq()
 
-	Dim dVersion
 	Dim oShell
 	Dim oNetwork
 	Dim oFSO
@@ -61,18 +60,6 @@ Function ValidatePrereq()
 	Dim oDoc
 
 	On Error Resume Next
-
-	' Check the WSH version.  It needs to be at least 5.6.
-
-	dVersion = Eval(WScript.Version)
-	If Err then
-		ValidatePrereq = 5000   ' Report a specific return code
-		EXIT FUNCTION
-	ElseIf dVersion < 5.6 then
-		ValidatePrereq = 5001   ' Report a specific return code
-		EXIT FUNCTION
-	End if
-
 
 	' Create general-purpose WSH objects.  These should always succeed; if not,
 	' WSH is seriously broken.
@@ -101,10 +88,12 @@ Function ValidatePrereq()
 		EXIT FUNCTION
 	End if
 
+	' Make sure MSXML 6 is available
 
-	' Make sure MSXML 3 is available
-
-	Set oDoc = CreateObject("MSXML2.DOMDocument")
+        Set oDoc = CreateObject("MSXML2.DOMDocument.6.0")
+        If Err Then
+                Set oDoc = CreateObject("MSXML2.DOMDocument")
+        End If
 	If Err then
 		ValidatePrereq = 5006   ' Report a specific return code
 		EXIT FUNCTION

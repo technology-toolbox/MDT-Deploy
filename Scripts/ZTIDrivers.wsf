@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIDrivers.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Inject needed drivers
 ' // 
@@ -1230,6 +1230,13 @@ Class ZTIDrivers
 
 		oLogging.CreateEntry "Copying drivers from """ & sPath & """ to """ & g_sDriversDir & "\" & sDriversTarget & """", LogTypeInfo
 		oUtility.RunWithHeartbeat "cmd.exe /c xcopy /seihycd """ & sPath & """ """ & g_sDriversDir & "\" & sDriversTarget & """ 1> NUL 2>NUL"
+		
+                if oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1" then
+ 			oLogging.CreateEntry "UPGRADE: Copying drivers from """ & sPath & """ to stagging directory """ & oUtility.LocalRootPath & "\Scripts\Drivers"  & """", LogTypeInfo
+			oUtility.RunWithHeartbeat "cmd.exe /c xcopy /seihycd """ & sPath & """ """ & oUtility.LocalRootPath & "\Drivers" & """ 1> NUL 2>NUL"
+			oEnvironment.Item("OSUpgradeDriverPath") = oUtility.LocalRootPath & "\Drivers"
+			oLogging.CreateEntry "UPGRADE: Setting OSUpgradeDriverPath = " & oEnvironment.Item("OSUpgradeDriverPath") , LogTypeInfo
+		End if		
 
 	End Function
 	

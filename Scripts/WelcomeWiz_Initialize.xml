@@ -9,7 +9,7 @@
 ' //
 ' // File:      WelcomeWiz_Initialize.xml
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Display progress during initialization (rules processing)
 ' // 
@@ -32,7 +32,7 @@
 			<Label><![CDATA[<button accesskey=R id=buttonCancel language=vbscript onclick=window.close style="display='none';" ><U>R</U>eboot</button>]]></Label>
 		</ButtonCancel>
 		<ButtonPrev>
-			<Label><![CDATA[<button accesskey=B id=buttonPrev onclick="ButtonBackClick" style='display: none;' >B</U>ack</button>]]></Label>
+			<Label><![CDATA[<button accesskey=B id=buttonPrev onclick="ButtonBackClick" style='display: none;' ><U>B</U>ack</button>]]></Label>
 		</ButtonPrev>
 		<HideBackNext>true</HideBackNext>
 

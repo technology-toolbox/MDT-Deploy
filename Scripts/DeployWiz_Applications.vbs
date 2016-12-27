@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_Applications.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Deployment Wizard application initialization routines
 ' // 

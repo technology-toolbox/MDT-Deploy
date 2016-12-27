@@ -9,7 +9,7 @@
 ' //
 ' // File:      NICSettings_Definition_ENU.xml
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Wizard for specifying NIC settings
 ' // 
@@ -161,7 +161,14 @@
 				end if
 			end if
 
+
+			' Re-process Bootstrap.ini in case the network settings have changed something
+
+			oShell.run "WScript.exe " & oUtility.ScriptDir & "\ZTIGather.wsf /inifile:Bootstrap.ini",1, true 
+
+
 			' We are done. Settings have been saved. Hard Exit!
+
 			window.close
 
 		end function

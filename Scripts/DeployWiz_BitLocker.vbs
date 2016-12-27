@@ -4,11 +4,11 @@
 ' // 
 ' // Microsoft Deployment Toolkit Solution Accelerator
 ' //
-' // File:      DeployWiz_Initialization.vbs
+' // File:      DeployWiz_BitLocker.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
-' // Purpose:   Main Client Deployment Wizard Initialization routines
+' // Purpose:   BitLocker wizard pane initialization script
 ' // 
 ' // ***************************************************************************
 
@@ -48,6 +48,9 @@ Function InitializeBDE
 	Case "TPMPIN"
 		BdeRadio2.checked = true
 		BdeModeRadio4.checked = true
+		If oEnvironment.item("BdePin") <> "" then			
+			BdePin.value = oEnvironment.item("BdePin")
+		End if
 	Case Else
 		BdeRadio1.Checked = true
 	End Select
@@ -166,8 +169,9 @@ End Function
 Function ValidateKey
 
 	InvalidKey.style.display = "none"
-	ValidateKey = TRUE
+	ValidateKey = TRUE	
 
+	
 	If not BdeModeRadio4.Checked or not BDERadio2.Checked then
 		BdePin.value = ""
 		Exit Function

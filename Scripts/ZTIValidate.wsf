@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIValidate.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Ensure that it is safe for the deployment to continue
 ' // 
@@ -68,6 +68,7 @@ Class ZTIValidate
 		Dim iImageSize, iNeededSize, iTotalSize, dMultiplier
 		Dim oAssoc, oAssocs
 		Dim iProcessorSpeed, iMemory
+		Dim iImageBuildMajor, iImageBuildMinor, iOSCVMajor, iOSCVMinor
 
 		iRetVal = Success
 
@@ -123,9 +124,20 @@ Class ZTIValidate
 		'//----------------------------------------------------------------------------
 		'//  Abort if trying to Refresh from a higher level OS to a lower level OS
 		'//----------------------------------------------------------------------------
+		
+		'// Save to OSCurrentVersion temporary variable
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		iOSCVMajor = oUtility.VersionMajor
+		iOSCVMinor = oUtility.VersionMinor
+
+		'// Save ImageBuild to temporary variable
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageBuild"))
+		iImageBuildMajor = oUtility.VersionMajor
+		iImageBuildMinor = oUtility.VersionMinor
+
 		If oEnvironment.Item("DeploymentType") = "REFRESH" Then
 			If oEnvironment.Item("ImageBuild") <> "" Then
-				If oEnvironment.Item("ImageBuild") < oEnvironment.Item("OSCurrentVersion") Then
+				If (iImageBuildMajor < iOSCVMajor) or (iImageBuildMajor = iOSCVMajor and iImageBuildMinor < iOSCVMinor) then 
 					oLogging.ReportFailure "Error - Performing a Refresh from a newer OS Version to an older OS Version is not supported.  You must perform a NewComputer deployment, aborting", 9808
 				End If
 			Else
@@ -217,7 +229,7 @@ Class ZTIValidate
 		'//----------------------------------------------------------------------------
 
 		Select Case oEnvironment.Item("DeploymentType")
-		Case "REFRESH"
+		Case "REFRESH", "UPGRADE"
 
 			' Calc total required space, allowing 150MB for WinPE, logs, etc., and 3GB for Setup.
 

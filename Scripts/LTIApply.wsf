@@ -13,7 +13,7 @@
 ' //
 ' // File:      LTIApply.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Apply image (OS or PE) to the hard drive
 ' // 
@@ -131,21 +131,11 @@ Class LTIApply
 			If sFile = "" then
 
 				iRetVal = UnattendedInstall
-
-			Elseif Left(sOSBuild, 1) < "6" then
-
-				iRetVal = ApplyImage( "nt52" )
-
-			ElseIf Left(sOSBuild, 3) = "6.0" then
-
-				iRetVal = ApplySetup
-
+			ElseIf oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1" then 
+				iRetVal = UpgradeOS 			
 			Else
-
 				iRetVal = ApplyImage( "nt60" )
-
 			End if
-
 
 			' Make sure the LTIBootstrap.vbs script is copied to the root of the drive
 
@@ -184,7 +174,7 @@ Class LTIApply
 		Dim sBCDStore
 		Dim sBootFile
 		Dim sBootMuiFile
-
+		
 		InstallPE = Success
 		
 
@@ -265,7 +255,9 @@ Class LTIApply
 			Else
 			
 				iRC = ResetFile(sBootDrive & "\bootmgr")
-				iRC = ResetFolder(sBootDrive & "\boot")
+				If oFSO.FolderExists(sBootDrive & "\boot") then
+					iRC = ResetFolder(sBootDrive & "\boot")
+				End if
 
 				oLogging.CreateEntry "Copying " & oEnvironment.Item("DeployRoot") & "\Boot\" & sArchitecture & "\bootmgr to " & sBootDrive & "\bootmgr", LogTypeInfo
 				iRC = oUtility.RunWithConsoleLogging("cmd /c Attrib " & sBootDrive & "\bootmgr -H -S -R")
@@ -337,15 +329,16 @@ Class LTIApply
 
 
 			' If Vista or above, copy the script and its dependencies locally as they'll be needed to prep the BCD later
+			If oEnvironment.Item("OSCurrentVersion") <> "" then
+				oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+				If oUtility.VersionMajor >= 6 then
+					oUtility.VerifyPathExists oEnvironment.Item("_SMSTSMDataPath") & "\Scripts"
+					For each sScript in Array("LTIApply.wsf", "ZTIBCDUtility.vbs", "ZTIConfigFile.vbs", "ZTIDiskUtility.vbs", "ZTIUtility.vbs", "ZTIDataAccess.vbs")
+						oLogging.CreateEntry "Copying " & oUtility.ScriptDir & "\" & sScript & " to " & oEnvironment.Item("_SMSTSMDataPath") & "\Scripts\" & sScript, LogTypeInfo
+						oFSO.CopyFile oUtility.ScriptDir & "\" & sScript, oEnvironment.Item("_SMSTSMDataPath") & "\Scripts\" & sScript, true
+					Next
 
-			If Left(oEnvironment.Item("OSCurrentVersion"), 1) >= "6" then
-
-				oUtility.VerifyPathExists oEnvironment.Item("_SMSTSMDataPath") & "\Scripts"
-				For each sScript in Array("LTIApply.wsf", "ZTIBCDUtility.vbs", "ZTIConfigFile.vbs", "ZTIDiskUtility.vbs", "ZTIUtility.vbs", "ZTIDataAccess.vbs")
-					oLogging.CreateEntry "Copying " & oUtility.ScriptDir & "\" & sScript & " to " & oEnvironment.Item("_SMSTSMDataPath") & "\Scripts\" & sScript, LogTypeInfo
-					oFSO.CopyFile oUtility.ScriptDir & "\" & sScript, oEnvironment.Item("_SMSTSMDataPath") & "\Scripts\" & sScript, true
-				Next
-
+				End if
 			End if
 
 		End if
@@ -355,7 +348,7 @@ Class LTIApply
 		' now while we can still get to BCDEDIT.  For Vista and above, we must do it later so that Sysprep doesn't
 		' complain.
 
-		If Left(oEnvironment.Item("OSCurrentVersion"), 1) < "6" or not oUtility.Arguments.Exists("stage") then
+		If oUtility.VersionMajor < 6 or not oUtility.Arguments.Exists("stage") then
 
 			' Retrieve the boot drive calculated earlier
 
@@ -388,17 +381,19 @@ Class LTIApply
 			End if
 
 
+			' Get major and minor version 			
+			oUtility.GetMajorMinorVersion( oEnvironment.Item("OSCurrentVersion"))
+			
 			' Make sure the \minint drive is visible!
-
-			If Left(oEnvironment.Item("OSCURRENTVERSION"),3) < "6.1" then
+			
+			If oUtility.VersionMajor <= 6 AND oUtility.VersionMinor < 1 then
 				RunDiskPartSilent( array ( "Select Volume " & sDestinationDrive, "Attributes Volume Clear NoDefaultDriveLetter", "Exit" ) )
 			End if
 
-
+			
 			' Install the Longhorn boot sector if we are on XP (already present if on Vista or later)
 
-			If Left(oEnvironment.Item("OSCurrentVersion"), 1) < "6" then
-
+			If oUtility.VersionMajor  < 6 then
 				oLogging.CreateEntry "Executing BOOTSECT.EXE to install a Vista boot sector", LogTypeInfo
 				iRC = oUtility.FindExeAndRunWithLogging( "bootsect.exe", "/nt60 " & sBootDrive & " /mbr" )
 				If iRC <> 0 then
@@ -445,6 +440,112 @@ Class LTIApply
 	End function 
 
 
+	'//---------------------------------------------------------------------------
+	'//  Function:	UpgradeOS()
+	'//  Purpose:	Upgrade existing os to Windows 10 or above
+	'//---------------------------------------------------------------------------
+	Function UpgradeOS()
+
+		Dim iRC
+		Dim sImagePath
+		Dim sImageIndex
+		Dim sImagePlatform
+		Dim sCmd
+		Dim sSourcePath
+		Dim sSetupPath		
+		Dim oDiskPart
+
+
+		UpgradeOS = Success
+		
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageBuild"))
+		If oUtility.VersionMajor < 10 then
+			oLogging.CreateEntry "Upgrade is supported only for Windows 10 and above." , LogTypeError
+			UpgradeOS = Failure
+			Exit Function
+		End if
+
+		oLogging.CreateEntry "------  Upgrading Windows  ------", LogTypeInfo
+		
+		oLogging.CreateEntry "Verify we have necessary files locally, if not, copy it", LogTypeInfo
+		If Not OFSO.FileExists(oUtility.LocalRootPath & ":\MININT\Scripts\SetupComplete.cmd") Then
+			oShell.Run "wscript.exe """ & oUtility.ScriptDir & "\LTICopyScripts.wsf""", 0, true
+		End If
+		
+		sImagePath = GetSourcePath
+		sImageIndex = oUtility.SelectSingleNodeString(oOS,"ImageIndex")
+		sImagePlatform = oUtility.SelectSingleNodeString(oOS,"Platform")		
+
+		' Set the "SourcePath" property so it can be used later (if needed)
+
+		sSourcePath = oUtility.SelectSingleNodeString(oOS,"Source")
+		If Left(sSourcePath, 1) = "." then
+			sSourcePath = oEnvironment.Item("DeployRoot") & Mid(sSourcePath, 2)
+		End if
+		oEnvironment.Item("SourcePath") = sSourcePath
+		sSetupPath = sSourcePath & "\setup.exe"
+
+		oLogging.CreateEvent 41020, LogTypeInfo, "LTI upgrade OS using  " & sSourcePath, Array()
+		
+		TestAndFail  oFSO.FileExists( sSetupPath ), 5630, "Verify File: " & sSetupPath 		
+
+		' Check the size
+
+		set oDiskPart = new ZTIDiskPartition
+		oDiskPart.Drive= sDestinationDrive
+		TestAndFail not oDiskPart.oWMIDiskPart is nothing, 5604, "Verify Destination Drive is defined(1)"
+		TestAndFail not oDiskPart.oWMIDrive(false) is nothing, 5605, "Verify Destination Drive is defined(2)"
+		If (oDiskPart.oWMIDiskPart.Size /1000 /1000) < (GetMinimumDiskPartitionSizeMB) then
+			oLogging.CreateEntry "Destination Drive May be too small: " & FormatLargeSize(oDiskPart.oWMIDiskPart.Size) & "   Needed: " & FormatLargeSize( GetMinimumDiskPartitionSizeMB * 1000 * 1000 ), LogTypeInfo
+		ElseIf (oDiskPart.oWMIDrive(false).FreeSpace /1000 /1000) < (GetMinimumDiskPartitionSizeMB) then
+			oLogging.CreateEntry "Destination Drive May not have enough free space: " & FormatLargeSize(oDiskPart.oWMIDrive(false).FreeSpace)  & "   Needed: " & FormatLargeSize( GetMinimumDiskPartitionSizeMB * 1000 * 1000 ), LogTypeInfo
+		End if
+
+		' Generate upgrade command
+		sCmd = """" & sSetupPath & """" & " /auto Upgrade /Quiet /NoReboot" & " /PostOobe " & oUtility.LocalRootPath & "\Scripts\SetupComplete.cmd" & " /PostRollback " & oUtility.LocalRootPath & "\Scripts\SetupRollback.cmd" 
+		
+		If oEnvironment.Item("OSUpgradeDriverPath") <> "" then 
+			sCmd = sCmd & " /InstallDrivers " &  oEnvironment.Item("OSUpgradeDriverPath")
+		End if		
+		
+		if oEnvironment.Item("ProductKey") <> ""  then 
+			sCmd = sCmd & " /Pkey " & oEnvironment.Item("ProductKey")		
+		End if
+		
+		If CInt(oEnvironment.Item("DynamicallyUpdateWinSetup")) = 1 then 
+			sCmd = sCmd & " /DynamicUpdate Enable"
+		Else
+			sCmd = sCmd & " /DynamicUpdate Disable"
+		End if	
+
+		If oEnvironment.Item("WindowsUpgradeAdditionalOptions") <> ""  then 
+			sCmd = sCmd & " " & oEnvironment.Item("WindowsUpgradeAdditionalOptions")		
+		End if		
+		
+		If oEnvironment.Item("ImageIndex") <> ""  then 
+			sCmd = sCmd & " /ImageIndex " & oEnvironment.Item("ImageIndex")			
+		End if
+		
+        sCmd = sCmd & " /compat IgnoreWarning"
+
+		oLogging.CreateEntry "Upgrading from " & sSetupPath & " using command: " & sCmd, LogTypeInfo
+		oLogging.ReportProgress "Upgrade OS", 70
+		
+		iRC = oUtility.RunWithHeartbeat(sCmd)		
+		
+		If iRC = 0 then
+			oLogging.CreateEvent 41021, LogTypeInfo, "Setup completed successfully.", Array()
+			oLogging.CreateEntry "Requesting reboot for setup.exe to complete Upgrade action", LogTypeInfo
+			oLogging.ReportProgress "Requesting Reboot", 80
+			oEnvironment.Item("SMSTSRebootRequested") = "true"	
+			UpgradeOS = iRC
+		Else
+			oLogging.CreateEvent 41022, LogTypeError, "Setup failed to upgrade OS from  " & sSetupPath & ", rc = " & iRC, Array(iRC)
+			UpgradeOS = Failure			
+		End if		
+
+	End Function
+	
 	'//---------------------------------------------------------------------------
 	'//  Function:	ApplySetup()
 	'//  Purpose:	Apply the specified Windows Vista image using Setup
@@ -548,12 +649,12 @@ Class LTIApply
 
 			If sWorkingDir = "" then
 			
-				' If we can't find SETUP.EXE, fall back to using ImageX.exe.  This will work
+				' If we can't find SETUP.EXE, fall back to using DISM.exe.  This will work
 				' for any image except for the original Windows Vista INSTALL.WIM (because it 
 				' is configured to boot from D:\WINDOWS).  However, we will assume that
 				' we won't run into INSTALL.WIM without setup files.
 
-				oLogging.CreateEntry "Unable to find SETUP, use imagex.exe as a backup.", LogTypeInfo
+				oLogging.CreateEntry "Unable to find SETUP, use DISM.exe as a backup.", LogTypeInfo
 				ApplySetup = ApplyImage ( "nt60" )
 				Exit Function
 
@@ -709,23 +810,24 @@ Class LTIApply
 		Dim sImageIndex
 		Dim sSourcePath
 		Dim sCmd
-		Dim sImageX
+		Dim sDISM
 		Dim sLocalPath
 		Dim sRWMPath
+		DIM sSWMPath
 		Dim oBootDrive
 		Dim oDiskPart
 
 		ApplyImage = Success
 
 
-		oLogging.CreateEntry "------  Applying Windows image using ImageX.exe ------", LogTypeInfo
+		oLogging.CreateEntry "------  Applying Windows image using DISM.exe ------", LogTypeInfo
 
 
 		sImagePath = GetSourcePath
 		sImageIndex = oUtility.SelectSingleNodeString(oOS,"ImageIndex")
 
 
-		oLogging.CreateEvent 41023, LogTypeInfo, "LTI applying image " & sImagePath & " using ImageX", Array()
+		oLogging.CreateEvent 41023, LogTypeInfo, "LTI applying image " & sImagePath & " using DISM", Array()
 
 		If not oFSO.FileExists(sImagePath) then
 			oUtility.ValidateConnection sImagePath
@@ -768,14 +870,17 @@ Class LTIApply
 			Else
 				sRWMPath = ""
 			End if
-
+		ElseIf ucase(right(sImagePath,4)) = ".SWM" then 
+			sSWMPath =""
+			sSWMPath = mid(sImagePath,1,len(sImagePath)-4) & "*.swm"
+			oLogging.CreateEntry "Found SWM file, adding other SWM files for concatenation: " & sSWMPath, LogTypeInfo
 		End if
 
 
 		' Clean off old OS if running in PE
 
 		If oEnvironment.Item("OSVersion") = "WinPE" then
-			oLogging.ReportProgress "Cleaning drive", 20
+			oLogging.ReportProgress "Cleaning drive", 1
 			CleanDrive
 		End if
 
@@ -796,7 +901,9 @@ Class LTIApply
 		' If deploying something less than Windows 8, make sure 8dot3 support is enabled.  Diskpart in Windows PE 4.0
 		' leaves 8dot3 off by default.
 
-		If Left(sOSBuild, 3) < "6.2" then
+		' Get major and minor version 			
+		oUtility.GetMajorMinorVersion(sOSBuild)
+		If oUtility.VersionMajor < 6 OR (oUtility.VersionMajor = 6 AND oUtility.VersionMinor < 2) then
 			oLogging.CreateEntry "Enabling 8dot3 name support on volume " & sDestinationDrive, LogTypeInfo
 			On Error Resume Next
 			oShell.Run "fsutil.exe 8dot3name set " & sDestinationDrive & " 0", 0, true
@@ -805,14 +912,18 @@ Class LTIApply
 
 		' Apply the image
 
-		sCmd = " /apply """ & sImagePath & """ " & sImageIndex & " " & sDestinationDrive
+		sCmd = " /Apply-Image /ImageFile:""" & sImagePath & """"
 		If sRWMPath <> "" then
-			sCmd = sCmd & " /ref """ & sRWMPath & """" 
+			sCmd = sCmd & " /SWMFile:""" & sRWMPath & """" 
 		End if
-
-		oLogging.ReportProgress "Applying image", 50
-		iRC = oUtility.FindExeAndRunWithLogging( "imagex.exe", sCmd )
-		TestAndFail iRC, 5624, "Run ImageX: " & sCmd
+		If sSWMPath <> "" then
+			sCmd = sCmd & " /SWMFile:""" & sSWMPath & """" 
+		End if
+		sCmd = sCmd & " /Index:" & sImageIndex & " /ApplyDir:" & sDestinationDrive
+		
+		oLogging.ReportProgress "Applying image", 1
+		iRC = oUtility.FindExeAndRunWithLogging( "DISM.exe", sCmd )
+		TestAndFail iRC, 5624, "Run DISM: " & sCmd
 
 		oEnvironment.Item("LTIDirtyOS") = "TRUE"
 
@@ -864,10 +975,14 @@ Class LTIApply
 				' When using Windows ADK, specify that we want to update the UEFI BCD (in firmware).
 				' When using Windows AIK, don't specify a store as it *should* figure it out.
 
-				If Left(oEnvironment.Item("OSCurrentVersion"), 3) >= "6.2" then
-					TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " /s " & left(oBootDrive.Drive,2) & " /f UEFI"), 5616, "Verify BCDBootEx"
-				Else
-					TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " "), 5616,"Verify BCDBootEx"
+				If oEnvironment.Item("OSCurrentVersion") <> "" then
+				
+					oUtility.GetMajorMinorVersion( oEnvironment.Item("OSCurrentVersion"))
+					If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 )then
+						TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " /s " & left(oBootDrive.Drive,2) & " /f UEFI"), 5616, "Verify BCDBootEx"
+					Else
+						TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " "), 5616,"Verify BCDBootEx"
+					End if
 				End if
 
 
@@ -932,7 +1047,7 @@ Class LTIApply
 		' Apply the unattend.xml.  This takes care of driver injection and servicing (patch, LP, etc.)  Do this from the Panther folder
 		' so that the \Drivers relative path in the unattend.xml works properly.
 
-		oLogging.ReportProgress "Applying unattend.xml with DISM.EXE.", 80
+		oLogging.ReportProgress "Applying unattend.xml with DISM.EXE.", 99
 		iRC = oUtility.RunWithConsoleLogging("dism.exe /Image:" & sDestinationDrive & "\ /Apply-Unattend:" & sDestinationDrive & "\Windows\Panther\Unattend.xml /ScratchDir:" & oUtility.LocalRootPath & "\Scratch")
 		TestAndFail iRc, 5627, "Run DISM.exe"
 
@@ -1268,10 +1383,14 @@ Class LTIApply
 
 		' If on Vista, clean up the C:\Drivers directory if it exists (no longer needed since the drivers were injected into the Vista driver store)
 
-		If Left(oEnvironment.Item("OSCurrentVersion"),3) >= "6.0" and oFSO.FolderExists(oENV("SystemDrive") & "\Drivers") then
+		If oEnvironment.Item("OSCurrentVersion") <> "" then
+		
+			oUtility.GetMajorMinorVersion( oEnvironment.Item("OSCurrentVersion"))
+			If oUtility.VersionMajor >= 6 and oUtility.VersionMinor >= 0 and oFSO.FolderExists(oENV("SystemDrive") & "\Drivers") then
 
-			oFileHandling.RemoveFolderEx oENV("SystemDrive") & "\Drivers", false
-
+				oFileHandling.RemoveFolderEx oENV("SystemDrive") & "\Drivers", false
+	
+			End if
 		End if
 
 
@@ -1332,7 +1451,7 @@ Class LTIApply
 		If iRetVal <> Success Then
 			oLogging.CreateEntry "Could not find settings.xml", LogTypeInfo
 		Else
-			Set oSettingsXML = CreateObject("MSXML2.DOMDocument")
+			Set oSettingsXML = oUtility.GetMSXMLDOMDocument
 			oSettingsXML.Load sSettingsXML
 			
 			If Ucase(oSettingsXML.DocumentElement.SelectSingleNode("EnableMulticast").Text) = "FALSE" Then

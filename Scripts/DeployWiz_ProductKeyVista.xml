@@ -9,7 +9,7 @@
 ' //
 ' // File:      DeployWiz_Definition_ENU.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Main Client Deployment Wizard Defintion File
 ' // 
@@ -44,7 +44,7 @@
 
 			<tr><td colspan=2>&nbsp;</td></tr>
 
-			<tr>
+			<tr id="MAK_Radio_tr">
 				<td>
 					<input type=radio name="SelectKey" id="PKRadio2" language=vbscript onclick=ValidateProductKey AccessKey=M>
 				</td>
@@ -52,7 +52,7 @@
 					<Label class="Larger" for=PKRadio2 language=vbscript >Activate the machine with a <u class=larger>m</u>ultiple activation key (MAK).</Label>
 				</td>
 			</tr>
-			<tr>
+			<tr id="MAK_Text_tr">
 				<td></td>
 				<td>
 					<div>The operating system being deployed will not be able to activate via the Key Management Service, so a multiple activation key will activate

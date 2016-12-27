@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_OfflineData.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Scripts for offline data migration page
 ' // 
@@ -28,9 +28,9 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 	Dim sDiskDesc
 	Dim sSelected
 	Dim sType
-	Dim sVer, sNewVer
 	Dim sArchitecture, sNewArchitecture
 	Dim sDrive
+	Dim iNewVerMajor, iVerMajor
 
 	AddDiskToTableByDll = false
 
@@ -41,7 +41,9 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 		Exit Function 
 	End if
 
-	sNewVer = Left(oEnvironment.Item("ImageBuild"), 3)
+	oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageBuild"))
+	iNewVerMajor = oUtility.VersionMajor
+	
 	sNewArchitecture = UCase(oEnvironment.Item("ImageProcessor"))
 	sType = ""
 	sSelected = ""
@@ -85,7 +87,8 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 		sDrive = Left(aCmd(7),2)
 		If oFSO.FileExists(sDrive & "\Windows\System32\ntoskrnl.exe") Then
 
-			sVer = Left(oFSO.GetFileVersion(sDrive & "\Windows\System32\ntoskrnl.exe"),3)
+			oUtility.GetMajorMinorVersion(oFSO.GetFileVersion(sDrive & "\Windows\System32\ntoskrnl.exe"))
+			iVerMajor = oUtility.VersionMajor
 			If oFSO.FolderExists(sDrive & "\Program Files (x86)") then
 				sArchitecture = "X64"
 			Else
@@ -98,8 +101,8 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 				oLogging.CreateEntry "Existing OS is x64, new OS is x86, user state migration not supported.", LogTypeInfo
 				sSelected = "disabled"
 				sType = "Architecture changing from x64 to x86"
-			ElseIf sVer <= sNewVer then
-				sType = "\Windows " & sVer
+			ElseIf iVerMajor <= iNewVerMajor then
+				sType = "\Windows " & iVerMajor
 				AddDiskToTableByDll = True
 				If g_hasSomethingBeenChecked <> true and cint(aCmd(1)) = 0 then
 					sSelected = "checked"
@@ -108,14 +111,16 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 				End if
 			Else
 				sDiskDesc = sDiskDesc & " [" & aCmd(8) & "]"
-				oLogging.CreateEntry "Existing OS " & sDiskID & " is too new, " & sVer & " > " & sNewVer, LogTypeInfo
+				oLogging.CreateEntry "Existing OS " & sDiskID & " is too new, " & iVerMajor & " > " & iNewVerMajor, LogTypeInfo
 				sSelected = "disabled"
 				sType = "Too new operating system"
 			End if
 
 		ElseIf oFSO.FileExists(sDrive & "\Winnt\System32\ntoskrnl.exe") Then
 
-			sVer = Left(oFSO.GetFileVersion(sDrive & "\Winnt\System32\ntoskrnl.exe"),3)
+			oUtility.GetMajorMinorVersion(oFSO.GetFileVersion(sDrive & "\Winnt\System32\ntoskrnl.exe"))
+			iVerMajor = oUtility.VersionMajor			
+			
 			If oFSO.FolderExists(sDrive & "\Program Files (x86)") then
 				sArchitecture = "X64"
 			Else
@@ -128,8 +133,8 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 				oLogging.CreateEntry "Existing OS is x64, new OS is x86, user state migration not supported.", LogTypeInfo
 				sSelected = "disabled"
 				sType = "Architecture changing from x64 to x86"
-			ElseIf sVer <= sNewVer then
-				sType = "\WinNT " & sVer
+			ElseIf iVerMajor <= iNewVerMajor then
+				sType = "\WinNT " & iVerMajor
 				AddDiskToTableByDll = True
 				If g_hasSomethingBeenChecked <> true and cint(aCmd(1)) = 0 then
 					sSelected = "checked"
@@ -138,7 +143,7 @@ Function AddDiskToTableByDll ( sCmd, EncryptedDrives )
 				End if
 			Else
 				sDiskDesc = sDiskDesc & " [" & aCmd(8) & "]"
-				oLogging.CreateEntry "Existing OS " & sDiskID & " is too new, " & sVer & " > " & sNewVer, LogTypeInfo
+				oLogging.CreateEntry "Existing OS " & sDiskID & " is too new, " & iVerMajor & " > " & iNewVerMajor, LogTypeInfo
 				sSelected = "disabled"
 				sType = "Too new operating system"
 			End if

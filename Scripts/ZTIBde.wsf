@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIBDE.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Install and configure Bitlocker Drive Encryption
 ' // 
@@ -74,6 +74,7 @@ Class ZTIBDE
 		Dim objWMIBDE, colEnVol, objEncVol, ColPS
 		DIm strStatusData, sEncryptionProgress, sCDriveEncryptionStatus, strConnectionStr1
 		Dim sSystemDrive
+		Dim iImageBuildMajor, iImageBuildMinor, iOSCVMajor, iOSCVMinor		
 
 		iRetVal = Success
 		sSystemDrive = oEnv("SystemDrive")
@@ -103,11 +104,22 @@ Class ZTIBDE
 		'//  Offline BitLocker
 		'//----------------------------------------------------------------------------
 
+        
+       '// Save to OSCurrentVersion temporary varibale
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		iOSCVMajor = oUtility.VersionMajor
+		iOSCVMinor = oUtility.VersionMinor
+		
+		'// Save ImageBuild to temporary varibale
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageBuild"))
+		iImageBuildMajor = oUtility.VersionMajor
+		iImageBuildMinor = oUtility.VersionMinor
+
 		If (oEnv("SystemDrive") = "X:") and(UCASE(oEnvironment.Item("BDEDisablePreProvisioning")) <> "YES") and (UCASE(oEnvironment.Item("DoNotCreateExtraPartition")) <> "TRUE") then 
 			
 			oLogging.CreateEntry "We are in a Windows PE environment, checking to see if Windows PE supports Offline BitLocker tasks.", LogTypeInfo
 			oLogging.CreateEntry "Determining if WinPE supports pre-provisioning", LogTypeInfo
-			If oFSO.FileExists(oEnv("SystemRoot") & "\system32\Manage-bde.exe")  and (UCASE(oEnvironment.Item("OSCurrentVersion")) >= "6.2") then
+			If oFSO.FileExists(oEnv("SystemRoot") & "\system32\Manage-bde.exe")  and ((iOSCVMajor = 6 and iOSCVMinor >= 2) or iOSCVMajor >= 10) then
 				oLogging.CreateEntry "Found Offline BitLocker Tools.", LogTypeInfo
 			Else
 				oLogging.CreateEntry "Unable to find offline BitLocker tools, exiting Windows PE Bitlocker task.", LogTypeInfo
@@ -116,10 +128,12 @@ Class ZTIBDE
 			End if
 			
 			oLogging.CreateEntry "Checking to see if OS supports Offline Bitlocker.", LogTypeInfo
+
+			oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageOSVer"))
 			
 			If UCase(oEnvironment.Item("IsBDE")) = "TRUE" then
 				oLogging.CreateEntry "BitLocker is suspended, pre-provisioning is not required.", LogTypeInfo
-			ElseIf ((oEnvironment.Item("ImageBuild") >= "6.1") or (oEnvironment.Item("ImageOSVer") >= "6.1")) then 
+			Elseif (iImageBuildMajor = 6 and iImageBuildMinor >= 1) or iImageBuildMajor >= 10  or (oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 1) or oUtility.VersionMajor >= 10 then 
 				oLogging.CreateEntry "OS build supports Offline BitLocker.", LogTypeInfo
 				If TpmValidate = SUCCESS then
 					oLogging.CreateEntry "TPM is validated.", LogTypeInfo
@@ -143,8 +157,8 @@ Class ZTIBDE
 		'//  Check to see if BDE is supported in this OS
 		'//----------------------------------------------------------------------------	
 		
-		'// Check to see if we are running Vista or later and exit if we are not
-		If Left(oEnvironment.Item("OSCurrentVersion"),1) < 6 Then
+		'// Check to see if we are running Vista or later and exit if we are not		
+		If iOSCVMajor < 6 Then
 			oLogging.CreateEntry "Bitlocker is not supported on this version of Windows", LogTypeInfo
 			Main = iRetVal
 			Exit Function
@@ -281,9 +295,10 @@ Class ZTIBDE
 
 
 				' Build the command to install the BitLocker feature
+				oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
 
-				If Left(oEnvironment.Item("OSCurrentVersion"), 3) = "6.0" then
-
+				If oUtility.VersionMajor = 6 and oUtility.VersionMinor = 0 then
+				
 					' Use ServerManagerCmd.exe or OCSetup.exe to install the feature
 
 					If UCase(oEnvironment.Item("IsServerCoreOS")) = "TRUE" then
@@ -297,7 +312,7 @@ Class ZTIBDE
 					' any required dependencies (e.g. enhanced storage).
 	
 					sCmd = "dism.exe /online /enable-feature /featurename:BitLocker"
-					If Left(oEnvironment.Item("OSCurrentVersion"), 3) >= "6.2" then
+					If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
 						sCmd = sCmd & " /all"
 					End if
 					sCmd = sCmd & " /NoRestart"
@@ -362,8 +377,11 @@ Class ZTIBDE
 		'//----------------------------------------------------------------------------
 		'//  Determine BDE drive letter
 		'//----------------------------------------------------------------------------			
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		iOSCVMajor = oUtility.VersionMajor
+		iOSCVMinor = oUtility.VersionMinor
 		
-		If Left(oEnvironment.Item("OSCurrentVersion"),3) >= "6.1" and GetBootDrive = Failure Then	
+		If ((iOSCVMajor >=10) or (iOSCVMajor >=6 and iOSCVMinor >= 1)) and GetBootDrive = Failure Then	
 			oLogging.CreateEntry "Setting BDE Drive letter to nothing as we are unable to get the boot drive.", LogTypeInfo
 			oEnvironment.Item("BdeDriveLetter") = ""
 		ElseIf oEnvironment.Item("BdeDriveLetter") = "" Then
@@ -392,6 +410,7 @@ Class ZTIBDE
 			oLogging.CreateEntry vbTab & " Existing Bitlocker: " & sExistingBdeDrive, LogTypeInfo
 			oLogging.CreateEntry vbTab & "Existing Boot Drive: " & GetBootDrive, LogTypeInfo
 
+			oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
 			If sExistingBdeDrive <> "" Then
 
 				If ucase(sExistingBdeDrive) <> ucase(sBdeDriveLetter) Then
@@ -416,7 +435,7 @@ Class ZTIBDE
 					bDriveChange = True
 				End If
 				
-			ElseIf Left(oEnvironment.Item("OSCurrentVersion"),3) >= "6.1" and GetBootDrive = Failure Then
+			ElseIf oUtility.VersionMajor >= 10 or (oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 1) and GetBootDrive = Failure Then
 			
 				oLogging.CreateEntry "Windows has a hidden system partition, no disk actions are necessary",LogTypeInfo
 				bDriveChange = False
@@ -916,12 +935,13 @@ Class ZTIBDE
 	Function CreateBdeDrive (sBdeDriveLetter)
 	
 		Dim iRetVal, iBdeDriveSize, sDiskPartFile,oDiskPartFile
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
 
-		If Left(oEnvironment.Item("OSCurrentVersion"),3) = "6.0" Then
+		If oUtility.VersionMajor = 6 and oUtility.VersionMinor = 0 Then
 		
 			iBdeDriveSize = 2048
 			
-		Elseif Left(oEnvironment.Item("OSCurrentVersion"),3) >= "6.1" Then
+		Elseif oUtility.VersionMajor >= 10 or (oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 1) Then
 		
 			iBdeDriveSize = 250
 			
@@ -1026,11 +1046,12 @@ Class ZTIBDE
 		TestAndFail SUCCESS, 6727, "Attempt to open " & sDiskPartFile
 		oDiskPartFile.WriteLine "Select Vol " & sDrive
 
-		If Left(oEnvironment.Item("OSCurrentVersion"),3) = "6.0" Then
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		If oUtility.VersionMajor = 6 and oUtility.VersionMinor = 0 Then
 		
 			iBdeDriveSize = 2048
 			
-		Elseif Left(oEnvironment.Item("OSCurrentVersion"),3) >= "6.1" Then
+		Elseif oUtility.VersionMajor >= 10 or (oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 1) Then
 		
 			iBdeDriveSize = 500
 			
@@ -1156,11 +1177,9 @@ Class ZTIBDE
 				iRetVal = SetTpmOwner(oEnvironment.Item("AdminPassword"))
 				TestAndFail iRetVal, 6742, "TPM Owner P@ssword set to AdminP@ssword"
 
-			Else
-			
-				oLogging.CreateEntry "TPM Ownership being intiated with Default p@ssword (not TPMOwnerP@ssword).", LogTypeInfo
-				iRetVal = SetTpmOwner("M0nksH00d!4T3al")
-				TestAndFail iRetVal, 6743, "Set TPM Owner P@ssword to value"
+			Else			
+				oLogging.CreateEntry "TPM P@ssword missing. Please provide P@ssword via TpmOwnerP@ssword or AdminP@ssword", LogTypeInfo				
+				oLogging.ReportFailure "TPM P@ssword missing.", 6743				
 				
 			End If
 
@@ -1400,7 +1419,8 @@ Class ZTIBDE
 
 		Dim iRetVal
 		iRetVal = Success
-		If Left(oEnvironment.Item("OSCurrentVersion"),3) >= "6.1" Then
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		If oUtility.VersionMajor >= 10 or (oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 1) Then
 			iRetVal = oShell.RegWrite("HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\FVE\UseAdvancedStartup", 1, "REG_DWORD")
 			TestAndLog iRetVal, "Configured Bitlocker Policies"
 			iRetVal = oShell.RegWrite("HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\FVE\EnableBDEWithNoTPM", 1, "REG_DWORD")

@@ -142,7 +142,8 @@
 	<property id="WindowsSource" type="string" overwrite="false" description="Windows installation files (sxs) needed to install Windows 8 features that are not in the image" />
 	<property id="DoNotFormatAndPartition" type="string" overwrite="false" description="If set to YES, skips any formatting and partitioning that would have been performed" />
 	<property id="USMTOfflineMigration" type="string" overwrite="false" description="If set to TRUE, user state will be captured offline in Windows PE instead of from the current OS" />
-
+	<property id="WindowsUpgradeAdditionalOptions" type="string" overwrite="false" description="Windows 10 Upgrade Additional Options" />
+	<property id="DynamicallyUpdateWinSetup" type="string" overwrite="false" description="Option for Windows 10 Setup dynamic Upgrade " />
 
 	<!-- Wizard control variables (first value wins) -->
 

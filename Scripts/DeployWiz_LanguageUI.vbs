@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_LanguageUI.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Script methods used for the language UI (locale, timezone) pane
 ' // 
@@ -143,8 +143,8 @@ Function Locale_Initialization
 	ForceLCase "UserLocale"
 	ForceLCase "KeyboardLocale"
 
-	oLogging.CreateEntry "Languages Displayed: " & AllreadyAddedLanguages , LogTypeInfo
-	oLogging.CreateEntry "UILanguage: " & property("UILanguage") , LogTypeVerbose
+	oLogging.CreateEntry "Languages Displayed: " & AllreadyAddedLanguages , LogTypeInfo	
+    oLogging.CreateEntry "UILanguage: " & property("UILanguage") , LogTypeVerbose
 	
 	' Populate the Locale
 	For each oItem in oXMLLanguageList.selectNodes("//LOCALEDATA/LOCALE[IFLAGS='1']")
@@ -212,7 +212,6 @@ Function SetNewLocale
 	End if
 End Function
 
-
 Function SetNewLanguageEx( thisLocale )
 	Dim LCID
 	
@@ -272,6 +271,7 @@ Function SetNewLocaleEx (thisLocale)
 	If sNew = "" Then
 		sNew = right("00000000" & GetKeyboardFromSName(thisLocale),8)
 	End if 
+	
 	KeyboardLocale_Edit.Value = lcase(sNew)
 	
 	If KeyboardLocale_Edit.Value = "" then
@@ -451,15 +451,7 @@ End function
 
 Function SetTimeZoneValue
 	' When the user selects a value in the TimeZoneList we must populate the hidden Text Values
-	Dim TimeSplit
-
-	TimeSplit = split( TimeZoneList.value , ";" )
-	If ubound(TimeSplit) < 1 then
-	ElseIf not isNumeric(TimeSplit(0)) then
-	Else
-		TimeZoneName.Value = TimeSplit(1)
-		TimeZone.Value = TimeSplit(0)
-	End if
+	TimeZoneName.Value = TimeZoneList.value	
 
 End function
 
@@ -475,39 +467,15 @@ Function TimeZone_Initialization
 	End if
 
 
-	' If either of the TimeZone Properties have been set, then select the coresponding list item.
+	' If TimeZone Property is set, then select the coresponding list item.
 
-	If Property("TimeZone") <> "" or Property("TimeZoneName") <> "" then
-		For i = 0 to TimeZoneList.Options.Length - 1
-
-			TimeSplit = split( TimeZoneList.Options(i).value , ";" )
-
-			If ubound(TimeSplit) >= 1 then
-				If Property("TimeZone") <> "" then
-					If IsNumeric(Property("TimeZone")) then
-						' Check Windows XP style Name
-						If CInt(Property("TimeZone")) = cint(TimeSplit(0)) then
-							TimeZoneList.SelectedIndex = i
-							SetTimeZoneValue
-							Exit function
-						End if
-					Else
-						' Check Windows Vista Style Name
-						If UCase(Property("TimeZone")) = UCase(TimeSplit(1)) then
-							TimeZoneList.SelectedIndex = i
-							SetTimeZoneValue
-							Exit function
-						End if
-					End if
-				ElseIf Property("TimeZoneName") <> "" then
-					' Check Windows Vista Style Name
-					If UCase(Property("TimeZoneName")) = UCase(TimeSplit(1)) then
-						TimeZoneList.SelectedIndex = i
-						SetTimeZoneValue
-						Exit function
-					End if
-				End if
-			End if
+	If Property("TimeZoneName") <> "" then
+		For i = 0 to TimeZoneList.Options.Length - 1								
+			If UCase(Property("TimeZoneName")) = UCase(TimeZoneList.Options(i).value) then
+				TimeZoneList.SelectedIndex = i				
+				TimeZoneName.Value = TimeZoneList.Options(i).value
+				Exit function
+			End if			
 		Next
 	End if
 
@@ -526,35 +494,23 @@ Function TimeZone_Initialization
 	'Try to match the timezone against the current Timezone Name
 
 	For i = 0 to TimeZoneList.Options.Length - 1
-
-		TimeSplit = split( TimeZoneList.Options(i).value , ";" )
-
-		If UBound(TimeSplit) >= 1 then
-			' Compare the Description
+	
 			If UCase(TimeZoneList.Options(i).Text) = UCase(TimeZone.Description) then
 				TimeZoneList.SelectedIndex = i
-				SetTimeZoneValue
+				TimeZoneName.Value = TimeZoneList.Options(i).value
 				Exit function
 			End if
 
 			' See if there is a match in the alternate description or other Values
 			For each test in array(TimeZone.Description,TimeZone.StandardName)
 				If test <> "" then
-					For each item in TimeSplit
-						If Item <> "" then
-
-							If UCase(test) = UCase(Item) then
-								TimeZoneList.SelectedIndex = i
-								SetTimeZoneValue
-								Exit function
-							End if
-
-						End if
-					Next
+					If UCase(test) = UCase(TimeZoneList.Options(i).value) then
+						TimeZoneList.SelectedIndex = i
+						TimeZoneName.Value = TimeZoneList.Options(i).value
+						Exit function
+					End if
 				End if
 			Next
-
-		End if
 	Next
 
 
@@ -567,7 +523,7 @@ Function TimeZone_Initialization
 
 			If left(TimeZone.Description, test) = left(TimeZoneList.Options(i).Text, test) then
 				TimeZoneList.SelectedIndex = i
-				SetTimeZoneValue
+				TimeZoneName.Value = TimeZoneList.Options(i).value
 				Exit function
 			End if
 
@@ -583,8 +539,10 @@ Function TimeZone_Validation
 
 	If UCase(oEnvironment.item("SkipTimeZone")) = "YES" then
 		TimeZone_Validation = True
+	Elseif TimeZoneName.Value <> "" then
+		TimeZone_Validation = True
 	Else
-		TimeZone_Validation = TimeZoneName.Value <> "" and TimeZone.Value <> ""
+		TimeZone_Validation =  False
 	End if
 
 End function

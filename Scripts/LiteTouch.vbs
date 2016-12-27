@@ -6,7 +6,7 @@
 ' //
 ' // File:      Litetouch.vbs
 ' // 
-' // Version:   6.0.2149.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Start the lite touch deployment process
 ' // 

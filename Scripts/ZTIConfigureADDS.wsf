@@ -1,7 +1,7 @@
 <job id="ZTIConfigureADDS">
 <script language="VBScript" src="ZTIUtility.vbs" />
 <script language="VBScript">
-' // ***************************************************************************
+' // *****************************************************************************************************************
 ' // 
 ' // Copyright (c) Microsoft Corporation.  All rights reserved.
 ' // 
@@ -9,13 +9,15 @@
 ' //
 ' // File:      ZTIConfigureADDS.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Run DCPromo to create a new domain controller
 ' // 
 ' // Usage:     cscript ZTIConfigureADDS.wsf [/debug:true]
 ' // 
-' // ***************************************************************************
+' //  NOTE: We will continue to use dcpromo.exe on Server2012 and later versions of Windows Server 
+'//                 however the support for dcromo.exe is terminated from Server 2012 and later versions of Windows Server
+' // *****************************************************************************************************************
 
 
 
@@ -71,6 +73,9 @@ Class ZTIConfigureADDS
 		Dim CreateOrJoin
 		Dim oCANSFile
 		Dim sAnsPath
+		Dim iVersionMajor
+		Dim iVersionMinor
+		Dim iBuildNumber
 
 		iRetVal = SUCCESS
 
@@ -109,11 +114,16 @@ Class ZTIConfigureADDS
 
 		oCANSFile.WriteLine "[DCInstall]"
 
+		' Get Current OS Build version as int
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		iVersionMajor = oUtility.VersionMajor
+		iVersionMinor = oUtility.VersionMinor
+		iBuildNumber = oUtility.BuildNumber
 
 		' Write the database paths, if specified
 
 		If oEnvironment.Item("DatabasePath") <> "" then
-			If Left(oEnvironment.Item("OSCurrentVersion"),1) >= "6" then
+			If iVersionMajor >= 6 then
 				oCANSFile.WriteLine "DatabasePath = " & oEnvironment.Item("DatabasePath")
 			Else
 				oCANSFile.WriteLine "DBPath = " & oEnvironment.Item("DatabasePath")
@@ -159,7 +169,7 @@ Class ZTIConfigureADDS
 
 			' If ReadOnlyReplica is specified, this needs to be Windows Server 2008 or higher
 
-			If oEnvironment.Item("ReplicaOrNewDomain") = "ReadOnlyReplica" and Left(oEnvironment.Item("OSCurrentVersion"), 3) < "6.0" then
+			If oEnvironment.Item("ReplicaOrNewDomain") = "ReadOnlyReplica" and iVersionMajor <= 5 then
 				oLogging.CreateEntry "WARNING - Windows Server 2008 or higher is required for a read-only replica, creating a normal DC instead", LogTypeWarning
 				oEnvironment.Item("ReplicaOrNewDomain") = "Replica"
 			End If
@@ -185,7 +195,7 @@ Class ZTIConfigureADDS
 
 			' Write DNS properties
 
-			If Left(oEnvironment.Item("OSCurrentVersion"),1) >= "6" then
+			If iVersionMajor >= 6 then
 				oCANSFile.WriteLine "InstallDNS = " & oEnvironment.Item("AutoConfigDNS")
 			Else
 				oCANSFile.WriteLine "AutoConfigDNS = " & oEnvironment.Item("AutoConfigDNS")
@@ -217,7 +227,7 @@ Class ZTIConfigureADDS
 
 			' Write DNS properties
 
-			If Left(oEnvironment.Item("OSCurrentVersion"),1) >= "6" then
+			If iVersionMajor >= 6 then
 				oCANSFile.WriteLine "InstallDNS = " & oEnvironment.Item("AutoConfigDNS")
 			Else
 				oCANSFile.WriteLine "AutoConfigDNS = " & oEnvironment.Item("AutoConfigDNS")
@@ -230,7 +240,7 @@ Class ZTIConfigureADDS
 
 			oCANSFile.WriteLine("DomainNetBIOSName = " & oEnvironment.Item("DomainNetBiosName"))
 
-			If Left(oEnvironment.Item("OSCurrentVersion"),1) >= "6" then
+			If iVersionMajor >= 6 then
 				oCANSFile.WriteLine "NewDomain = "& oEnvironment.Item("NewDomain")
 			Else
 				oCANSFile.WriteLine "TreeOrChild = " & TreeOrChild
@@ -275,7 +285,7 @@ Class ZTIConfigureADDS
 
 				' Write forest-specific properties
 
-				If Left(oEnvironment.Item("OSCurrentVersion"),1) >= "6" then
+				If iVersionMajor >= 6 then
 					oCANSFile.WriteLine "ForestLevel = "& oEnvironment.Item("ForestLevel")
 				Else
 					oCANSFile.WriteLine "CreateOrJoin = " & CreateOrJoin

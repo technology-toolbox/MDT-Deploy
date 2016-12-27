@@ -9,7 +9,7 @@
 ' //
 ' // File:      ZTIWindowsUpdate.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Installs all needed updates (drivers, patches, service packs, 
 ' //            etc.) from the Windows Update/Microsoft Update site or WSUS 
@@ -28,6 +28,7 @@ RunNewInstance
 '//----------------------------------------------------------------------------
 
 Const MSIT_WU_REBOOT_MAX = 7
+Const MAX_UPDATES = 100
 
 
 '//----------------------------------------------------------------------------
@@ -68,7 +69,6 @@ Class ZTIWindowsUpdate
 		Dim ServiceManager
 		Dim bFoundMU
 		Dim NewUpdateService
-		Dim oInstalledUpdates
 		Dim strCabPath
 		Dim iResult
 		Dim oProgress
@@ -124,8 +124,6 @@ Class ZTIWindowsUpdate
 			oLogging.ReportFailure "ZTIWindowsUpdate has run and failed too many times. Count = " & MSIT_WU_Count, 9902
 		End if
 
-		Set oInstalledUpdates = oEnvironment.ListItem("InstalledUpdates")
-
 
 		' Make sure the necessary agent is in place
 
@@ -157,6 +155,7 @@ Class ZTIWindowsUpdate
 		If ServiceManager is nothing then
 			oLogging.CreateEntry "Failed to Create Object: Microsoft.Update.ServiceManager" , LogTypeWarning
 		Else
+			ServiceManager.ClientApplicationID = "ZTIWindowsUpdate " & Version
 			bFoundMU = False
 			For each Item in ServiceManager.Services
 				WScript.Echo "Registered Update Service: " & Item.ServiceID & "   " & Item.Name
@@ -169,7 +168,6 @@ Class ZTIWindowsUpdate
 			If not bFoundMU then
 				On Error Resume Next
 					Err.clear
-					ServiceManager.ClientApplicationID = "My App"
 					If Err.Number <> 0 then
 						oLogging.CreateEntry "There was an error getting Windows Update to opt into Microsoft Update. Please verify you are running the latest version of Windows Update Agent." , LogTypeWarning
 					End if
@@ -258,6 +256,7 @@ Class ZTIWindowsUpdate
 		If updatesToDownload is nothing then
 			oLogging.ReportFailure "Failed to Create Object: Microsoft.Update.UpdateColl.", 9905
 		End if
+		updateSession.ClientApplicationID = "ZTIWindowsUpdate " & Version
 
 		oLogging.CreateEntry "Start Search..." , LogTypeInfo
 		On Error Resume Next
@@ -345,9 +344,7 @@ Class ZTIWindowsUpdate
 				kb = kb & " - " & FormatLargeSize(iSize)
 			End if
 			
-			If oInstalledUpdates.Exists(item.Identity.UpdateID) Then
-				oLogging.CreateEntry "  FOUND - " & item.Identity.UpdateID & " - " & Item.Title & kb, LogTypeInfo
-			ElseIf bInstall = TRUE then
+			If bInstall = TRUE and updatesToDownload.count < MAX_UPDATES then
 				oLogging.CreateEntry "INSTALL - " & item.Identity.UpdateID & " - " & Item.Title & kb, LogTypeInfo
 				updatesToDownload.Add(Item)
 			Else
@@ -400,7 +397,7 @@ Class ZTIWindowsUpdate
 		For item = 0 to UpdatesToDownload.Count - 1
 			If not UpdatesToDownload.Item(item).IsDownloaded then
 				oLogging.CreateEntry "    Failed to download: " & UpdatesToDownload.Item(item).Identity.UpdateID & _
-					"  result(" & UpdateResult.GetUpdateResult(item).ResultCode & ") : " & UpdatesToDownload.Item(item).Title, MSIT_LogType
+					"  result(" & UpdateResult.GetProgress.GetUpdateResult(item).ResultCode & ") : " & UpdatesToDownload.Item(item).Title, MSIT_LogType
 			End if
 		Next
 
@@ -439,15 +436,6 @@ Class ZTIWindowsUpdate
 			WScript.Sleep 500
 		WEnd
 		On Error Goto 0
-
-		For item = 0 to UpdatesToDownload.Count - 1
-			If UpdatesToDownload.Item(item).IsInstalled then
-				oInstalledUpdates.Add UpdatesToDownload.Item(item).Identity.UpdateID,""
-			ElseIf UpdateResult.GetProgress.GetUpdateResult(item).ResultCode = 2 then
-				oInstalledUpdates.Add UpdatesToDownload.Item(item).Identity.UpdateID,""
-			End if
-		Next
-		Set oEnvironment.ListItem("InstalledUpdates") = oInstalledUpdates
 
 		bReboot = False
 		bFailure = False
@@ -542,8 +530,9 @@ Class ZTIWindowsUpdate
 		'//----------------------------------------------------------------------------
 
 		On error resume next
-
+		
 		If UCase(oEnvironment.Item("Debug")) = "TRUE" then
+		
 			oShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Trace\Level", 3, "REG_DWORD"
 
 			oShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Trace\Handler\Flags", &h000000ff, "REG_DWORD"
@@ -551,10 +540,9 @@ Class ZTIWindowsUpdate
 
 			oShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Trace\COMAPI\Flags", &h000000ff, "REG_DWORD"
 			oShell.RegWrite "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Trace\COMAPI\Level", 3, "REG_DWORD"
-		End If
+			On error goto 0
 
-		On error goto 0
-
+		End if
 
 		'//----------------------------------------------------------------------------
 		'//  Configure Windows Update settings

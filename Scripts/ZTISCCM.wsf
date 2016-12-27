@@ -27,7 +27,7 @@
 ' //
 ' // File:      ZTISCCM.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Initialize the Zero Touch deployment process in SCCM
 ' // 
@@ -161,7 +161,6 @@ Class ZTISCCM
 			If oFSO.FolderExists(oEnvironment.GetOSDV4("_SMSTSMDataPath") &  "\WDPackage") <> True Then
 			
 				oFSO.Copyfolder oEnvironment.Item("DeployRoot"),oEnvironment.GetOSDV4("_SMSTSMDataPath") &  "\WDPackage"
-				wscript.sleep 30000
 				
 			End if
 			

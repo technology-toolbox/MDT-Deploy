@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_LanguagePack.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Wizard pane for choosing one or more language packs for install
 ' // 

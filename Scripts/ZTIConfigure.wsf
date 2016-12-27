@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIConfigure.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Updates answer files with specified settings
 ' // 
@@ -114,7 +114,7 @@ Class ZTIConfigure
 		iRc = oUtility.FindFile("ZTIConfigure.xml", sMappingFile)
 		TestAndFail iRc, 7000, "Unable to locate ZTIConfigure.xml, aborting"
 		
-		Set oMapping = CreateObject("MSXML2.DOMDocument")
+		Set oMapping = oUtility.GetMSXMLDOMDocument
 		oMapping.load sMappingFile
 
 		oUtility.ReCalculateDestinationDiskAndPartition
@@ -179,8 +179,9 @@ Class ZTIConfigure
 
 		If sUnattendXml <> "" then
 
-			Set oUnattendXml = CreateObject("MSXML2.DOMDocument")
+                        Set oUnattendXml= oUtility.GetMSXMLDOMDocument
 			oUnattendXml.load sUnattendXml
+                        oUnattendXml.setProperty "SelectionNamespaces", "xmlns:unattend='urn:schemas-microsoft-com:unattend'"
 			oLogging.CreateEntry "Loaded " & sUnattendXml, LogTypeInfo
 
 		End if
@@ -191,8 +192,9 @@ Class ZTIConfigure
 		If bMerge and oFSO.FileExists(sBuildPath & "\Unattend.xml") then
 
 			oLogging.CreateEntry "Merging " & sBuildPath & "\Unattend.xml into " & sUnattendXml, LogTypeInfo
-			Set oMerge = CreateObject("MSXML2.DOMDocument")
+                        Set oMerge = oUtility.GetMSXMLDOMDocument
 			oMerge.load sBuildPath & "\Unattend.xml"
+                        oMerge.setProperty "SelectionNamespaces", "xmlns:unattend='urn:schemas-microsoft-com:unattend'"
 			oLogging.CreateEntry "Loaded " & sBuildPath & "\Unattend.xml for merging", LogTypeInfo
 
 			MergeXML oUnattendXml, oMerge
@@ -338,8 +340,8 @@ Class ZTIConfigure
 
 								' See if this has a parallel "PlainText" entry, and if it does, set it to true
 
-								If not (oCurrent.parentNode.selectSingleNode("PlainText") is Nothing) then
-									oCurrent.parentNode.selectSingleNode("PlainText").text = "true"
+								If not (oCurrent.parentNode.selectSingleNode("unattend:PlainText") is Nothing) then
+									oCurrent.parentNode.selectSingleNode("unattend:PlainText").text = "true"
 									oLogging.CreateEntry "Updated PlainText entry to true.", LogTypeInfo
 								End if
 
@@ -383,7 +385,7 @@ Class ZTIConfigure
 
 		If sUnattendXml <> "" then
 
-			Set oNode = oUnattendXml.selectSingleNode( "//unattend/servicing" )
+			Set oNode = oUnattendXml.selectSingleNode( "//unattend:unattend/unattend:servicing" )
 			If not oNode is nothing then
 				bChanged = true
 				oLogging.CreateEntry "Making sure <servicing> node is at the beginning of unattend.xml", LogTypeInfo
@@ -397,7 +399,7 @@ Class ZTIConfigure
 
 		If sUnattendXml <> "" and LCase(oEnvironment.Item("Architecture")) = "x86" then
 
-			For each oNode in oUnattendXml.selectNodes("//unattend/settings[@pass='windowsPE']/component[@processorArchitecture='amd64']")
+			For each oNode in oUnattendXml.selectNodes("//unattend:unattend/unattend:settings[@pass='windowsPE']/unattend:component[@processorArchitecture='amd64']")
 
 				bChanged = true
 				oNode.setAttribute "processorArchitecture", "x86"
@@ -415,24 +417,32 @@ Class ZTIConfigure
 
 			If sUnattendXml <> "" then
 
-				' For Vista, strip out the AutoLogon and FirstLogonCommands
+				' For Vista and above, strip out the AutoLogon and FirstLogonCommands
 
-				oLogging.CreateEntry "Removing AutoLogon and FirstLogonCommands entries from unattend.xml", LogTypeInfo
+				oLogging.CreateEntry "Cleaning up unneeded entries from unattend.xml.", LogTypeInfo
 
-				Set oNode = oUnattendXml.selectSingleNode("//settings[@pass='oobeSystem']/component[@name='Microsoft-Windows-Shell-Setup']/AutoLogon")
+				Set oNode = oUnattendXml.selectSingleNode("//unattend:settings[@pass='oobeSystem']/unattend:component[@name='Microsoft-Windows-Shell-Setup']/unattend:AutoLogon")
 				If not (oNode is Nothing) then
+					bChanged = true
 					oNode.parentNode.removeChild oNode
+					oLogging.CreateEntry "Removed AutoLogon settings.", LogTypeInfo
 				End if
 
-				Set oNode = oUnattendXml.selectSingleNode("//settings[@pass='oobeSystem']/component[@name='Microsoft-Windows-Shell-Setup']/FirstLogonCommands")
+				Set oNode = oUnattendXml.selectSingleNode("//unattend:settings[@pass='oobeSystem']/unattend:component[@name='Microsoft-Windows-Shell-Setup']/unattend:FirstLogonCommands")
 				If not (oNode is Nothing) then
+					bChanged = true
 					oNode.parentNode.removeChild oNode
+					oLogging.CreateEntry "Removed FirstLogonCommands.", LogTypeInfo
 				End if
 
-				Set oNode = oUnattendXml.selectSingleNode("//settings[@pass='oobeSystem']/component[@name='Microsoft-Windows-Shell-Setup']/UserAccounts/LocalAccounts")
+				Set oNode = oUnattendXml.selectSingleNode("//unattend:settings[@pass='oobeSystem']/unattend:component[@name='Microsoft-Windows-Shell-Setup']/unattend:UserAccounts/unattend:LocalAccounts")
 				If not (oNode is Nothing) then
+					bChanged = true
 					oNode.parentNode.removeChild oNode
+					oLogging.CreateEntry "Removed LocalAccounts.", LogTypeInfo
 				End if
+
+				oLogging.CreateEntry "Finished cleaning up unneeded entries from unattend.xml.", LogTypeInfo
 
 			End if
 

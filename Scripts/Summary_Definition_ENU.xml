@@ -9,7 +9,7 @@
 ' //
 ' // File:      Summary_Definition_ENU.xml
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Display summary results for a Lite Touch deployment
 ' // 
@@ -31,7 +31,7 @@
 			<Label><![CDATA[<button accesskey=F id=buttonNext language=vbscript onclick=ButtonNextClick><U>F</U>inish</button>]]></Label>
 		</ButtonNext>
 		<ButtonPrev>
-			<Label><![CDATA[<button accesskey=B id=buttonPrev style='display: none;' onclick="ButtonBackClick">B</U>ack</button>]]></Label>
+			<Label><![CDATA[<button accesskey=B id=buttonPrev style='display: none;' onclick="ButtonBackClick"><U>B</U>ack</button>]]></Label>
 		</ButtonPrev>
 		<Body>
 		<![CDATA[
@@ -56,7 +56,7 @@
 			<Label><![CDATA[<button accesskey=F id=buttonNext language=vbscript onclick=ButtonNextClick><U>F</U>inish</button>]]></Label>
 		</ButtonNext>
 		<ButtonPrev>
-			<Label><![CDATA[<button accesskey=B id=buttonPrev style='display: none;' onclick="ButtonBackClick">B</U>ack</button>]]></Label>
+			<Label><![CDATA[<button accesskey=B id=buttonPrev style='display: none;' onclick="ButtonBackClick"><U>B</U>ack</button>]]></Label>
 		</ButtonPrev>
 		<Body>
 		<![CDATA[

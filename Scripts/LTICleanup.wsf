@@ -11,7 +11,7 @@
 ' //
 ' // File:      LTICleanup.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Clean up scripts, autologon, and other remnants of the
 ' //            deployment process.
@@ -70,7 +70,6 @@ Class LTICleanup
 		Dim bOEM
 		Dim sproc
 		Dim sBDDUtility
-		Dim sOSVersion
 		Dim sMaxSize
 		Dim oResults
 
@@ -93,9 +92,7 @@ Class LTICleanup
 
 		bOEM = ucase(oEnvironment.Item("_DoNotCleanLiteTouch")) = "TRUE"
 
-		sOSVersion = Left(oEnvironment.Item("OSCurrentVersion"), 3)
-
-
+		
 		' Figure out what directory to use
 
 		If oEnvironment.Item("OSVersion") = "WinPE" then
@@ -139,6 +136,42 @@ Class LTICleanup
 		oShell.RegWrite "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AutoLogonCount", &H00000000, "REG_DWORD"
 		On Error Goto 0
 
+
+		'//----------------------------------------------------------------------------
+		'//  Re-enable UAC for Administrator account (Windows 8 and above)
+		'//----------------------------------------------------------------------------
+
+		If oEnvironment.Item("OSCurrentVersion") <> "" then
+			oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+			If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
+				oLogging.CreateEntry "Re-enabling UAC for built-in Administrator account", LogTypeInfo
+				oShell.RegWrite "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\FilterAdministratorToken", 1, "REG_DWORD"
+			End if		
+		End if
+
+
+		'//----------------------------------------------------------------------------
+		'//  Reset AsyncRunOnce registry value with HideShell (Windows 10 and above)
+		'//----------------------------------------------------------------------------
+
+		If oEnvironment.Item("OSCurrentVersion") <> "" and UCase(oEnvironment.Item("HideShell")) = "YES" then
+			oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+			If oUtility.VersionMajor >= 10 then
+				oLogging.CreateEntry "Re-enabling asynchronous RunOnce", LogTypeInfo
+				oShell.RegWrite "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Explorer\AsyncRunOnce", 1, "REG_DWORD"
+			End if		
+		End if
+
+
+		'//----------------------------------------------------------------------------
+		'//  Clear the windows 10 upgrade registry key
+		'//----------------------------------------------------------------------------
+		
+		if oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1" then
+		 On Error Resume Next
+		 oLogging.CreateEntry "Removing Windows 10 Upgrade registry entry", LogTypeInfo
+		 oShell.RegDelete "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows\Win10Upgrade"
+		End if
 		
 		'//----------------------------------------------------------------------------
 		'//  Define maximum size for VSS
@@ -251,32 +284,36 @@ Class LTICleanup
 
 			If oFSO.FileExists(sSystemDrive & "\minint\unattend.xml") and oFSO.FolderExists(sSystemDrive & "\windows\panther") then
 
-				oLogging.CreateEntry "Stripping BDD commands from unattend.xml template.", LogTypeInfo
+				oLogging.CreateEntry "Removing MDT commands from unattend.xml template.", LogTypeInfo
 
 
 				' Load the unattend.xml
 
 				Set oUnattend = oUtility.CreateXMLDOMObjectEx(sSystemDrive & "\minint\unattend.xml")
+				oUnattend.setProperty "SelectionNamespaces", "xmlns:unattend='urn:schemas-microsoft-com:unattend'"
 
 
 				' Strip out the AutoLogon and FirstLogonCommands
 
-				Set oNode = oUnattend.selectSingleNode("//settings[@pass='oobeSystem']/component[@name='Microsoft-Windows-Shell-Setup']/AutoLogon")
+				Set oNode = oUnattend.selectSingleNode("//unattend:settings[@pass='oobeSystem']/unattend:component[@name='Microsoft-Windows-Shell-Setup']/unattend:AutoLogon")
 				If not (oNode is Nothing) then
 					oNode.parentNode.removeChild oNode
+					oLogging.CreateEntry "Removed AutoLogon settings.", LogTypeInfo
 				End if
 
-				Set oNode = oUnattend.selectSingleNode("//settings[@pass='oobeSystem']/component[@name='Microsoft-Windows-Shell-Setup']/FirstLogonCommands")
+				Set oNode = oUnattend.selectSingleNode("//unattend:settings[@pass='oobeSystem']/unattend:component[@name='Microsoft-Windows-Shell-Setup']/unattend:FirstLogonCommands")
 				If not (oNode is Nothing) then
 					oNode.parentNode.removeChild oNode
+					oLogging.CreateEntry "Removed FirstLogonCommands settings.", LogTypeInfo
 				End if
 
 
 				' Don't create the temporary account
 
-				Set oNode = oUnattend.selectSingleNode("//settings[@pass='oobeSystem']/component[@name='Microsoft-Windows-Shell-Setup']/UserAccounts/LocalAccounts")
+				Set oNode = oUnattend.selectSingleNode("//unattend:settings[@pass='oobeSystem']/unattend:component[@name='Microsoft-Windows-Shell-Setup']/unattend:UserAccounts/unattend:LocalAccounts")
 				If not (oNode is Nothing) then
 					oNode.parentNode.removeChild oNode
+					oLogging.CreateEntry "Removed LocalAccounts settings.", LogTypeInfo
 				End if
 
 
@@ -510,16 +547,6 @@ Class LTICleanup
 			oShell.Run "regsvr32.exe /u /s """ & sBDDUtility & """", 0, true ' Always returns 0 - Success
 
 		Next
-
-
-		'//----------------------------------------------------------------------------
-		'//  Enable UAC for Administrator account
-		'//  This is added for Win8 only to enable Windows 8 Modern Applications.
-		'//----------------------------------------------------------------------------
-
-		If sOSVersion >= "6.2" then
-			oShell.RegWrite "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\FilterAdministratorToken", 1, "REG_DWORD"
-		End if		
 
 
 		EnableSystemRestore sMaxSize

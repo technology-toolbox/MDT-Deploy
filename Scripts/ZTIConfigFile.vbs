@@ -7,7 +7,7 @@
 ' //
 ' // File:      ZTIConfigFile.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Common Routines for processing MDT XML files
 ' // 
@@ -667,41 +667,60 @@ Class ConfigFile
 		Dim sComments
 		Dim sIsChecked
 		Dim sFolderGuid
+		Dim sTSTemplate
+		Dim bIsUpgradeTS
 		
-		sGuid = oItem.getAttribute("guid")
-		sFolderGuid = oFolder.getAttribute("guid")
-		sName = ""
-		If not oItem.SelectSingleNode("./DisplayName") is nothing then
-			sName = oItem.SelectSingleNode("./DisplayName").Text
-		End if 
-		If sName = "" then
-			sName = EncodeXML(oUtility.SelectSingleNodeString(oItem,"./Name"))
+		If not oItem.SelectSingleNode("./TaskSequenceTemplate") is nothing then
+			sTSTemplate = oItem.SelectSingleNode("./TaskSequenceTemplate").Text
 		End if
 		
-		sComments = ""
-		If not oItem.SelectSingleNode("./Comments") is nothing then
-			sComments = EncodeXML(oItem.SelectSingleNode("./Comments").Text)
-			If sComments <> "" then
-				sComments = "<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" & sComments & "</div>"
-			End if
+		If len(sTSTemplate) > 10 and Right(Ucase(sTSTemplate),11) = "UPGRADE.XML" then 
+			bIsUpgradeTS = 1
+		Else 
+			bIsUpgradeTS = 0
 		End if
 		
-		If sGuid = "DEFAULT" then
-			sIsChecked = "ChEcKeD disabled"
+		If oEnvironment.Item("OSVersion") = "WinPE" and bIsUpgradeTS = 1 then
+			oLogging.CreateEntry "Upgrade TS is not available in WinPE but only in full OS", LogTypeInfo
+			BuildHTML_Element = ""
 		Else
-			sIsChecked = LookupCheckedState ( oFolder, oItem )
-		End if 
 		
-		oLogging.CreateEntry "BuildHTML_Element: " & sFolderGuid & "-" & sGuid & "   " & sName & " [" & sIsChecked & "]", LogTypeVerbose
+			sGuid = oItem.getAttribute("guid")
+			sFolderGuid = oFolder.getAttribute("guid")
+			sName = ""
+			If not oItem.SelectSingleNode("./DisplayName") is nothing then
+				sName = oItem.SelectSingleNode("./DisplayName").Text
+			End if 
+			If sName = "" then
+				sName = EncodeXML(oUtility.SelectSingleNodeString(oItem,"./Name"))
+			End if
+			
+			sComments = ""
+			If not oItem.SelectSingleNode("./Comments") is nothing then
+				sComments = EncodeXML(oItem.SelectSingleNode("./Comments").Text)
+				If sComments <> "" then
+					sComments = "<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" & sComments & "</div>"
+				End if
+			End if
+			
+			If sGuid = "DEFAULT" then
+				sIsChecked = "ChEcKeD disabled"
+			Else
+				sIsChecked = LookupCheckedState ( oFolder, oItem )
+			End if 
+			
+			oLogging.CreateEntry "BuildHTML_Element: " & sFolderGuid & "-" & sGuid & "   " & sName & " [" & sIsChecked & "]", LogTypeVerbose
+			
+			If sHTMLPropertyHook <> "" then
+				sIsChecked = sIsChecked & sHTMLPropertyHook 
+			End if
+
+			BuildHTML_Element = "<div onmouseover=""javascript:this.className = 'DynamicListBoxRow-over';"" onmouseout=""javascript:this.className = 'DynamicListBoxRow';"" >"
+			BuildHTML_Element = BuildHTML_Element & "<input name=" & sEnabledElements & " type=" & sButtonStyle & " id='" & sFolderGuid & "-" & sGuid & "' value='" & sGuid & "' " & sIsChecked & "/><img src='" & sItemIcon & "' />"
+			BuildHTML_Element = BuildHTML_Element & "<label for='" & sFolderGuid & "-" & sGuid & "' class=TreeItem>" & sName & "</label>&nbsp;&nbsp;" & sComments & "</div>"
+
+		End if		
 		
-		If sHTMLPropertyHook <> "" then
-			sIsChecked = sIsChecked & sHTMLPropertyHook 
-		End if
-
-		BuildHTML_Element = "<div onmouseover=""javascript:this.className = 'DynamicListBoxRow-over';"" onmouseout=""javascript:this.className = 'DynamicListBoxRow';"" >"
-		BuildHTML_Element = BuildHTML_Element & "<input name=" & sEnabledElements & " type=" & sButtonStyle & " id='" & sFolderGuid & "-" & sGuid & "' value='" & sGuid & "' " & sIsChecked & "/><img src='" & sItemIcon & "' />"
-		BuildHTML_Element = BuildHTML_Element & "<label for='" & sFolderGuid & "-" & sGuid & "' class=TreeItem>" & sName & "</label>&nbsp;&nbsp;" & sComments & "</div>"
-
 	End function 
 
 

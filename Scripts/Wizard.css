@@ -30,24 +30,24 @@ SAMPLE, SCCM Wizard Style
 	font-family: Segoe UI, MS Sans Serif, Sans-Serif;
 	color: black;
 	
-	font-size: 10pt;
+	font-size: 13px;
 	font-weight: normal;
 }
 
 .MainInstruction, H1
 {
-	font-size: 14pt;
+	font-size: 19px;
 	color: #003399;
 	line-height: 15px;
 }
 
 .Larger, H2 {
-	font-size: 12pt;
+	font-size: 16px;
 }
 
 
 .HeaderTitle {
-	font-size: 17pt;
+	font-size: 23px;
 	color: white;
 	float: left;
 	position:absolute;

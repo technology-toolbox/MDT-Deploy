@@ -10,7 +10,7 @@
 ' //
 ' // File:      ZTIAppXmlGen.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Generate an XML file for automatically capturing user data
 ' //            (documents) associated with installed applications.
@@ -72,27 +72,29 @@ Class ZTIAppXmlGen
 		'//----------------------------------------------------------------------------
 		'//  Determine the version of USMT to use
 		'//----------------------------------------------------------------------------
+		oUtility.GetMajorMinorVersion( oEnvironment.Item("OSCURRENTVERSION"))
 		
-		If Ucase(oEnvironment.Item("USMT3")) = "YES" and Left(oEnvironment.Item("OSCURRENTVERSION"),3) < "6.1" then
+		If Ucase(oEnvironment.Item("USMT3")) = "YES" and oUtility.VersionMajor <= 6 and oUtility.VersionMinor < 1 then
 		
 			oLogging.CreateEntry "Setting USMT version to USMT3", LogTypeInfo
 			sUSMTVersion = "USMT3"
 			
-		Elseif Ucase(oEnvironment.Item("USMT4")) = "YES" and Left(oEnvironment.Item("OSCURRENTVERSION"),3) < "6.2" and Left(oEnvironment.Item("OSCURRENTVERSION"),3) >= "6.0" then
+		Elseif Ucase(oEnvironment.Item("USMT4")) = "YES" and oUtility.VersionMajor >= 6 and oUtility.VersionMinor >= 0 and oUtility.VersionMinor < 2 then
 		
 			oLogging.CreateEntry "Setting USMT version to USMT4", LogTypeInfo
 			sUSMTVersion = "USMT4"
 			
 		Else
-
-			If Left(oEnvironment.Item("ImageBuild"),3) < "6.0" and oEnvironment.Item("DeploymentType") <> "REPLACE" and oEnvironment.Item("DeploymentMethod") <> "SCCM" Then
+			oUtility.GetMajorMinorVersion( oEnvironment.Item("ImageBuild"))
+			If oUtility.VersionMajor < 6 and oEnvironment.Item("DeploymentType") <> "REPLACE" and oEnvironment.Item("DeploymentMethod") <> "SCCM" Then
 				oLogging.CreateEntry "Windows XP is being deployed, assuming USMT 3", LogTypeInfo
 				sUSMTVersion = "USMT3"
 			Else
 				
 				sScanStateFolder = oEnvironment.Item("DeployRoot") & "\Tools\" & oEnvironment.item("Architecture")
 				If  oFSO.FileExists (sScanStateFolder & "\USMT5\scanstate.exe") then
-					If Left(oFSO.GetFileVersion(sScanStateFolder & "\USMT5\scanstate.exe"),3) >= "6.2"  then
+					oUtility.GetMajorMinorVersion( oFSO.GetFileVersion(sScanStateFolder & "\USMT5\scanstate.exe"))
+					If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 )  then
 						oLogging.CreateEntry "Found USMT 5 executables. Using USMT 5", LogTypeInfo
 						sUSMTVersion = "USMT5"
 						bFoundUSMT = True
@@ -102,7 +104,8 @@ Class ZTIAppXmlGen
 				End if
 			
 				If  oFSO.FileExists (sScanStateFolder & "\USMT4\scanstate.exe") and bFoundUSMT <> True then
-					If Left(oFSO.GetFileVersion(sScanStateFolder & "\USMT4\scanstate.exe"),3) = "6.1"  then
+					oUtility.GetMajorMinorVersion( oFSO.GetFileVersion(sScanStateFolder & "\USMT4\scanstate.exe"))
+					If oUtility.VersionMajor = 6 and oUtility.VersionMinor = 1  then
 						oLogging.CreateEntry "Found USMT 4 executables. Using USMT 4", LogTypeInfo
 						sUSMTVersion = "USMT4"
 						bFoundUSMT = True
@@ -231,7 +234,8 @@ Class ZTIAppXmlGen
 		Set oMigXML = oEnvironment.ListItem("USMTMigFiles")
 		If oMigXML.Count = 0 then
 			oMigXML.Add "MigApp.xml", ""
-			If Left(oEnvironment.Item("ImageBuild"),3) < "6.0" or oEnvironment.Item("USMT3") = "YES" Then
+			oUtility.GetMajorMinorVersion( oEnvironment.Item("ImageBuild"))
+			If oUtility.VersionMajor < 6 or oEnvironment.Item("USMT3") = "YES" Then
 				oMigXML.Add "MigSys.xml", ""
 			End If
 			oMigXML.Add "MigUser.xml", ""

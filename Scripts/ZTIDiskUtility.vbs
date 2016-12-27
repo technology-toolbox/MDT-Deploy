@@ -6,7 +6,7 @@
 ' //
 ' // File:      ZTIDiskUtility.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:	Utility functions for disk operations
 ' // 
@@ -74,9 +74,10 @@ Class ZTIDisk   ' VBSCript Wrapper Class around the WMI Win32_DiskDrive class
 				Exit Function
 			End if
 
+			oUtility.GetMajorMinorVersion(sOSBuild)
 			If len(trim(sOSBuild)) = 0 then
 				' Do nothing, OS Version not specified.
-			ElseIf cint(mid(ucase(sOSBuild),1,1)) > 6 then
+			Elseif oUtility.VersionMajor > 6 then
 				For Each oUSBDevice in objWMI.ExecQuery("ASSOCIATORS OF {" & g_Win32_DiskDrive.Path_ & "} WHERE AssocClass = Win32_PnPDevice")
 					For Each oUSBController in objWMI.ExecQuery("ASSOCIATORS OF {" & oUSBDevice.Path_ & "} WHERE AssocClass = Win32_USBControllerDevice")
 						For Each oUSBPnPEnum in objWMI.ExecQuery("ASSOCIATORS OF {" & oUSBController.Path_ & "} WHERE AssocClass = Win32_PnPDevice")
@@ -542,9 +543,10 @@ Function GetMinimumDiskPartitionSizeMB
 	GetMinimumDiskPartitionSizeMB = 15 * 1000  ' 15 GB
 
 	If oEnvironment.Item("ImageBuild") <> "" then
-		If left(oEnvironment.Item("ImageBuild"),3) = "5.1" then
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageBuild"))
+		If (oUtility.VersionMajor = 5 and oUtility.VersionMinor = 1)then
 			GetMinimumDiskPartitionSizeMB = 1500  ' 1.5 GB
-		ElseIf left(oEnvironment.Item("ImageBuild"),3) = "5.2" then
+		ElseIf (oUtility.VersionMajor = 5 and oUtility.VersionMinor = 2)  then
 			GetMinimumDiskPartitionSizeMB = 3 * 1000   ' 3 GB
 		ElseIf oEnvironment.Item("ImageFlags") <> "" then
 			If inStr(1,oEnvironment.Item("ImageFlags"),"SERVER",vbTextCompare) <> 0 then

@@ -11,7 +11,7 @@
 ' //
 ' // File:      Wizard.hta
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Display a wizard to the user
 ' // 
@@ -137,7 +137,7 @@ Sub WizardOnLoad
 
 	' Custom processing within an external file
 
-	For each item in oXMLDoc.SelectNodes("//Wizard/Global/(Initialization|Validation|CustomScript)")
+	For each item in oXMLDoc.SelectNodes("(//Wizard/Global/Initialization|//Wizard/Global/Validation|//Wizard/Global/CustomScript)")
 
 		if not oFso.FileExists(srootDir & Item.TExt) then
 			FatalError "Unable to load VBScript File: " & srootDir & Item.TExt
@@ -202,7 +202,7 @@ Sub WizardOnLoad
 
 		' Custom processing within an external file
 
-		For each refItem in oReference.SelectNodes("//Wizard/Global/(Initialization|Validation|CustomScript)")
+		For each refItem in oReference.SelectNodes("(//Wizard/Global/Initialization|//Wizard/Global/Validation|//Wizard/Global/CustomScript)")
 
 			If not oFso.FileExists(srootDir & refItem.Text) then
 				FatalError "Unable to load VBScript File: " & srootDir & refItem.Text
@@ -414,7 +414,7 @@ Function SetPane(strPane, bValidate)
 	End if
 
 	If oCurrentNode.selectSingleNode("ButtonPrev/Label") is nothing then
-		ButtonPrev.outerHTML = "<button accesskey=B id=buttonPrev onclick=ButtonBackClick>B</U>ack</button>"
+		ButtonPrev.outerHTML = "<button accesskey=B id=buttonPrev onclick=ButtonBackClick><U>B</U>ack</button>"
 	Else
 		ButtonPrev.outerHTML = oUtility.SelectSingleNodeString(oCurrentNode,"ButtonPrev/Label")
 	End if
@@ -1089,7 +1089,7 @@ End Function
 			<!-- Footer of Wizard -->
 			<tr valign="Top"  >
 				<td colspan="2" class="CommandArea" id="RightWizardButtons" align="right">
-					<button accesskey=B id=buttonPrev onclick=ButtonBackClick>B</U>ack</button>
+					<button accesskey=B id=buttonPrev onclick=ButtonBackClick><U>B</U>ack</button>
 					<button accesskey=N type=submit id=buttonNext onclick=ButtonNextClick ><U>N</U>ext</button>
 					<button accesskey=C id=buttonCancel onclick=ButtonCancelClick><U>C</U>ancel</button>
 				</td>

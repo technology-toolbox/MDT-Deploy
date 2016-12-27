@@ -9,7 +9,7 @@
 ' //
 ' // File:      DeployWiz_Definition_ENU.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Main Client Deployment Wizard Defintion File
 ' // 
@@ -37,7 +37,7 @@
 
 	<Pane id="ComputerName" reference="DeployWiz_ComputerName.xml">
 		<Condition><![CDATA[UCase(Property("SkipDomainMembership"))<>"YES" or UCase(Property("SkipComputerName"))<>"YES"]]></Condition>
-		<Condition><![CDATA[Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and Property("DeploymentType") <> "StateRestore" ]]></Condition>
+		<Condition><![CDATA[Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and Property("DeploymentType") <> "StateRestore" and Property("DeploymentType")<> "UPGRADE" ]]></Condition>
 	</Pane>
 
 
@@ -59,7 +59,7 @@
 
 	<Pane id="UserDataRestore" reference="DeployWiz_UserDataRestore.xml">
 		<Condition><![CDATA[ Property("USMTOfflineMigration") <> "TRUE" ]]></Condition>
-		<Condition><![CDATA[ UCase(Property("SkipUserData"))<>"YES" and (Property("DeploymentType")="NEWCOMPUTER" or Property("DeploymentType") = "StateRestore") and Property("DeploymentType")<>"CUSTOM" ]]></Condition>
+		<Condition><![CDATA[ UCase(Property("SkipUserData"))<>"YES" and (Property("DeploymentType")="NEWCOMPUTER" or Property("DeploymentType") = "StateRestore") and Property("DeploymentType")<>"CUSTOM" and Property("DeploymentType")<> "UPGRADE" ]]></Condition>
 		<Condition><![CDATA[ Instr(1, oEnvironment.Item("ImageFlags"), "SERVER", 1) = 0  ]]></Condition>
 		<Condition><![CDATA[ ucase(oEnvironment.Item("IsServerOS")) <> "TRUE" ]]></Condition>
 		<Condition><![CDATA[ FindTaskSequenceStep("//step[@name='Restore User State']", "ZTIUserState.wsf" ) ]]></Condition>
@@ -67,7 +67,7 @@
 
 
 	<Pane id="ComputerBackup" reference="DeployWiz_ComputerBackup.xml">
-		<Condition><![CDATA[ Property("DeploymentType") <> "NEWCOMPUTER" and Property("DeploymentType") <> "CUSTOM" and Property("DeploymentType") <> "STATERESTORE" and (Property("DeploymentType") = "REFRESH" or Property("DeploymentType") = "REPLACE") and UCase(Property("SkipComputerBackup"))<>"YES"]]></Condition>
+		<Condition><![CDATA[ Property("DeploymentType") <> "NEWCOMPUTER" and Property("DeploymentType") <> "CUSTOM" and Property("DeploymentType") <> "STATERESTORE" and (Property("DeploymentType") = "REFRESH" and Property("DeploymentType")<> "UPGRADE" or Property("DeploymentType") = "REPLACE") and UCase(Property("SkipComputerBackup"))<>"YES"]]></Condition>
 	</Pane>
 
 
@@ -77,7 +77,7 @@
 
 
 	<Pane id="SelectLanguagePack" reference="DeployWiz_LanguagePack.xml">
-		<Condition><![CDATA[ ucase(Property("SkipPackageDisplay")) <> "YES" and Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and Left(Property("ImageBuild"), 1) = "6" ]]> </Condition>
+		<Condition><![CDATA[ ucase(Property("SkipPackageDisplay")) <> "YES" and Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" ]]> </Condition>
 		<Condition><![CDATA[ FindTaskSequenceStep("//step[@type='BDD_InstallUpdatesOffline' and @name='Apply Patches']", "ZTIPatches.wsf" )  ]]> </Condition>
 		<Condition><![CDATA[ CanDisplayPackageDialogBox  ]]> </Condition>
 	</Pane>
@@ -85,7 +85,7 @@
 
 	<Pane id="SelectLanguageUI" reference="DeployWiz_LanguageUI.xml">
 		<Condition><![CDATA[ UCase(Property("SkipLocaleSelection")) <> "YES" or UCase(Property("SkipTimeZone"))<>"YES" ]]> </Condition>
-		<Condition><![CDATA[ Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and Property("DeploymentType") <> "StateRestore" ]]> </Condition>
+		<Condition><![CDATA[ Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and Property("DeploymentType") <> "StateRestore" and Property("DeploymentType")<> "UPGRADE" ]]> </Condition>
 	</Pane>
 
 
@@ -120,9 +120,8 @@
 
 
 	<Pane id="BitLocker" reference="DeployWiz_BitLocker.xml">
-		<Condition><![CDATA[ UCase(Property("IsBDE")) <> "TRUE" or Property("DeploymentType") <> "REFRESH" ]]></Condition>
-		<Condition><![CDATA[ Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and UCase(Property("SkipBitLocker")) <> "YES" and UCase(Property("DoCapture")) <> "YES" and UCase(Property("DoCapture")) <> "PREPARE" ]]></Condition>
-		<Condition><![CDATA[ Left(Property("ImageBuild"), 1) = "6" and oUtility.IsHighEndSKUEx( oEnvironment.Item("ImageFlags") ) ]]></Condition>
+		<Condition><![CDATA[ UCase(Property("IsBDE")) <> "TRUE" or Property("DeploymentType") <> "REFRESH" and Property("DeploymentType")<> "UPGRADE"]]></Condition>
+		<Condition><![CDATA[ Property("DeploymentType")<>"REPLACE" and Property("DeploymentType")<>"CUSTOM" and UCase(Property("SkipBitLocker")) <> "YES" and UCase(Property("DoCapture")) <> "YES" and UCase(Property("DoCapture")) <> "PREPARE"  and oUtility.IsHighEndSKUEx( oEnvironment.Item("ImageFlags") )]]></Condition>
 	</Pane>
 
 

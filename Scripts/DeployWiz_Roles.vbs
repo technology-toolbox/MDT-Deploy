@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_Roles.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Allow the selection of roles and features.
 ' // 
@@ -90,8 +90,9 @@ Function InitializeOSRoles()
 		Else
 			sServerCore = "no"
 		End if
-
-		sVersion = Left(oEnvironment.Item("OSCurrentVersion"),3)
+		
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		sVersion = oUtility.VersionMajor & "." &  Left(oUtility.VersionMinor,1)
 
 	Else
 
@@ -104,8 +105,9 @@ Function InitializeOSRoles()
 		Else
 			sServer = "no"
 		End if
-
-		sVersion = Left(oEnvironment.Item("ImageBuild"),3)
+		
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("ImageBuild"))
+		sVersion = oUtility.VersionMajor & "." &  Left(oUtility.VersionMinor,1)
 
 
 		' Because XP/2003 don't have image flags, check the version and manually force server

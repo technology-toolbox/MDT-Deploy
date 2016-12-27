@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_Initialization.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Main Client Deployment Wizard Initialization routines
 ' // 
@@ -14,17 +14,21 @@
 
 
 Option Explicit
+Dim iVerMajor
+oUtility.GetMajorMinorVersion(Property("ImageBuild"))
+iVerMajor = oUtility.VersionMajor
 
 
 Function InitializeProductKey
 
 	' Figure out how to initialize the pane.
-
-	If Property("ProductKey") <> "" or Left(Property("ImageBuild"), 1) < "6" then
+	
+	If Property("ProductKey") <> "" or iVerMajor < 6 then
 		locProductKey.disabled = false
 		locProductKey.value = Property("ProductKey")
 		ProductKey.value = locProductKey.value
-		If Left(Property("ImageBuild"), 1) >= "6" then
+		
+		If iVerMajor > 6 then
 			PKRadio3.click
 			locOverrideProductKey.disabled = true
 			OverrideProductKey.value = ""
@@ -43,14 +47,18 @@ Function InitializeProductKey
 		ProductKey.value = ""
 		OverrideProductKey.value = ""
 	End if
-
+	
+	if oProperties("DeploymentType") = "UPGRADE" then
+		document.getElementById("MAK_Text_tr").style.display = "none"
+		document.getElementById("MAK_Radio_tr").style.display = "none"
+	End if
 End Function
 
 Function ValidateProductKey
 
 	ValidateProductKey = False
 
-	If Left(Property("ImageBuild"), 1) < "6" then
+	If iVerMajor < 6 then
 
 		' Make sure the product key is valid
 
@@ -164,10 +172,12 @@ Function AssignProductKey
 
 	If not IsEmpty(GetProductKey(locProductKey.value)) then
 		locProductKey.value = GetProductKey(locProductKey.value)
+		oEnvironment.Item("ProductKey") = locProductKey.value
 	End if
-	If Left(Property("ImageBuild"), 1) >= "6" then
+	If iVerMajor >= 6  then
 		If not IsEmpty(GetProductKey(locOverrideProductKey.value)) then
 			locOverrideProductKey.value = GetProductKey(locOverrideProductKey.value)
+			oEnvironment.Item("OverrideProductKey") = locOverrideProductKey.value
 		End if
 	End if
 

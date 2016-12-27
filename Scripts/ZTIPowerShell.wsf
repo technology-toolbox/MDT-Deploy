@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIPowerShell.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Run a PowerShell script in a task sequence via a custom
 ' //            host.

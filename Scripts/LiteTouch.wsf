@@ -12,7 +12,7 @@
 ' //
 ' // File:      Litetouch.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Drive the lite touch deployment process
 ' // 
@@ -23,6 +23,7 @@
 Option Explicit
 Dim oLiteTouch
 Dim iScriptRC
+Dim bUpgradeSuccess
 
 If not oUtility.Arguments.Exists("DebugCapture") Then
 	On Error Resume Next
@@ -32,6 +33,7 @@ Set oLiteTouch = new Litetouch
 TestAndFail SUCCESS, 5400, "Create object: Set oLiteTouch = New Litetouch"
 
 iScriptRc =  oLiteTouch.Main
+
 Wscript.quit iScriptRc
 
 
@@ -94,7 +96,8 @@ Class Litetouch
 		Dim bIsServerCoreOS
 		Dim sWizard
 		Dim sDisableDiskMgr
-
+		Dim iCurrentOSVerMajor
+		Dim sUpgradeFailureCode
 
 		iRetVal = Success
 
@@ -113,8 +116,9 @@ Class Litetouch
 		' Check if we can write to the windows folder
 
 		oFSO.CreateTextFile(oEnv("SystemRoot") & "\authtest.txt")
-		
-		If (Left(sOSVer, 1) < "6") and Err <> 0 and (ucase(oEnv("SystemDrive")) <> "X:") then			
+		oUtility.GetMajorMinorVersion(sOSVer)
+		iCurrentOSVerMajor = oUtility.VersionMajor
+		If (iCurrentOSVerMajor < 6) and Err <> 0 and (ucase(oEnv("SystemDrive")) <> "X:") then			
 				oShell.Popup "You do not have the correct permissions to perform this deployment. Please run as a local administrator.", 0, "Permissions Error", 16
 				WScript.Quit iRetVal
 		End if
@@ -231,34 +235,35 @@ Class Litetouch
 		'//----------------------------------------------------------------------------
 
 		If oUtility.Arguments.Exists("start") then
+		
+			If (oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1") then
+				oLogging.CreateEntry "Running OS Upgrade", LogTypeInfo				
+			Else			
+				' Remove the LTIDirtyOS flag as we're getting into the new OS exactly how we expected
+			
+				oEnvironment.Item("LTIDirtyOS") = "FALSE"
+			
+				' Create the startup group item if needed
 
-			' Remove the LTIDirtyOS flag as we're getting into the new OS exactly how we expected
-
-			oEnvironment.Item("LTIDirtyOS") = "FALSE"
-
-
-			' Create the startup group item if needed
-
-			SetStartMDT
-			If oFSO.FileExists(oEnv("SystemRoot") & "\Explorer.exe") and UCase(oEnvironment.Item("HideShell")) <> "YES" then
-				Main = Success
-				Exit Function
+				SetStartMDT
+				If oFSO.FileExists(oEnv("SystemRoot") & "\Explorer.exe") and UCase(oEnvironment.Item("HideShell")) <> "YES" then						
+					Main = Success
+					Exit Function
+				End If
 			End If
-
+			
 		End if
 
 
 		'//----------------------------------------------------------------------------
 		'//  Test for the existance of a recovery session, and if present, call WinRE.
-		'//----------------------------------------------------------------------------
-
+		'//----------------------------------------------------------------------------			
 		TestForWinREAndLaunch
 
 
 		'//----------------------------------------------------------------------------
 		'//  Set the deployment method
-		'//----------------------------------------------------------------------------
-
+		'//----------------------------------------------------------------------------			
 		bFoundMedia = False
 		For Each oDrive in oFSO.Drives
 
@@ -322,27 +327,24 @@ Class Litetouch
 
 		oLogging.CreateEntry "DeploymentMethod = " & oEnvironment.Item("DeploymentMethod"), LogTypeInfo
 
+		'//----------------------------------------------------------------------------
+		'//  If there were any "saved" network settings, restore them now.
+		'//----------------------------------------------------------------------------
+
+		If isNumeric(oEnvironment.Item("OSDAdapterCount")) then
+			If Cint(oEnvironment.Item("OSDAdapterCount")) > 0 then                                
+				sCmd = "wscript.exe """ & oUtility.ScriptDir & "\ZTINicConfig.wsf"" /RestoreWithinWinPE"
+				iRetVal = RunAndLog(sCmd, true)
+				TestAndLog iRetVal,"Excution: " & sCmd
+			End if
+		End if
+
 
 		'//----------------------------------------------------------------------------
 		'//  Find the "real" DeployRoot
 		'//----------------------------------------------------------------------------
 
 		If oEnvironment.Item("DeploymentMethod") = "UNC" then
-
-			'//
-			'//  If there were any "saved" network settings. Restore them now.
-			'//
-			If isNumeric(oEnvironment.Item("OSDAdapterCount")) then
-			
-				If Cint(oEnvironment.Item("OSDAdapterCount")) > 0 then
-				
-					sCmd = "wscript.exe """ & oUtility.ScriptDir & "\ZTINicConfig.wsf"" /RestoreWithinWinPE"
-					iRetVal = RunAndLog(sCmd, true)
-					TestAndLog iRetVal,"Excution: " & sCmd
-					
-				End if
-				
-			End if
 
 			' Set the DeployRoot based on where we were started from
 
@@ -370,7 +372,7 @@ Class Litetouch
 
 		' Set the phase if it isn't already set
 
-		If oEnvironment.Item("PHASE") = "" then
+		If oEnvironment.Item("PHASE") = "" or (oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1") then
 
 			If oEnv("SystemDrive") = "X:" then  ' Running in PE
 			
@@ -382,7 +384,11 @@ Class Litetouch
 			Else
 			
 				oEnvironment.Item("PHASE") = "VALIDATION"
-				If oEnvironment.Item("DeploymentType") = "" then
+				If oEnvironment.Item("IsOSUpgrade") = "1" then
+					oEnvironment.Item("DeploymentType") = "UPGRADE"					
+					oEnvironment.Item("PHASE") = ""
+					oLogging.CreateEntry "This is Upgrade, setting Phase =  (empty)" & oEnvironment.Item("Phase"), LogTypeInfo
+				ElseIf oEnvironment.Item("DeploymentType") = "" then				
 					oEnvironment.Item("DeploymentType") = "REFRESH"
 				End if
 
@@ -596,7 +602,7 @@ Class Litetouch
 			' Validate the DeploymentType value
 
 			Select Case UCase(oEnvironment.Item("DeploymentType"))
-			Case "NEWCOMPUTER", "REFRESH", "REPLACE", "CUSTOM", "STATERESTORE"
+			Case "NEWCOMPUTER", "REFRESH", "REPLACE", "CUSTOM", "STATERESTORE", "UPGRADE"
 
 				oLogging.CreateEntry "Validated DeploymentType, value = " & oEnvironment.Item("DeploymentType"), LogTypeVerbose
 
@@ -619,7 +625,10 @@ Class Litetouch
 					SetPropertyDefault "JoinWorkgroup", "WorkGroup", "Join basic workgroup"
 					
 				End if
-
+				
+				If UCase(oEnvironment.Item("DeploymentType")) =  "UPGRADE" and oEnvironment.Item("IsOSUpgrade") = "" then
+					SetPropertyDefault "IsOSUpgrade", "1", "Wizard is skipped and we are performing upgrade, setting IsOSUpgrade = 1"
+				End if
 
 				SetPropertyDefault "ComputerBackupLocation", "NONE", "Do not backup"
 				SetPropertyDefault "UserDataLocation", "NONE", "Empty Strings break automation"
@@ -770,7 +779,7 @@ Class Litetouch
 			
 				oUtility.VerifyPathExists sTSPath & "\00000409"
 				
-				For each sFile in Array("CcmCore.dll","CcmUtilLib.dll","Smsboot.exe","SmsCore.dll","TsCore.dll","TSEnv.exe","TsManager.exe","TsmBootstrap.exe","TsMessaging.dll","TsProgressUI.exe","TSResNlc.dll","xprslib.dll","00000409\tsres.dll")
+				For each sFile in Array("CcmCore.dll","CcmUtilLib.dll","Smsboot.exe","SmsCore.dll","TsCore.dll","TSEnv.exe","TsManager.exe","TsmBootstrap.exe","TsMessaging.dll","TsProgressUI.exe","TSResNlc.dll","msvcp120.dll","msvcr120.dll","CommonUtils.dll","ccmgencert.dll","00000409\tsres.dll")
 				
 					oLogging.CreateEntry "Copying " & sSource & "\" & sFile & " to " & sTSPath & "\" & sFile, LogTypeInfo
 					oFSO.CopyFile sSource & "\" & sFile, sTSPath & "\" & sFile, true
@@ -808,8 +817,7 @@ Class Litetouch
 		On error resume next
 		oUtility.BDDUtility.KeepAlive
 		On error goto 0
-
-
+	
 		' Wait for the shell if necessary
 
 		If UCase(oEnvironment.Item("HideShell")) = "YES" then
@@ -817,19 +825,18 @@ Class Litetouch
 			oUtility.BDDUtility.WaitForShell
 			On Error Goto 0
 		End if
-
-
+		
 		'Set the Max SMSTS.LOG size
-
-		ExtendSMSTSLogSize
-
-
+		
+			ExtendSMSTSLogSize				
+		
+	
 		' Run the task sequence
 
 		If bTSInProgress then
 
 			' Resume the task sequence
-
+			
 			oUtility.GetOSTargetDriveLetterEx False
 			sCmd = """" & sTSPath & "\TsmBootstrap.exe"" /env:SAContinue"
 			
@@ -840,7 +847,6 @@ Class Litetouch
 			sCmd = """" & sTSPath & "\TsmBootstrap.exe"" /env:SAStart"
 			
 		End if
-
 
 		oLogging.CreateEntry "About to run command: " & sCmd, LogTypeInfo
 
@@ -865,7 +871,7 @@ Class Litetouch
 
 		oLogging.CreateEntry "Command completed, return code = " & iRetVal, LogTypeInfo
 
-
+		
 		' Reboot if requested
 
 		If (iRetVal = -2147021886) then
@@ -891,11 +897,11 @@ Class Litetouch
 					WScript.Quit 0
 
 			Else
-				If oEnvironment.Item("BootPE") <> "True" then
+				If oEnvironment.Item("BootPE") <> "True" and oEnvironment.Item("IsOSUpgrade") <> "1" then
 					PopulateAutoAdminLogon
 				End If
 				If oEnvironment.Item("LTISuspend") = "" then
-					If OEnvironment.Item("BootPE") <> "True" then
+					If OEnvironment.Item("BootPE") <> "True" and oEnvironment.Item("IsOSUpgrade") <> "1" then
 						SetStartMDT
 					End If
 					'Reset the variable
@@ -912,129 +918,131 @@ Class Litetouch
 				End if
 				
 			End if
-
-		Else ' Process is complete
-
-			' Send an event
-
-			If iRetVal = 0 then
-			
-				oLogging.CreateEvent 41015, LogTypeInfo, "LTI deployment completed successfully", Array("0")
-				If ucase(oEnvironment.Item("_DoNotCleanLiteTouch")) = "TRUE" then
+		' Process is complete
+		Else
+		
+				' Send an event	
+				On Error Resume Next				
+				sUpgradeFailureCode = oShell.RegRead("HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Windows\Win10UpgradeStatusCode")
 				
-					bIsOEM = True
+				If sUpgradeFailureCode <> "" and ucase(sUpgradeFailureCode) = "FAILURE" then
+					oLogging.CreateEvent 41014, LogTypeError, "Litetouch deployment failed during Upgrade " , Array()
+					oLogging.CreateEntry "For more information, consult the task sequencer log ...\SMSTS.LOG.", LogTypeInfo
+					iRetVal = oEnvironment.Item("UpgradeErrorReturnCode")
 					
-				End if
-				
-			Else
-			
-				oLogging.CreateEvent 41014, LogTypeError, "Litetouch deployment failed, Return Code = " & PrnErrValue ( iRetval ), Array(CStr(iRetVal))
-				oLogging.CreateEntry "For more information, consult the task sequencer log ...\SMSTS.LOG.", LogTypeInfo
-				
-			End if
-
-
-			' Pass the return code to the wizard
-
-			oEnvironment.Item("RetVal") = Trim(CStr(iRetVal))
-
-
-			' Copy the logs
-
-			oLogging.CopyLog
-
-
-			' Save variables that we need
-
-			sFinishAction = oEnvironment.Item("FinishAction")
-			bSkipFinalSummary = UCase(oEnvironment.Item("SkipFinalSummary")) = "YES"
-			bIsServerCoreOS = UCase(oEnvironment.Item("IsServerCoreOS")) = "TRUE"
-			sDisableDiskMgr = oEnvironment.Item("DisableTaskMgr")
-
-
-			' Copy needed summary wizard files to %TEMP%\DeploymentScripts
-
-			If (bSkipFinalSummary and iRetVal = 0) or bIsServerCoreOS then
-				' Do nothing
-			Else
-				oUtility.VerifyPathExists oEnvironment.Substitute("%TEMP%\DeploymentScripts")
-				For each sFile in Array("Wizard.hta", "Wizard.css", "Wizard.ico", "ZTIUtility.vbs", "WizUtility.vbs", "ZTIConfigFile.vbs", "ZTIDiskUtility.vbs", "ZTIDataAccess.vbs", "header-image.png", "Computer.png", "Summary_Definition_ENU.xml", "Summary_Scripts.vbs", "plusicon.gif", "minusico.gif")
-					oFSO.CopyFile oEnv("ScriptRoot") & "\" & sFile, oEnvironment.Substitute("%TEMP%\DeploymentScripts") & "\" & sFile, true					
-				Next
-			End if
-
-
-			' Clean up
-
-			Cleanup
-
-
-			' Display the final summary wizard (unless skipped)
-
-			If (not bSkipFinalSummary) or iRetVal <> 0 then
-
-				If bIsServerCoreOS then
+				ElseIf iRetVal = 0 then				
 					
-					If iRetVal = 0 then
+					oLogging.CreateEvent 41015, LogTypeInfo, "LTI deployment completed successfully", Array("0")
+					If ucase(oEnvironment.Item("_DoNotCleanLiteTouch")) = "TRUE" then
+					
+						bIsOEM = True
 						
-						oShell.Popup "Deployment completed successfully.  Review deployment logs for full details.", 0, "Successful Deployment", 64
-							
-					Else
-						
-						oShell.Popup "Deployment did not complete successfully.  Review deployment logs for full details.", 0, "Failed Deployment", 48
-							
 					End if
-						
-				ElseIf bIsOEM = True then
-			
-					i = oShell.Popup ( "The OEM Image has been copied to the local machine. Now ready for replication." & _
-						vbNewLine & vbNewLine & "Press OK (Enter) to shutdown (Default automatic shutdown in 20 minutes)." & _
-						vbNewLine & "Press Cancel (Esc) to exit." , 20 * 60, "Finished!", vbOKCancel )
 					
-					If i <> vbCancel then
-						sFinishAction = "SHUTDOWN"
-					End if
-				
 				Else
+						oLogging.CreateEvent 41014, LogTypeError, "Litetouch deployment failed, Return Code = " & PrnErrValue ( iRetval ), Array(CStr(iRetVal))
+						oLogging.CreateEntry "For more information, consult the task sequencer log ...\SMSTS.LOG.", LogTypeInfo					
 
-					' Display the wizard
+				End if
+				
+				' Pass the return code to the wizard
+				oEnvironment.Item("RetVal") = Trim(CStr(iRetVal))
+
+				' Copy the logs
+
+				oLogging.CopyLog
+
+
+				' Save variables that we need				
+
+				sFinishAction = oEnvironment.Item("FinishAction")
+				bSkipFinalSummary = UCase(oEnvironment.Item("SkipFinalSummary")) = "YES"
+				bIsServerCoreOS = UCase(oEnvironment.Item("IsServerCoreOS")) = "TRUE"
+				sDisableDiskMgr = oEnvironment.Item("DisableTaskMgr")
+
+
+				' Copy needed summary wizard files to %TEMP%\DeploymentScripts
+				If (bSkipFinalSummary and iRetVal = 0) or bIsServerCoreOS then
+					' Do nothing
+				Else
 					
-					sCmd = "MSHTA.exe """ & oEnvironment.Substitute("%TEMP%\DeploymentScripts") & "\Wizard.hta"" /definition:Summary_Definition_ENU.xml"
-					oShell.Run sCmd, 1, true
-
-
-					' Clean up the scripts
-
-					oFileHandling.RemoveFolderEx oEnvironment.Substitute("%TEMP%\DeploymentScripts"), oLogging.Debug
-
+					oUtility.VerifyPathExists oEnvironment.Substitute("%TEMP%\DeploymentScripts")
+					For each sFile in Array("Wizard.hta", "Wizard.css", "Wizard.ico", "ZTIUtility.vbs", "WizUtility.vbs", "ZTIConfigFile.vbs", "ZTIDiskUtility.vbs", "ZTIDataAccess.vbs", "header-image.png", "Computer.png", "Summary_Definition_ENU.xml", "Summary_Scripts.vbs", "plusicon.gif", "minusico.gif")
+						oFSO.CopyFile oEnv("ScriptRoot") & "\" & sFile, oEnvironment.Substitute("%TEMP%\DeploymentScripts") & "\" & sFile, true					
+					Next					
 				End if
 
 
-				' Clean up any files created since the initial full cleanup
+				' Clean up
 				
-				oFileHandling.RemoveFolderEx oUtility.LocalRootPath, oLogging.Debug
+				Cleanup
+
+
+				' Display the final summary wizard (unless skipped)
+
+				If (not bSkipFinalSummary) or iRetVal <> 0 then
+
+					If bIsServerCoreOS then
+						
+						If iRetVal = 0 then
+							
+							oShell.Popup "Deployment completed successfully.  Review deployment logs for full details.", 0, "Successful Deployment", 64
 								
+						Else
+							
+							oShell.Popup "Deployment did not complete successfully.  Review deployment logs for full details.", 0, "Failed Deployment", 48
+								
+						End if
+							
+					ElseIf bIsOEM = True then
+				
+						i = oShell.Popup ( "The OEM Image has been copied to the local machine. Now ready for replication." & _
+							vbNewLine & vbNewLine & "Press OK (Enter) to shutdown (Default automatic shutdown in 20 minutes)." & _
+							vbNewLine & "Press Cancel (Esc) to exit." , 20 * 60, "Finished!", vbOKCancel )
+						
+						If i <> vbCancel then
+							sFinishAction = "SHUTDOWN"
+						End if
 					
-			End If
+					Else
 
-			
-			' Enable TaskMgr if it was disabled during the task sequence
-			
-			if UCase(sDisableDiskMgr) = "YES" then
-				oShell.RegWrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableTaskMgr", 0, "REG_DWORD"
-			End if		
+						' Display the wizard
+						
+						sCmd = "MSHTA.exe """ & oEnvironment.Substitute("%TEMP%\DeploymentScripts") & "\Wizard.hta"" /definition:Summary_Definition_ENU.xml"
+						oShell.Run sCmd, 1, true
 
-			' Process the finish action
 
-			Select Case UCase(sFinishAction)
-			Case "SHUTDOWN"
-				Shutdown
-			Case "RESTART", "REBOOT"
-				Reboot
-			Case "LOGOFF"
-				Logoff
-			End Select
+						' Clean up the scripts
 
+						oFileHandling.RemoveFolderEx oEnvironment.Substitute("%TEMP%\DeploymentScripts"), oLogging.Debug
+
+					End if
+
+
+					' Clean up any files created since the initial full cleanup
+					
+					oFileHandling.RemoveFolderEx oUtility.LocalRootPath, oLogging.Debug
+									
+						
+				End If
+
+				
+				' Enable TaskMgr if it was disabled during the task sequence
+				
+				if UCase(sDisableDiskMgr) = "YES" then
+					oShell.RegWrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableTaskMgr", 0, "REG_DWORD"
+				End if		
+
+				' Process the finish action
+
+				Select Case UCase(sFinishAction)
+				Case "SHUTDOWN"
+					Shutdown
+				Case "RESTART", "REBOOT"
+					Reboot
+				Case "LOGOFF"
+					Logoff
+				End Select
 		End if
 
 
@@ -1717,6 +1725,5 @@ Class Litetouch
 	End function
 
 End Class
-
    </script>
 </job>

@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIApplications.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Install a list of applications
 ' // 
@@ -375,15 +375,13 @@ Class ZTIApplications
 		' Install the specified application
 
 		bModern = False
+		sCmd = ""
 		If oNode.selectSingleNode("CommandLine") is Nothing then
-			sCmd = ""
+			' Do nothing
 		ElseIf oUtility.SelectSingleNodeString(oNode,"CommandLine") <> "" then
-			If UCase(Right(oUtility.SelectSingleNodeString(oNode,"CommandLine"),5)) = ".APPX" then
+			sCmd = oUtility.SelectSingleNodeString(oNode,"CommandLine")
+			If UCase(Right(sCmd,5)) = ".APPX" or UCase(Right(sCmd,11)) = ".APPXBUNDLE" then
 				bModern = True
-				CheckAppXPolicy
-				sCmd = "DISM.EXE /online /Add-ProvisionedAppxPackage /PackagePath:""" & oUtility.SelectSingleNodeString(oNode,"CommandLine") & """ /SkipLicense"
-			Else 
-				sCmd = sBDDRun & " " & oEnvironment.Substitute(oUtility.SelectSingleNodeString(oNode,"CommandLine"))
 			End if
 		End if
 
@@ -394,7 +392,6 @@ Class ZTIApplications
 
 			sDir = oUtility.SelectSingleNodeString(oNode,"WorkingDirectory")
 			If Trim(sDir) <> "" and Trim(sDir) <> "." then
-
 
 				If Left(sDir, 2) = ".\" then
 					If (Instr(1, sCmd, ".CMD", 1) > 0 or Instr(1, sCmd, ".BAT", 1) > 0) and oEnvironment.Item("ResourceDrive") <> "" then
@@ -422,21 +419,23 @@ Class ZTIApplications
 				End if
 				On Error Goto 0
 
-
-				' If installing a modern app, make sure the certs in the working directory are imported
-
-				If bModern then
-					InstallCerts sDir
-				End if
-
 			End if
+		End if
+
+
+		' Build the command line
+
+		If bModern then
+			sCmd = BuildAppxCommand(sDir, oNode)
+		ElseIf sCmd <> "" then
+			sCmd = sBDDRun & " " & oEnvironment.Substitute(sCmd)
 		End if
 
 
 		' Launch Command
 
 		If sCmd = "" then
-			oLogging.CreateEntry vbTab & vbTab & "Run Command is missing. ", LogTypeInfo
+			oLogging.CreateEntry vbTab & vbTab & "Run Command is missing (application bundle). ", LogTypeInfo
 		Else
 			oLogging.ReportProgress "Installing " & oUtility.SelectSingleNodeString(oNode,"Name"), iPercent
 			oLogging.CreateEntry vbTab & vbTab & "Run Command: " & sCmd, LogTypeInfo
@@ -493,22 +492,77 @@ Class ZTIApplications
 	End Function
 	
 
-	Function CheckAppXPolicy
-		oShell.RegWrite "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Appx\AllowAllTrustedApps", 1, "REG_DWORD"
-	End function
-
-
-	Function InstallCerts(sDir)
-		Dim iRC
-		Dim oFile
+	Function BuildAppxCommand(sDir, oNode)
 		Dim sCmd
+		Dim sWorkingDir
+		Dim sDependencyArch
+		Dim oFile
+		Dim bFoundLicense
+		Dim iRC
+		Dim sCertCmd
 
-		For each oFile in oFSO.GetFolder(sDir).Files
+
+		' Make sure policy is set
+
+		oShell.RegWrite "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Appx\AllowAllTrustedApps", 1, "REG_DWORD"
+
+
+		' Build the base command line
+
+		sCmd = "DISM.EXE /online /Add-ProvisionedAppxPackage /PackagePath:""" & oUtility.SelectSingleNodeString(oNode,"CommandLine") & """ "
+
+
+		' Determine where to check
+
+		If sDir = "" then
+			sWorkingDir = oFSO.GetParentFolderName(oUtility.SelectSingleNodeString(oNode,"CommandLine"))
+		Else
+			sWorkingDir = sDir
+		End if
+
+
+		' Add dependencies
+
+		If oFSO.FolderExists(sWorkingDir & "\Dependencies") then
+			For each sDependencyArch in Array("x86", "x64", ".")
+				For each oFile in oFSO.GetFolder(sWorkingDir & "\Dependencies\" & sDependencyArch).Files
+					If UCase(Right(oFile.Name,4)) = ".APPX" then
+						sCmd = sCmd & " /DependencyPackagePath:""" & oFile.Path & """"
+					End if
+				Next
+			Next
+		End if
+
+
+		' Add license
+
+		bFoundLicense = False
+		If oFSO.FolderExists(sWorkingDir) then
+			For each oFile in oFSO.GetFolder(sWorkingDir).Files
+				If UCase(Right(oFile.Name,3)) = ".XML" then
+					sCmd = sCmd & " /LicensePath:""" & oFile.Path & """"
+					bFoundLicense = True
+				End if
+			Next
+		End if
+		If not bFoundLicense then
+			sCmd = sCmd & " /SkipLicense"
+		End if
+
+
+		' Return the command line
+
+		BuildAppxCommand = sCmd
+
+
+		' Install any certs that are found in the working directory
+
+		For each oFile in oFSO.GetFolder(sWorkingDir).Files
 			If UCase(Right(oFile.Name,4)) = ".CER" then
 
-				sCmd = "certutil.exe -addstore root """ & oFile.Path & """"
-				oLogging.CreateEntry "Importing certificate: " & sCmd, LogTypeInfo
-				iRC = oShell.Run(sCmd, 0, true)
+				sCertCmd = "certutil.exe -addstore root """ & oFile.Path & """"
+				oLogging.CreateEntry "Importing certificate: " & sCertCmd, LogTypeInfo
+				iRC = oShell.Run(sCertCmd, 0, true)
 				oLogging.CreateEntry "Return code from CERTUTIL = " & iRC, LogTypeInfo
 				
 			End if

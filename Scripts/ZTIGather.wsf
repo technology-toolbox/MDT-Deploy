@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIGather.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Gather information and process rules controlling deployment
 ' //            process.
@@ -348,14 +348,15 @@ Class ZTIGather
 			Case "3790"
 				sOSVersion = "2003"
 			Case Else
-
-				If Left(sOSCurrentVersion, 3) = "6.1" Then
+				
+				oUtility.GetMajorMinorVersion(sOSCurrentVersion)
+				If oUtility.VersionMajor = 6 and oUtility.VersionMinor = 1  Then
 					If bIsServerOS then
 						sOSVersion = "2008R2"
 					Else
 						sOSVersion = "Win7Client"
 					End if
-				ElseIf Left(sOSCurrentVersion, 3) = "6.0" Then
+				ElseIf oUtility.VersionMajor = 6 and oUtility.VersionMinor = 0  Then
 					If bIsServerOS then
 						sOSVersion = "2008"
 					Else
@@ -673,9 +674,11 @@ Class ZTIGather
 
 			Set oInstances = objWMI.ExecQuery("select * from Win32_OperatingSystem")
 			For Each oInstance In oInstances
-				sOSVersion = oInstance.Version
-
-				If Left(sOSVersion,1) < "6" Then
+				sOSVersion = oInstance.Version				
+				oUtility.GetMajorMinorVersion(sOSVersion)
+				If(oUtility.VersionMajor >= 6 ) Then
+					sOperatingSystemSKU = oInstance.OperatingSystemSKU
+				ElseIf oUtility.VersionMajor < 6  Then				
 					sOSProductSuite = ""
 					on error resume next
 					sOSProductSuite = Cint(oInstance.OSProductSuite)
@@ -834,6 +837,18 @@ Class ZTIGather
 				sSKU = "ULTIMATEE"
 			Case "74"
 				sSKU = "PRERELEASE"
+			Case "78"
+				sSKU = "ENTERPRISEEVAL"
+			Case "121"
+				sSKU = "EDUCATION"
+			Case "122"
+				sSKU = "EDUCATIONN"
+			Case "125"
+				sSKU = "ENTERPRISES"
+			Case "126"
+				sSKU = "ENTERPRISESN"
+			Case "129"
+				sSKU = "ENTERPRISESEVAL"
 			Case else
 				oLogging.CreateEntry "Unknown OS SKU = " & sOperatingSystemSKU, LogTypeInfo
 			End Select
@@ -1316,8 +1331,9 @@ Class ZTIGather
 		Dim iStatus, iPercent
 
 		bIsBDE = False
-
-		If oEnvironment.Item("OSCurrentBuild") >= "6000" then
+		
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))		
+		If oUtility.BuildNumber >= 6000 then
 
 			' Connect to the Bitlocker WMI object
 
@@ -1509,7 +1525,7 @@ Class ZTIGather
 			oLogging.CreateEntry "Unable to locate ZTIGather.xml, skipping", LogTypeInfo
 		Else
 
-			Set oGatherXML = CreateObject("MSXML2.DOMDocument")
+			Set oGatherXML = oUtility.GetMSXMLDOMDocument
 			oGatherXML.load sGatherXML
 
 

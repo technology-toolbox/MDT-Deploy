@@ -7,7 +7,7 @@
 ' //
 ' // File:      ZTIDataAccess.vbs
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Common Routines for Database Access
 ' // 
@@ -835,7 +835,7 @@ Class WebService
 
 
 		Set oHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-		Set oReturn = CreateObject("MSXML2.DOMDocument")
+		Set oReturn = oUtility.GetMSXMLDOMDocument
 		oReturn.setProperty "SelectionLanguage", "XPath"
 		If sMethod = "REST" then
 			oReturn.setProperty "SelectionNamespaces", "xmlns:d='http://schemas.microsoft.com/ado/2007/08/dataservices'"

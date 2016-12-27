@@ -10,7 +10,7 @@
 ' //
 ' // File:      ZTIApplyGPOPack.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Install GPO Pack created using Security Configuration Manager (SCM)
 ' // 
@@ -57,7 +57,6 @@ Class ZTIApplyGPOPack
 	
 		Dim sGPOPackPath
 		Dim sGPOPackFullPath
-		Dim sOSVersion
 		Dim sOS
 		Dim bStandard
 
@@ -83,31 +82,40 @@ Class ZTIApplyGPOPack
 			bStandard = False
 		Else
 			'// Generate path automatically based on OS type using default MDT GPO Packs
-			sOSVersion = oEnvironment.Item("OSCurrentVersion")
-			If (Left(sOSVersion,3) = "6.2") and oEnvironment.Item("IsServerOS") then 
-				sOS = "WS2012RTM"
-				oLogging.CreateEntry "Using Default Windows Server 2012 RTM GPO Pack", LogTypeInfo
-			ElseIf (Left(sOSVersion,3) = "6.2") and Not(oEnvironment.Item("IsServerOS")) then 
-				sOS = "Win8RTM"
-				oLogging.CreateEntry "Using Default Windows 8 RTM GPO Pack", LogTypeInfo
-			ElseIf (Left(sOSVersion,3) = "6.1") and oEnvironment.Item("IsServerOS") then 
-				sOS = "WS2008R2SP1"
-				oLogging.CreateEntry "Using Default Windows 2008 R2 SP1 GPO Pack", LogTypeInfo
-			ElseIf (Left(sOSVersion,3) = "6.1") and Not(oEnvironment.Item("IsServerOS")) then 
-				sOS = "Win7SP1"
-				oLogging.CreateEntry "Using Default Windows 7 SP1 GPO Pack", LogTypeInfo
-			ElseIf (Left(sOSVersion,3) = "6.0") and oEnvironment.Item("IsServerOS") then 
-				sOS = "WS2008SP2"
-				oLogging.CreateEntry "Using Default Windows 2008 SP2 GPO Pack", LogTypeInfo
-			ElseIf (Left(sOSVersion,3) = "6.0") and Not(oEnvironment.Item("IsServerOS")) then 
-				sOS = "WinVistaSP2"
-				oLogging.CreateEntry "Using Default Windows Vista SP2 GPO Pack", LogTypeInfo
-			Else
-				'// Version matching default GPO Pack not found
-				oLogging.CreateEntry "Default MDT GPO Pack not supplied for this operating system.", LogTypeInfo
-				Main = Success
-				Exit Function
-			End If
+			
+			' Get major and minor version 
+			If oEnvironment.Item("OSCurrentVersion") <> "" then
+				oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+
+				If (oUtility.VersionMajor = 10 and oUtility.VersionMinor = 0 ) and Not oEnvironment.Item("IsServerOS") then 
+					sOS = "Win10RTM"
+					oLogging.CreateEntry "Using Default Windows 10 RTM GPO Pack", LogTypeInfo
+				ElseIf (oUtility.VersionMajor  = 6 and oUtility.VersionMinor = 3 ) and oEnvironment.Item("IsServerOS") then 
+					sOS = "WS2012R2"
+					oLogging.CreateEntry "Using Default Windows Server 2012 RTM GPO Pack", LogTypeInfo
+				ElseIf (oUtility.VersionMajor  = 6 and oUtility.VersionMinor = 3) and Not(oEnvironment.Item("IsServerOS")) then 
+					sOS = "Win81RTM"
+					oLogging.CreateEntry "Using Default Windows 8.1 RTM GPO Pack", LogTypeInfo
+				ElseIf (oUtility.VersionMajor  = 6 and oUtility.VersionMinor = 2 ) and oEnvironment.Item("IsServerOS") then 
+					sOS = "WS2012RTM"
+					oLogging.CreateEntry "Using Default Windows Server 2012 RTM GPO Pack", LogTypeInfo
+				ElseIf (oUtility.VersionMajor  = 6 and oUtility.VersionMinor = 2) and Not(oEnvironment.Item("IsServerOS")) then 
+					sOS = "Win8RTM"
+					oLogging.CreateEntry "Using Default Windows 8 RTM GPO Pack", LogTypeInfo
+				ElseIf (oUtility.VersionMajor  = 6 and oUtility.VersionMinor = 1) and oEnvironment.Item("IsServerOS") then 
+					sOS = "WS2008R2SP1"
+					oLogging.CreateEntry "Using Default Windows 2008 R2 SP1 GPO Pack", LogTypeInfo
+				ElseIf (oUtility.VersionMajor  = 6 and oUtility.VersionMinor = 1) and Not(oEnvironment.Item("IsServerOS")) then 
+					sOS = "Win7SP1"
+					oLogging.CreateEntry "Using Default Windows 7 SP1 GPO Pack", LogTypeInfo
+				Else
+					'// Version matching default GPO Pack not found
+					oLogging.CreateEntry "Default MDT GPO Pack not supplied for this operating system.", LogTypeInfo
+					Main = Success
+					Exit Function
+				End If
+			End if
+
 			sGPOPackPath = sOS & "-MDTGPOPack"
 			oLogging.CreateEntry "Using GPO Pack Path " & sGPOPackPath, LogTypeInfo
 			bStandard = true

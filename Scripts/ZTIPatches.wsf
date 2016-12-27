@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIPatches.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Adds the appropriate OS packages (language packs, security 
 ' //            updates, etc.) to the unattend.xml for offline installation.
@@ -111,7 +111,7 @@ Class ZTIPatches
 			
 		Elseif uCase(oEnvironment.Item("DeploymentMethod")) = "SCCM" then
 		
-			oLogging.CreateEntry "Config Mgr 2007 Patching state." , LogTypeInfo
+			oLogging.CreateEntry "ConfigMgr patching state." , LogTypeInfo
 			
 		Else
 
@@ -186,7 +186,7 @@ Class ZTIPatches
 			'
 			
 			set dAllPackages = oXMLPackageList.FindAllItems
-			If dAllPackages.count =  0then
+			If dAllPackages.count = 0 then
 				oLogging.CreateEntry "Unable to find the Packages.xml file, assuming there are no packages to inject.", LogTypeInfo
 			End if
 
@@ -199,6 +199,7 @@ Class ZTIPatches
 		oLogging.CreateEntry "Adding non-language pack entries to unattend.xml", LogTypeInfo
 		set oPatches = oXMLPackageList.FindItemsEx("//*/*[PackageType != 'LanguagePack' and ProcessorArchitecture = '" & sPlatform & "' and " & oXMLPackageList.XPathFilterString( TRUE, empty)  & "]")
 		If oPatches.count > 0 then
+			oLogging.CreateEntry "Found " & oPatches.count & " matching non-language pack entries.", LogTypeInfo
 			If not BuildXML(sUnattendXml, oPatches.Keys) then
 				Exit function
 			End if
@@ -218,13 +219,18 @@ Class ZTIPatches
 		If oFSO.FileExists(oUtility.LocalRootPath & "\packages.xml") Then
 			oFSO.DeleteFile(oUtility.LocalRootPath & "\packages.xml")
 		End if
+		If oFSO.FileExists(oUtility.LocalRootPath & "\packageGroups.xml") Then
+			oFSO.DeleteFile(oUtility.LocalRootPath & "\packageGroups.xml")
+		End if
 
 
 		' For ConfigMgr, run DISM to install language packs and hotfixes and to inject drivers
 
 		If UCase(oEnvironment.Item("DeploymentMethod")) = "SCCM" and Instr(1,sUnattendxml,"Windows\Panther\unattend", 1) then
 			iRetVal = RunDISM(sUnattendDrive, sUnattendXml)
-			TestAndLog iRetVal, "Offline servicing using DISM" 
+			If iRetVal <> 0 then
+				oLogging.CreateEntry "ERROR: Unexpected return code from DISM.EXE, rc = " & iRetVal & ".  Check the DISM log for more information", LogTypeError
+			End if
 		End if
 
 		Main = Success
@@ -286,27 +292,32 @@ Class ZTIPatches
 	Function BuildXML( XMLFile, PatchGUIDs )
 
 		Dim xmlDoc, oServicingRoot, oPackageRoot, oAssembly, oSource, oPackage
-		Dim item, PatchGUID, count, f, fIsoServicingExisting
+		Dim item, PatchGUID, count, f, fIsServicingExisting
 		Dim RelativePathToPackage
 
 		Set xmlDoc = outility.CreateXMLDOMObjectEx( XMLFile )
+		xmlDoc.setProperty "SelectionNamespaces", "xmlns:unattend='urn:schemas-microsoft-com:unattend'"
 
 		BuildXML = TRUE
 
-		fIsoServicingExisting = TRUE
-		set oServicingRoot =  xmlDoc.selectSingleNode( "//unattend/servicing" )
+		fIsServicingExisting = TRUE
+		set oServicingRoot =  xmlDoc.selectSingleNode( "//unattend:unattend/unattend:servicing" )
 
 		If oServicingRoot is nothing then
-			fIsoServicingExisting = false
+			oLogging.CreateEntry "No <servicing> node found, adding a new one.", LogTypeInfo
+			fIsServicingExisting = false
 			Set oServicingRoot = xmlDoc.createElement("servicing")
 
 		ElseIf Not oServicingRoot.hasChildNodes() Then
+			oLogging.CreateEntry "An empty <servicing> node was found, removing and recreating.", LogTypeInfo
 			oServicingRoot.parentNode.removeChild oServicingRoot
 
-			fIsoServicingExisting = false
+			fIsServicingExisting = false
 			Set oServicingRoot = xmlDoc.createElement("servicing")
 
 		Else
+			oLogging.CreateEntry "An existing <servicing> node was found.", LogTypeInfo
+
 			xmlDoc.documentElement.insertBefore oServicingRoot, xmlDoc.documentElement.childNodes.item(0)
 		End if
 
@@ -378,7 +389,7 @@ Class ZTIPatches
 			Exit function
 		End if
 
-		If not fIsoServicingExisting then
+		If not fIsServicingExisting then
 			xmlDoc.documentElement.insertBefore oServicingRoot, xmlDoc.documentElement.childNodes.item(0)
 		End if
 
@@ -386,7 +397,7 @@ Class ZTIPatches
 		' Remove extra xmlns="" entry and save the XML
 		oLogging.CreateEntry "Ready to Save!", LogTypeInfo
 
-		Set f = oFso.CreateTextFile( XMLFile, TRUE )
+		Set f = oFso.CreateTextFile( XMLFile, TRUE, TRUE )
 		f.Write Replace( xmlDoc.xml, " xmlns=""""", "" , vbTextCompare)
 		f.Close
 		Set f = nothing
@@ -473,8 +484,10 @@ Class ZTIPatches
 					If oFSO.FileExists(sTempPath & "\update.mum") then
 
 						Set oUpdate = oUtility.CreateXMLDOMObjectEx(sTempPath & "\update.mum")
-						Set oNode = oUpdate.SelectSingleNode("//assembly/assemblyIdentity")
-						Set oNode2= OUpdate.SelectSingleNode("//assembly/package")
+						oUpdate.setProperty "SelectionNamespaces", "xmlns:asm='urn:schemas-microsoft-com:asm.v3'"
+
+						Set oNode = oUpdate.SelectSingleNode("//asm:assembly/asm:assemblyIdentity")
+						Set oNode2= OUpdate.SelectSingleNode("//asm:assembly/asm:package")
 
 						oLogging.CreateEntry "     Create Package Item : " & oNode.Attributes.getNamedItem("name").value , LogTypeInfo
 

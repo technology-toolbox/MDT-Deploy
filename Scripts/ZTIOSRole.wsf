@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIOSRole.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
 ' // Purpose:   Install or remove the specified operating system roles
 ' // 
@@ -65,6 +65,7 @@ Class ZTIOSRole
 		Dim iRetVal
 		Dim sServerManager
 		Dim oServerManagerDoc
+		Dim iOSCVerMajor
 
 		iRetVal = Success
 
@@ -136,91 +137,111 @@ Class ZTIOSRole
 
 
 		' Process the requested roles using the appropriate method depending on the running OS
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		iOSCVerMajor = oUtility.VersionMajor	
+		
+		If iOSCVerMajor = 10 then
 
-		Select Case Left(oEnvironment.Item("OSCurrentVersion"), 3)
-		Case "5.2"
+			If (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
 
-			'Process Server 2003 roles
-			iRetVal = ProcessServer2k3Roles()
-			TestAndLog iRetVal, "Server 2003 Role Processing"
-			
-		Case "6.0"
-
-			If (UCASE(oEnvironment.Item("IsServerCoreOS")) = "TRUE") then
-
-				' Perform Server core Role Processing
-				iRetVal = ProcessList("CORE")
-				TestAndLog iRetVal, "Server 2008 Core Role Processing"
-
-			ElseIf (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
-
-				' Perform Longhorn Server Role Processing
-				iRetVal = ProcessLHRoles()
-				TestAndLog iRetVal, "Server 2008 Role Processing" 
+				' Use PowerShell to process roles, regardless of full vs. core
+				iRetVal = ProcessList("PS")
+				TestAndLog iRetVal, "Server 10 Role Processing"
 
 			Else
-				oLogging.CreateEntry "Windows Vista is not presently supported.", LogTypeInfo
+
+				' Use DISM to process roles
+				iRetVal = ProcessList("DISM")
+				TestAndLog iRetVal, "DISM Role Processing"
+
 			End if
-
+		Else
+			Select Case Left(oEnvironment.Item("OSCurrentVersion"), 3)		
 			
-		Case "6.1"
+			Case "5.2"
 
-			If (UCASE(oEnvironment.Item("IsServerCoreOS")) = "TRUE") then
-
-				' Perform Server core Role Processing
-				iRetVal = ProcessList("CORE")
-				TestAndLog iRetVal, "Server 2008 R2 Core Role Processing"
+				'Process Server 2003 roles
+				iRetVal = ProcessServer2k3Roles()
+				TestAndLog iRetVal, "Server 2003 Role Processing"
 				
-			ElseIf (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
+			Case "6.0"
 
-				' Use PowerShell to process roles
-				iRetVal = ProcessList("PS")
-				TestAndLog iRetVal, "Server 2008 R2 Role Processing"
-			Else
+				If (UCASE(oEnvironment.Item("IsServerCoreOS")) = "TRUE") then
 
-				' Perform Windows 7 Feature processing
-				iRetVal = ProcessList("DISM")
+					' Perform Server core Role Processing
+					iRetVal = ProcessList("CORE")
+					TestAndLog iRetVal, "Server 2008 Core Role Processing"
 
-			End if
+				ElseIf (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
+
+					' Perform Longhorn Server Role Processing
+					iRetVal = ProcessLHRoles()
+					TestAndLog iRetVal, "Server 2008 Role Processing" 
+
+				Else
+					oLogging.CreateEntry "Windows Vista is not presently supported.", LogTypeInfo
+				End if
+
+				
+			Case "6.1"
+
+				If (UCASE(oEnvironment.Item("IsServerCoreOS")) = "TRUE") then
+
+					' Perform Server core Role Processing
+					iRetVal = ProcessList("CORE")
+					TestAndLog iRetVal, "Server 2008 R2 Core Role Processing"
+					
+				ElseIf (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
+
+					' Use PowerShell to process roles
+					iRetVal = ProcessList("PS")
+					TestAndLog iRetVal, "Server 2008 R2 Role Processing"
+				Else
+
+					' Perform Windows 7 Feature processing
+					iRetVal = ProcessList("DISM")
+
+				End if
 
 
-		Case "6.2"
+			Case "6.2"
 
-			If (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
+				If (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
 
-				' Use PowerShell to process roles, regardless of full vs. core
-				iRetVal = ProcessList("PS")
-				TestAndLog iRetVal, "Server 8 Role Processing"
+					' Use PowerShell to process roles, regardless of full vs. core
+					iRetVal = ProcessList("PS")
+					TestAndLog iRetVal, "Server 2012 Role Processing"
 
-			Else
+				Else
 
-				' Use DISM to process roles
-				iRetVal = ProcessList("DISM")
-				TestAndLog iRetVal, "DISM Role Processing"
+					' Use DISM to process roles
+					iRetVal = ProcessList("DISM")
+					TestAndLog iRetVal, "DISM Role Processing"
 
-			End if
+				End if
 
-        Case "6.3"
+			Case "6.3"
 
-			If (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
+				If (UCASE(oEnvironment.Item("IsServerOS")) = "TRUE") then
 
-				' Use PowerShell to process roles, regardless of full vs. core
-				iRetVal = ProcessList("PS")
-				TestAndLog iRetVal, "Server Blue Role Processing"
+					' Use PowerShell to process roles, regardless of full vs. core
+					iRetVal = ProcessList("PS")
+					TestAndLog iRetVal, "Server 2012 R2 Role Processing"
 
-			Else
+				Else
 
-				' Use DISM to process roles
-				iRetVal = ProcessList("DISM")
-				TestAndLog iRetVal, "DISM Role Processing"
+					' Use DISM to process roles
+					iRetVal = ProcessList("DISM")
+					TestAndLog iRetVal, "DISM Role Processing"
 
-			End if
-            
-		Case Else
+				End if
+				
+			Case Else
 
-			oLogging.ReportFailure "Unknown OS current version value, unable to install roles. (OSCurrentVersion = " & oEnvironment.Item("OSCurrentVersion") & ")", 9003
+				oLogging.ReportFailure "Unknown OS current version value, unable to install roles. (OSCurrentVersion = " & oEnvironment.Item("OSCurrentVersion") & ")", 9003
 
-		End Select
+			End Select
+		End if
 
 
 		' ---------------------------------------------------------------------------
@@ -693,15 +714,16 @@ Class ZTIOSRole
 
 		' Process the specified role
 
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
 		If bUninstall then
-			If UCase(oEnvironment.Item("CompletelyRemove")) = "TRUE" and Left(oEnvironment.Item("OSCurrentVersion"), 3) >= "6.2" then
+			If UCase(oEnvironment.Item("CompletelyRemove")) = "TRUE" and ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
 				sCmd = sCmd & " /Online /Disable-Feature /Remove /FeatureName:""" & sFeatureName & """"
 			Else
 				sCmd = sCmd & " /Online /Disable-Feature /FeatureName:""" & sFeatureName & """"
 			End if
 		Else
 			sCmd = sCmd & " /Online /Enable-Feature /FeatureName:""" & sFeatureName & """"
-			If Left(oEnvironment.Item("OSCurrentVersion"), 3) >= "6.2" then
+			If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
 
 				' Specify source files if we can find them, otherwise assume the files can be pulled from WU or WSUS.
 				sSource = GetSource
@@ -755,15 +777,17 @@ Class ZTIOSRole
 
 		' Install the specified role
 
+		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
+		
 		If bUninstall then
-			If UCase(oEnvironment.Item("CompletelyRemove")) = "TRUE" and Left(oEnvironment.Item("OSCurrentVersion"), 3) >= "6.2" then
+			If UCase(oEnvironment.Item("CompletelyRemove")) = "TRUE" and ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
 				oEnvironment.Item("Parameters") = "-FeatureName " & sFeatureName & " -Uninstall -CompletelyRemove"
 			Else
 				oEnvironment.Item("Parameters") = "-FeatureName " & sFeatureName & " -Uninstall"
 			End if
 		Else
 			oEnvironment.Item("Parameters") = "-FeatureName " & sFeatureName
-			If Left(oEnvironment.Item("OSCurrentVersion"), 3) >= "6.2" then
+			If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
 
 				' Specify source files if we can find them, otherwise assume the files can be pulled from WU or WSUS.
 				sSource = GetSource

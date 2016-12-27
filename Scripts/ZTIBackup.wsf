@@ -12,9 +12,9 @@
 ' //
 ' // File:      ZTIBackup.wsf
 ' // 
-' // Version:   6.2.5019.0
+' // Version:   6.3.8443.1000
 ' // 
-' // Purpose:   Backup a computer using IMAGEX
+' // Purpose:   Backup a computer using DISM
 ' // 
 ' // Usage:     cscript ZTIBackup.wsf [/debug:true]
 ' // 
@@ -79,7 +79,7 @@ Class ZTIBackup
 		Dim Drive, Partition
 		Dim sPrefix
 		Dim oExec
-
+		Dim sWimScriptPath
 
 
 		iRetVal = Success
@@ -424,33 +424,24 @@ Class ZTIBackup
 						
 				ElseIf oFSO.FolderExists(oDrive.Path) then   ' Skip unformatted disks
 
+					sWimScriptPath = oEnvironment.Item("DeployRoot") & "\Tools\" & oEnvironment.Item("Architecture") & "\wimscript.ini"
+
+
 					' Build the command
 
+					oUtility.VerifyPathExists oUtility.LocalRootPath & "\Scratch"
 					If oFSO.FileExists(sBackupPath) then
-						
-						sCmd = " /append " & oDrive.Path & " """ & sBackupPath & """ """ & sPrefix & Left(oDrive.Path, 1) & "Drive"""
-							
+						sCmd = " /Append-Image /CaptureDir:" & oDrive.Path & " /ImageFile:""" & sBackupPath & """ /Name:""" & sPrefix & Left(oDrive.Path, 1) & "Drive"" /ConfigFile:""" & sWimScriptPath & """ /ScratchDir:""" & oUtility.LocalRootPath & "\Scratch"""
 					Else
-						
-						sCmd = " /capture /compress maximum " & oDrive.Path & " """ & sBackupPath & """ """ & sPrefix & Left(oDrive.Path, 1) & "Drive"""
-							
-					End if
-
-
-					' Add flags value if populated
-
-					If oEnvironment.Item("ImageFlags") <> "" then
-						
-						sCmd = sCmd & " /flags " & oEnvironment.Item("ImageFlags")
-							
+						sCmd = " /Capture-Image /CaptureDir:" & oDrive.Path & "  /ImageFile:""" & sBackupPath & """  /Name:""" & sPrefix & Left(oDrive.Path, 1) & "Drive"" /Compress:MAX /ConfigFile:""" & sWimScriptPath & """ /ScratchDir:""" & oUtility.LocalRootPath & "\Scratch"""
 					End if
 
 
 					' Execute it
 
 					oLogging.CreateEvent 41035, LogTypeInfo, "Beginning backup of drive " & oDrive.Path, Array(oDrive.Path)
-
-					iRc = oUtility.FindExeAndRunWithLogging( "imagex.exe", sCmd )			
+			
+					iRc = oUtility.FindExeAndRunWithLogging( "dism.exe", sCmd )			
 					If iRc <> 0 then
 						
 						oLogging.CreateEvent 41036, LogTypeError, "Error creating an image of drive " & oDrive.Path & ", rc = " & iRc, Array(oDrive.Path, iRc)
