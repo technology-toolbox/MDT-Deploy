@@ -9,7 +9,7 @@
   <UNCPath>\\ICEMAN\MDT-Deploy$</UNCPath>
   <PhysicalPath>
   </PhysicalPath>
-  <MonitorHost>MIMIC</MonitorHost>
+  <MonitorHost>MIMIC2</MonitorHost>
   <MonitorEventPort>9800</MonitorEventPort>
   <MonitorDataPort>9801</MonitorDataPort>
   <Boot.x86.UseBootWim>True</Boot.x86.UseBootWim>
