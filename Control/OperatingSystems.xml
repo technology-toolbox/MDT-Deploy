@@ -125,4 +125,46 @@
     <Size>37866</Size>
     <Language>en-US</Language>
   </os>
+  <os guid="{e97d3592-4e96-4bf5-b651-a8d50fa9e620}" enable="True">
+    <Name>Windows 10 Enterprise (x64) - Baseline</Name>
+    <CreatedTime>1/10/2017 6:21:44 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>1/10/2017 6:21:44 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>10.0.14393.0</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\W10Ent-x64</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\W10Ent-x64\W10ENT-X64-REF_12-28-2016-6-00-09-AM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>W10ENT-X64-REFDDrive</ImageName>
+    <Flags>Enterprise</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>17788</Size>
+    <Language>en-US</Language>
+  </os>
+  <os guid="{0e358b93-30c4-4b54-aa39-ba28146209ef}" enable="True">
+    <Name>Windows Server 2016 Standard - Baseline</Name>
+    <CreatedTime>1/10/2017 6:23:24 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>1/10/2017 6:23:24 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>10.0.14393.0</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\WS2016</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\WS2016\WS2016-REF_1-10-2017-10-35-31-AM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>WS2016-REFDDrive</ImageName>
+    <Flags>ServerStandard</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>18235</Size>
+    <Language>en-US</Language>
+  </os>
 </oss>
