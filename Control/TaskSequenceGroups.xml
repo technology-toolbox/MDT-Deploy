@@ -41,4 +41,20 @@
     <Member>{a92769f2-32ea-4d38-84c1-1aec05f7864f}</Member>
     <Member>{437b851e-096a-4e58-add0-ccf3f06907f2}</Member>
   </group>
+  <group guid="{78032e2b-4e57-4978-b9ab-dda237081238}" enable="True">
+    <Name>Windows 10</Name>
+    <CreatedTime>1/10/2017 6:37:38 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>1/10/2017 6:37:39 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{f7cdedd1-619f-4643-a3c5-1c046ee77148}</Member>
+  </group>
+  <group guid="{bc79c225-d18b-4d42-bd56-7034f4b5c8e7}" enable="True">
+    <Name>Windows Server 2016</Name>
+    <CreatedTime>1/10/2017 6:43:29 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>1/10/2017 6:43:29 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{a20c9682-27f1-48ed-8a3b-cdc1fd25c4e7}</Member>
+  </group>
 </groups>

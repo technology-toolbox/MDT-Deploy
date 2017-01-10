@@ -65,4 +65,26 @@
     <Version>1.0</Version>
     <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
   </ts>
+  <ts guid="{f7cdedd1-619f-4643-a3c5-1c046ee77148}" enable="True">
+    <Name>Windows 10 Enterprise (x64)</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>1/10/2017 6:37:39 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>1/10/2017 6:37:39 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>W10ENT-X64</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+  </ts>
+  <ts guid="{a20c9682-27f1-48ed-8a3b-cdc1fd25c4e7}" enable="True">
+    <Name>Windows Server 2016</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>1/10/2017 6:43:29 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>1/10/2017 6:43:29 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>WS2016</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+  </ts>
 </tss>
