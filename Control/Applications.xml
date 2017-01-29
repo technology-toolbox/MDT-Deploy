@@ -6,7 +6,7 @@
     <LastModifiedTime>4/14/2015 2:51:31 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Adobe-Reader-83</ShortName>
-    <CommandLine>msiexec /i "\\iceman\Products\Adobe\AdbeRdr830_en_US.msi" /q</CommandLine>
+    <CommandLine>msiexec /i "\\TT-FS01\Products\Adobe\AdbeRdr830_en_US.msi" /q</CommandLine>
   </application>
   <application guid="{6c1d1035-23a2-4724-bcca-7dd226c7e1d1}" hide="True">
     <Name>Adobe Reader 8.3.1 Update</Name>
@@ -15,7 +15,7 @@
     <LastModifiedTime>4/14/2015 2:51:31 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Adobe-Reader-831-Update</ShortName>
-    <CommandLine>msiexec /update "\\iceman\Products\Adobe\AdbeRdrUpd831_all_incr.msp" /q</CommandLine>
+    <CommandLine>msiexec /update "\\TT-FS01\Products\Adobe\AdbeRdrUpd831_all_incr.msp" /q</CommandLine>
   </application>
   <application guid="{21500a40-7a01-4bf7-8b55-e3d7d19d95a9}" hide="False" enable="True">
     <Name>Adobe Reader 8.3.1</Name>
@@ -34,7 +34,7 @@
     <LastModifiedTime>3/21/2016 12:05:28 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Chrome</ShortName>
-    <CommandLine>msiexec /i "\\ICEMAN\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
+    <CommandLine>msiexec /i "\\TT-FS01\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
   </application>
   <application guid="{b134c260-3edc-4def-9248-4709bda20139}">
     <Name>Firefox 50.1.0</Name>
@@ -43,7 +43,7 @@
     <LastModifiedTime>12/27/2016 5:08:24 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox</ShortName>
-    <CommandLine>"\\ICEMAN\Products\Mozilla\Firefox\Firefox Setup 50.1.0.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\Firefox Setup 50.1.0.exe" -ms</CommandLine>
   </application>
   <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}">
     <Name>Thunderbird 38.8.0</Name>
@@ -52,6 +52,6 @@
     <LastModifiedTime>12/27/2016 4:26:24 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Thunderbird</ShortName>
-    <CommandLine>"\\ICEMAN\Products\Mozilla\Thunderbird\Thunderbird Setup 38.8.0.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\Thunderbird Setup 38.8.0.exe" -ms</CommandLine>
   </application>
 </applications>

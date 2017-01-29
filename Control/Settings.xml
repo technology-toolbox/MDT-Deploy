@@ -6,7 +6,7 @@
   <EnableMulticast>False</EnableMulticast>
   <SupportX86>True</SupportX86>
   <SupportX64>True</SupportX64>
-  <UNCPath>\\ICEMAN\MDT-Deploy$</UNCPath>
+  <UNCPath>\\TT-FS01\MDT-Deploy$</UNCPath>
   <PhysicalPath>
   </PhysicalPath>
   <MonitorHost>MIMIC2</MonitorHost>
