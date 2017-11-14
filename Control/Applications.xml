@@ -28,30 +28,63 @@
     <Dependency>{6c1d1035-23a2-4724-bcca-7dd226c7e1d1}</Dependency>
   </application>
   <application guid="{13e96063-09a9-4665-97af-491ee3347d05}" hide="False" enable="True">
-    <Name>Chrome</Name>
+    <Name>Chrome (32-bit)</Name>
     <CreatedTime>4/14/2015 2:57:46 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>3/21/2016 12:05:28 PM</LastModifiedTime>
+    <LastModifiedTime>11/2/2017 1:59:51 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ShortName>Chrome</ShortName>
-    <CommandLine>msiexec /i "\\TT-FS01\Products\Google\Chrome\googlechromestandaloneenterprise.msi" /q</CommandLine>
+    <ShortName>Chrome-x86</ShortName>
+    <CommandLine>msiexec /i "\\TT-FS01\Products\Google\Chrome\GoogleChromeEnterpriseBundle\Installers\GoogleChromeStandaloneEnterprise.msi" /q</CommandLine>
+    <Reboot>False</Reboot>
   </application>
-  <application guid="{b134c260-3edc-4def-9248-4709bda20139}">
-    <Name>Firefox 50.1.0</Name>
-    <CreatedTime>12/27/2016 5:08:24 PM</CreatedTime>
+  <application guid="{b134c260-3edc-4def-9248-4709bda20139}" hide="False" enable="True">
+    <Name>Firefox (32-bit)</Name>
+    <CreatedTime>11/2/2017 2:12:33 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>12/27/2016 5:08:24 PM</LastModifiedTime>
+    <LastModifiedTime>11/2/2017 2:12:54 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ShortName>Firefox</ShortName>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\Firefox Setup 50.1.0.exe" -ms</CommandLine>
+    <ShortName>Firefox-x86</ShortName>
+    <Version>56.0.2 (32-bit)</Version>
+    <Publisher></Publisher>
+    <Language></Language>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x86\Firefox Setup 56.0.2.exe" -ms</CommandLine>
+    <WorkingDirectory></WorkingDirectory>
   </application>
-  <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}">
-    <Name>Thunderbird 38.8.0</Name>
+  <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}" hide="False" enable="False">
+    <Name>Thunderbird</Name>
     <CreatedTime>12/27/2016 4:26:24 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>12/27/2016 4:26:24 PM</LastModifiedTime>
+    <LastModifiedTime>11/2/2017 2:13:20 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Thunderbird</ShortName>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\Thunderbird Setup 38.8.0.exe" -ms</CommandLine>
+    <Version>52.4.0</Version>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\Thunderbird Setup 52.4.0.exe" -ms</CommandLine>
+    <Reboot>False</Reboot>
+  </application>
+  <application guid="{ac941f1b-5518-4360-8bf4-1a11bc796151}" hide="False" enable="True">
+    <Name>Chrome (64-bit)</Name>
+    <CreatedTime>11/2/2017 2:01:03 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>11/2/2017 2:01:16 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Chrome-x64</ShortName>
+    <Version></Version>
+    <Publisher></Publisher>
+    <Language></Language>
+    <CommandLine>msiexec /i "\\TT-FS01\Products\Google\Chrome\GoogleChromeEnterpriseBundle64\Installers\GoogleChromeStandaloneEnterprise64.msi" /q</CommandLine>
+    <WorkingDirectory></WorkingDirectory>
+  </application>
+  <application guid="{6bd06eeb-412c-4147-bf6c-f7a9b2c8d9f6}" hide="False" enable="True">
+    <Name>Firefox (64-bit)</Name>
+    <CreatedTime>11/2/2017 2:06:33 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>11/2/2017 2:13:04 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Firefox-x64</ShortName>
+    <Version>56.0.2 (64-bit)</Version>
+    <Publisher></Publisher>
+    <Language></Language>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x64\Firefox Setup 56.0.2.exe" -ms</CommandLine>
+    <WorkingDirectory></WorkingDirectory>
   </application>
 </applications>
