@@ -9,7 +9,7 @@
   <UNCPath>\\TT-FS01\MDT-Deploy$</UNCPath>
   <PhysicalPath>
   </PhysicalPath>
-  <MonitorHost>MIMIC2</MonitorHost>
+  <MonitorHost>TT-DEPLOY3</MonitorHost>
   <MonitorEventPort>9800</MonitorEventPort>
   <MonitorDataPort>9801</MonitorDataPort>
   <Boot.x86.UseBootWim>True</Boot.x86.UseBootWim>
