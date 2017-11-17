@@ -41,14 +41,15 @@
     <Name>Firefox (32-bit)</Name>
     <CreatedTime>11/2/2017 2:12:33 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>11/2/2017 2:12:54 PM</LastModifiedTime>
+    <LastModifiedTime>11/15/2017 11:24:33 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox-x86</ShortName>
-    <Version>56.0.2 (32-bit)</Version>
+    <Version>57.0 (32-bit)</Version>
     <Publisher></Publisher>
     <Language></Language>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x86\Firefox Setup 56.0.2.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x86\Firefox Setup 57.0.exe" -ms</CommandLine>
     <WorkingDirectory></WorkingDirectory>
+    <Reboot>False</Reboot>
   </application>
   <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}" hide="False" enable="False">
     <Name>Thunderbird</Name>
@@ -78,13 +79,14 @@
     <Name>Firefox (64-bit)</Name>
     <CreatedTime>11/2/2017 2:06:33 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>11/2/2017 2:13:04 PM</LastModifiedTime>
+    <LastModifiedTime>11/15/2017 11:24:52 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox-x64</ShortName>
-    <Version>56.0.2 (64-bit)</Version>
+    <Version>57.0 (64-bit)</Version>
     <Publisher></Publisher>
     <Language></Language>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x64\Firefox Setup 56.0.2.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x64\Firefox Setup 57.0.exe" -ms</CommandLine>
     <WorkingDirectory></WorkingDirectory>
+    <Reboot>False</Reboot>
   </application>
 </applications>
