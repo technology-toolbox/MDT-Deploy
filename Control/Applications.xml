@@ -51,11 +51,11 @@
     <WorkingDirectory></WorkingDirectory>
     <Reboot>False</Reboot>
   </application>
-  <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}" hide="False" enable="False">
+  <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}" hide="False" enable="True">
     <Name>Thunderbird</Name>
     <CreatedTime>12/27/2016 4:26:24 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>11/2/2017 2:13:20 PM</LastModifiedTime>
+    <LastModifiedTime>11/15/2017 11:27:18 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Thunderbird</ShortName>
     <Version>52.4.0</Version>
