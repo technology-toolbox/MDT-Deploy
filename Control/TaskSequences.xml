@@ -87,4 +87,14 @@
     <Version>1.0</Version>
     <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
   </ts>
+  <ts guid="{b3566268-c7cd-41da-bdf9-9f01e7b09b5d}" enable="True">
+    <Name>Install Applications</Name>
+    <CreatedTime>6/7/2018 2:59:22 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 2:59:22 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>INSTALL-APPS</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Custom.xml</TaskSequenceTemplate>
+  </ts>
 </tss>
