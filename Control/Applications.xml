@@ -93,4 +93,153 @@
     <Reboot>False</Reboot>
     <SupportedPlatform>All x64 Windows 7 and Newer</SupportedPlatform>
   </application>
+  <application guid="{f78dce4f-aaae-4dc1-84de-382ec4ca5a89}">
+    <Name>Remote Server Administration Tools for Windows 10</Name>
+    <CreatedTime>6/7/2018 5:16:32 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:16:32 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>RSAT_WS2016-x64</ShortName>
+    <CommandLine>wusa.exe "\\TT-FS01\Products\Microsoft\Remote Server Administration Tools for Windows 10\WindowsTH-RSAT_WS2016-x64.msu" /quiet /norestart</CommandLine>
+  </application>
+  <application guid="{ce8e2c38-3305-4804-9b84-2c461d3088b5}">
+    <Name>Microsoft System CLR Types for SQL Server 2012</Name>
+    <CreatedTime>6/7/2018 5:16:34 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:16:34 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SQL2012-SysClrTypes</ShortName>
+    <CommandLine>msiexec.exe /i "\\TT-FS01\Products\Microsoft\SQL Server 2012\Feature Pack\System CLR Types for SQL Server 2012\x64\SQLSysClrTypes.msi" /qr</CommandLine>
+  </application>
+  <application guid="{2cc01996-efed-4cbe-b7d2-534c49ab1d6e}" hide="True">
+    <Name>Microsoft Report Viewer 2012</Name>
+    <CreatedTime>6/7/2018 5:16:36 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:16:36 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Report-Viewer-2012</ShortName>
+    <CommandLine>msiexec.exe /i "\\TT-FS01\Products\Microsoft\Report Viewer 2012 Runtime\ReportViewer.msi" /qr</CommandLine>
+  </application>
+  <application guid="{8b964b36-1c02-4f19-9d72-7a2e9cc22ee5}">
+    <Name>Microsoft Report Viewer 2012 (bundle)</Name>
+    <CreatedTime>6/7/2018 5:16:38 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:16:53 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Report-Viewer-2012-bundle</ShortName>
+    <Dependency>{ce8e2c38-3305-4804-9b84-2c461d3088b5}</Dependency>
+    <Dependency>{2cc01996-efed-4cbe-b7d2-534c49ab1d6e}</Dependency>
+  </application>
+  <application guid="{dd6bbc33-7cde-4320-8fd8-12f559b01ec1}">
+    <Name>SQL Server 2016 Management Studio</Name>
+    <CreatedTime>6/7/2018 5:17:16 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:17:16 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SSMS-2016</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server 2016\SSMS-Setup-ENU-13.0.16106.4.exe" /install /quiet /norestart</CommandLine>
+  </application>
+  <application guid="{22796437-5285-4ea8-9b0d-1c3d4702c85c}">
+    <Name>SQL Server 2017 Management Studio</Name>
+    <CreatedTime>6/7/2018 5:17:18 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:17:18 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SSMS-2017</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server 2017\SSMS-Setup-ENU-14.0.17254.0.exe" /install /quiet /norestart</CommandLine>
+  </application>
+  <application guid="{9c99f925-73b3-463e-b41d-12f784033b6e}">
+    <Name>Microsoft System CLR Types for SQL Server 2014</Name>
+    <CreatedTime>6/7/2018 5:17:20 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:17:20 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SQL2014-SysClrTypes</ShortName>
+    <CommandLine>msiexec.exe /i "\\TT-FS01\Products\Microsoft\System Center 2016\Microsoft CLR Types for SQL Server 2014\SQLSysClrTypes.msi" /qr</CommandLine>
+  </application>
+  <application guid="{c4e37910-7181-4806-af3b-b1db777413ed}" hide="True">
+    <Name>Microsoft Report Viewer 2015</Name>
+    <CreatedTime>6/7/2018 5:17:23 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:17:23 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Report-Viewer-2015</ShortName>
+    <CommandLine>msiexec.exe /i "\\TT-FS01\Products\Microsoft\System Center 2016\Microsoft Report Viewer 2015 Runtime\ReportViewer.msi" /qr</CommandLine>
+  </application>
+  <application guid="{92c8491f-9da3-4044-b918-bf4c177f81e8}" hide="True">
+    <Name>System Center Operations Manager 2016 - Operations console</Name>
+    <CreatedTime>6/7/2018 5:17:25 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:17:25 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SCOM-2016-console</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\System Center 2016\SCOM\Setup.exe" /silent /install /components:OMConsole /AcceptEndUserLicenseAgreement:1 /EnableErrorReporting:Always /SendCEIPReports:1 /UseMicrosoftUpdate:1</CommandLine>
+  </application>
+  <application guid="{024cb874-80c6-4241-a331-ea5ecabea507}">
+    <Name>System Center Operations Manager 2016 - Operations console (bundle)</Name>
+    <CreatedTime>6/7/2018 5:17:27 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:18:00 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>SCOM-2016-console-bundle</ShortName>
+    <Dependency>{9c99f925-73b3-463e-b41d-12f784033b6e}</Dependency>
+    <Dependency>{c4e37910-7181-4806-af3b-b1db777413ed}</Dependency>
+    <Dependency>{92c8491f-9da3-4044-b918-bf4c177f81e8}</Dependency>
+  </application>
+  <application guid="{56f29e9d-c2e7-4bfe-936a-cee7a9205652}">
+    <Name>Visual C++ 2008 Redistributable</Name>
+    <CreatedTime>6/7/2018 5:18:18 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:18:18 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>vcredist2008_x64</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\System Center 2016\DPM\Redist\vcredist\vcredist2008_x64.exe" /q</CommandLine>
+  </application>
+  <application guid="{58a0eec6-7338-4768-bf8b-505e53a6bd98}">
+    <Name>Visual C++ 2010 Redistributable</Name>
+    <CreatedTime>6/7/2018 5:18:20 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:18:20 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>vcredist2010_x64</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\System Center 2016\DPM\Redist\vcredist\vcredist2010_x64.exe" /q</CommandLine>
+  </application>
+  <application guid="{5178018f-de13-4c64-9159-98aa7773832d}" hide="True">
+    <Name>System Center Data Protection Manager 2016 - Central Console</Name>
+    <CreatedTime>6/7/2018 5:18:22 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:18:22 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>DPM-2016-console</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\System Center 2016\DPM\Setup.exe" /i /cc /client</CommandLine>
+  </application>
+  <application guid="{a31458fb-dc41-49dc-b59c-168689f0fabd}">
+    <Name>System Center Data Protection Manager 2016 - Central Console (bundle)</Name>
+    <CreatedTime>6/7/2018 5:18:24 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:18:52 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>DPM-2016-console-bundle</ShortName>
+    <Dependency>{56f29e9d-c2e7-4bfe-936a-cee7a9205652}</Dependency>
+    <Dependency>{58a0eec6-7338-4768-bf8b-505e53a6bd98}</Dependency>
+    <Dependency>{5178018f-de13-4c64-9159-98aa7773832d}</Dependency>
+  </application>
+  <application guid="{a59a31db-45b6-4e9f-a690-6d7efaddb44b}">
+    <Name>System Center Virtual Machine Manager 2016 - Console</Name>
+    <CreatedTime>6/7/2018 5:19:31 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:19:31 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>VMM-2016-console</ShortName>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\System Center 2016\VMM\setup.exe" /client /i /IACCEPTSCEULA</CommandLine>
+  </application>
+  <application guid="{e5f6f1e6-bb07-4a0f-9e33-e9bf5cbec87b}">
+    <Name>System Center 2012 R2 Configuration Manager Toolkit</Name>
+    <CreatedTime>6/7/2018 5:19:33 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>6/7/2018 5:19:33 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>ConfigMgrTools</ShortName>
+    <CommandLine>msiexec.exe /i "\\TT-FS01\Products\Microsoft\System Center 2012 R2\System Center 2012 R2 Configuration Manager Toolkit\ConfigMgrTools.msi" /qr</CommandLine>
+  </application>
 </applications>
