@@ -6,7 +6,7 @@
 # //
 # // File:      ZTIUtility.psm1
 # // 
-# // Version:   6.2.5019.0
+# // Version:   6.3.8443.1000
 # // 
 # // Purpose:   Common PowerShell Library for Microsoft Deployment Toolkit
 # // 
@@ -19,7 +19,7 @@
 
 # Initialize constants
 
-$mdtVersion = "6.2.5019.0"
+$mdtVersion = "6.3.8443.1000"
 $scriptDir = split-path -parent $MyInvocation.MyCommand.Path
 $scriptName = split-path -leaf $MyInvocation.MyCommand.Path
 $moduleDir = split-path -parent $scriptDir
