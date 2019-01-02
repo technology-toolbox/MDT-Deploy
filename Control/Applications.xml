@@ -143,10 +143,11 @@
     <Name>SQL Server 2017 Management Studio</Name>
     <CreatedTime>6/7/2018 5:17:18 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>6/7/2018 5:17:18 PM</LastModifiedTime>
+    <LastModifiedTime>12/5/2018 12:26:19 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>SSMS-2017</ShortName>
-    <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server 2017\SSMS-Setup-ENU-14.0.17254.0.exe" /install /quiet /norestart</CommandLine>
+    <Version>14.0.17289.0</Version>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server 2017\SSMS-Setup-ENU-14.0.17289.0.exe" /install /quiet /norestart</CommandLine>
   </application>
   <application guid="{9c99f925-73b3-463e-b41d-12f784033b6e}">
     <Name>Microsoft System CLR Types for SQL Server 2014</Name>
