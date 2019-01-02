@@ -93,15 +93,6 @@
     <Reboot>False</Reboot>
     <SupportedPlatform>All x64 Windows 7 and Newer</SupportedPlatform>
   </application>
-  <application guid="{f78dce4f-aaae-4dc1-84de-382ec4ca5a89}">
-    <Name>Remote Server Administration Tools for Windows 10</Name>
-    <CreatedTime>6/7/2018 5:16:32 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>6/7/2018 5:16:32 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ShortName>RSAT_WS2016-x64</ShortName>
-    <CommandLine>wusa.exe "\\TT-FS01\Products\Microsoft\Remote Server Administration Tools for Windows 10\WindowsTH-RSAT_WS2016-x64.msu" /quiet /norestart</CommandLine>
-  </application>
   <application guid="{ce8e2c38-3305-4804-9b84-2c461d3088b5}">
     <Name>Microsoft System CLR Types for SQL Server 2012</Name>
     <CreatedTime>6/7/2018 5:16:34 PM</CreatedTime>
