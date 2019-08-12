@@ -97,4 +97,15 @@
     <Version>1.0</Version>
     <TaskSequenceTemplate>Custom.xml</TaskSequenceTemplate>
   </ts>
+  <ts guid="{ba200bbe-db8c-4b3c-a556-b5b0e396de4a}" enable="True">
+    <Name>Windows Server 2019</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>8/12/2019 5:13:01 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>8/12/2019 5:13:01 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>WS2019</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+  </ts>
 </tss>
