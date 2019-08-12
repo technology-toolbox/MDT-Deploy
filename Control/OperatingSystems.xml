@@ -12,7 +12,7 @@
     <Source>.\Operating Systems\W7Ult-x86</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_8-16-2015-7-01-17-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_7-18-2019-4-52-24-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W7ULT-X86-REFCDrive</ImageName>
     <Flags>Ultimate</Flags>
@@ -33,7 +33,7 @@
     <Source>.\Operating Systems\W7Ult-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_8-16-2015-12-05-46-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_7-18-2019-4-52-55-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W7ULT-X64-REFCDrive</ImageName>
     <Flags>Ultimate</Flags>
@@ -54,7 +54,7 @@
     <Source>.\Operating Systems\WS2008-R2</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_8-16-2015-7-26-36-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_7-18-2019-4-53-38-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2008-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -75,7 +75,7 @@
     <Source>.\Operating Systems\W81Ent-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_8-17-2015-4-37-31-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_7-18-2019-9-33-50-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W81ENT-X64-REFCDrive</ImageName>
     <Flags>Enterprise</Flags>
@@ -96,7 +96,7 @@
     <Source>.\Operating Systems\WS2012-R2</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_8-17-2015-8-18-24-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_7-18-2019-11-33-21-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2012-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -117,7 +117,7 @@
     <Source>.\Operating Systems\SP2013-DEV</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_8-17-2015-11-26-37-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_7-19-2019-10-36-56-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>SP2013-DEV-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -138,7 +138,7 @@
     <Source>.\Operating Systems\W10Ent-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W10Ent-x64\W10ENT-X64-REF_12-28-2016-6-00-09-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W10Ent-x64\W10ENT-X64-REF_7-18-2019-6-23-39-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W10ENT-X64-REFDDrive</ImageName>
     <Flags>Enterprise</Flags>
@@ -159,12 +159,33 @@
     <Source>.\Operating Systems\WS2016</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2016\WS2016-REF_1-10-2017-10-35-31-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2016\WS2016-REF_7-18-2019-6-24-13-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2016-REFDDrive</ImageName>
     <Flags>ServerStandard</Flags>
     <HAL>acpiapic</HAL>
     <Size>18235</Size>
+    <Language>en-US</Language>
+  </os>
+  <os guid="{bfd6dba0-e5a6-4278-ace4-ff4ee984f6dc}" enable="True">
+    <Name>Windows Server 2019 Standard - Baseline</Name>
+    <CreatedTime>8/12/2019 5:08:30 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>8/12/2019 5:08:30 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Description>Windows IBS image</Description>
+    <Platform>x64</Platform>
+    <Build>10.0.17763.475</Build>
+    <OSType>Windows IBS</OSType>
+    <Source>.\Operating Systems\WS2019</Source>
+    <IncludesSetup>False</IncludesSetup>
+    <SMSImage>False</SMSImage>
+    <ImageFile>.\Operating Systems\WS2019\WS2019-REF_8-12-2019-9-55-07-AM.wim</ImageFile>
+    <ImageIndex>1</ImageIndex>
+    <ImageName>WS2019-REFDDrive</ImageName>
+    <Flags>ServerStandard</Flags>
+    <HAL>acpiapic</HAL>
+    <Size>18026</Size>
     <Language>en-US</Language>
   </os>
 </oss>
