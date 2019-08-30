@@ -344,7 +344,7 @@
     <step name="Opt In to CEIP and WER" disable="true" continueOnError="true" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIOptIn.wsf" /CEIP:YES /WER:YES</action>
     </step>
-    <step name="Windows Update (Pre-Application Installation)" disable="true" continueOnError="true" successCodeList="0 3010" description="" startIn="">
+    <step name="Windows Update (Pre-Application Installation)" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIWindowsUpdate.wsf"</action>
     </step>
     <step type="BDD_InstallApplication" name="Install Applications" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
@@ -354,7 +354,7 @@
         <variable name="ApplicationSuccessCodes" property="ApplicationSuccessCodes">0 3010</variable>
       </defaultVarList>
     </step>
-    <step name="Windows Update (Post-Application Installation)" disable="true" continueOnError="true" successCodeList="0 3010" description="" startIn="">
+    <step name="Windows Update (Post-Application Installation)" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIWindowsUpdate.wsf"</action>
     </step>
     <group name="Custom Tasks" disable="false" continueOnError="false" expand="true" description="">
