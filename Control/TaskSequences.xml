@@ -1,111 +1,111 @@
 <tss>
-  <ts guid="{27b640a7-ba6a-48a3-a507-fa88c7c9a7f2}" hide="False" enable="True">
-    <Name>Windows 7 Ultimate (x86)</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>4/14/2015 1:57:22 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/21/2015 4:19:59 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>W7ULT-X86</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{f4399002-35ff-4ff7-8790-b959209d4acc}" hide="False" enable="True">
-    <Name>Windows 7 Ultimate (x64)</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>4/14/2015 1:58:03 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/21/2015 4:19:55 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>W7ULT-X64</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{423196ba-1c86-46bb-84fa-53695093d772}" hide="False" enable="True">
-    <Name>Windows Server 2008 R2</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>4/14/2015 1:59:12 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/21/2015 4:19:50 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>WS2008-R2</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{7c9500f2-2af8-41ad-8cd1-70da53056244}" hide="False" enable="True">
-    <Name>Windows 8.1 Enterprise (x64)</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>4/20/2015 9:40:32 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/21/2015 4:19:44 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>W81ENT-X64</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{437b851e-096a-4e58-add0-ccf3f06907f2}" hide="False" enable="True">
-    <Name>Windows Server 2012 R2</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>4/21/2015 4:04:03 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/21/2015 4:19:34 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>WS2012-R2</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{a92769f2-32ea-4d38-84c1-1aec05f7864f}" hide="False" enable="True">
-    <Name>SharePoint Server 2013 - Development</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>4/21/2015 4:04:12 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/21/2015 4:19:39 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>SP2013-DEV</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{f7cdedd1-619f-4643-a3c5-1c046ee77148}" hide="False" enable="True">
-    <Name>Windows 10 Enterprise (x64)</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>1/10/2017 6:37:39 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/22/2018 3:58:51 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>W10ENT-X64</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{a20c9682-27f1-48ed-8a3b-cdc1fd25c4e7}" hide="False" enable="True">
-    <Name>Windows Server 2016</Name>
-    <Comments>Production image - create native images for .NET assemblies</Comments>
-    <CreatedTime>1/10/2017 6:43:29 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>4/22/2018 3:58:59 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>WS2016</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{b3566268-c7cd-41da-bdf9-9f01e7b09b5d}" enable="True">
-    <Name>Install Applications</Name>
-    <CreatedTime>6/7/2018 2:59:22 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>6/7/2018 2:59:22 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>INSTALL-APPS</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Custom.xml</TaskSequenceTemplate>
-  </ts>
-  <ts guid="{ba200bbe-db8c-4b3c-a556-b5b0e396de4a}" enable="True">
-    <Name>Windows Server 2019</Name>
-    <Comments>Production image</Comments>
-    <CreatedTime>8/12/2019 5:13:01 PM</CreatedTime>
-    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/12/2019 5:13:01 PM</LastModifiedTime>
-    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ID>WS2019</ID>
-    <Version>1.0</Version>
-    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
-  </ts>
+    <ts guid="{27b640a7-ba6a-48a3-a507-fa88c7c9a7f2}" hide="False" enable="True">
+        <Name>Windows 7 Ultimate (x86)</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>4/14/2015 1:57:22 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/21/2015 4:19:59 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>W7ULT-X86</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{f4399002-35ff-4ff7-8790-b959209d4acc}" hide="False" enable="True">
+        <Name>Windows 7 Ultimate (x64)</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>4/14/2015 1:58:03 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/21/2015 4:19:55 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>W7ULT-X64</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{423196ba-1c86-46bb-84fa-53695093d772}" hide="False" enable="True">
+        <Name>Windows Server 2008 R2</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>4/14/2015 1:59:12 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/21/2015 4:19:50 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>WS2008-R2</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{7c9500f2-2af8-41ad-8cd1-70da53056244}" hide="False" enable="True">
+        <Name>Windows 8.1 Enterprise (x64)</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>4/20/2015 9:40:32 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/21/2015 4:19:44 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>W81ENT-X64</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{437b851e-096a-4e58-add0-ccf3f06907f2}" hide="False" enable="True">
+        <Name>Windows Server 2012 R2</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>4/21/2015 4:04:03 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/21/2015 4:19:34 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>WS2012-R2</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{a92769f2-32ea-4d38-84c1-1aec05f7864f}" hide="False" enable="True">
+        <Name>SharePoint Server 2013 - Development</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>4/21/2015 4:04:12 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/21/2015 4:19:39 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>SP2013-DEV</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{f7cdedd1-619f-4643-a3c5-1c046ee77148}" hide="False" enable="True">
+        <Name>Windows 10 Enterprise (x64)</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>1/10/2017 6:37:39 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/22/2018 3:58:51 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>W10ENT-X64</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Client.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{a20c9682-27f1-48ed-8a3b-cdc1fd25c4e7}" hide="False" enable="True">
+        <Name>Windows Server 2016</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>1/10/2017 6:43:29 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>4/22/2018 3:58:59 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>WS2016</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{b3566268-c7cd-41da-bdf9-9f01e7b09b5d}" enable="True">
+        <Name>Install Applications</Name>
+        <CreatedTime>6/7/2018 2:59:22 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>6/7/2018 2:59:22 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>INSTALL-APPS</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Custom.xml</TaskSequenceTemplate>
+    </ts>
+    <ts guid="{ba200bbe-db8c-4b3c-a556-b5b0e396de4a}" enable="True">
+        <Name>Windows Server 2019</Name>
+        <Comments>Production image - create native images for .NET assemblies</Comments>
+        <CreatedTime>8/12/2019 5:13:01 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>8/30/2019 10:29:53 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ID>WS2019</ID>
+        <Version>1.0</Version>
+        <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+    </ts>
 </tss>

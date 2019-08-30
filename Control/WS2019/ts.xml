@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <sequence version="3.00" name="Standard Server Task Sequence" description="A complete task sequence for deploying a server operating system">
   <globalVarList>
-    <variable name="OSGUID" property="OSGUID">{bfd6dba0-e5a6-4278-ace4-ff4ee984f6dc}</variable>
     <variable name="DestinationDisk" property="DestinationDisk">0</variable>
     <variable name="DestinationPartition" property="DestinationPartition">1</variable>
     <variable name="DestinationOSVariable" property="DestinationOSVariable">OSDisk</variable>
     <variable name="DestinationOSRefresh" property="DestinationOSRefresh"></variable>
     <variable name="DestinationOSDriveLetter" property="DestinationOSDriveLetter"></variable>
     <variable name="DestinationOSInstallType" property="DestinationOSInstallType">ByVariable</variable>
+    <variable name="OSGUID" property="OSGUID">{bfd6dba0-e5a6-4278-ace4-ff4ee984f6dc}</variable>
   </globalVarList>
   <group name="Initialization" disable="false" continueOnError="false" description="Initialize the TS environment" expand="false">
     <step type="BDD_Gather" name="Gather local only" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
@@ -60,11 +60,11 @@
     </step>
     <group name="Refresh only" disable="false" continueOnError="false" description="" expand="false">
       <condition>
-          <expression type="SMS_TaskSequence_VariableConditionExpression">
-            <variable name="Variable">DeploymentType</variable>
-            <variable name="Operator">equals</variable>
-            <variable name="Value">REFRESH</variable>
-          </expression>
+        <expression type="SMS_TaskSequence_VariableConditionExpression">
+          <variable name="Variable">DeploymentType</variable>
+          <variable name="Operator">equals</variable>
+          <variable name="Value">REFRESH</variable>
+        </expression>
       </condition>
       <step type="SMS_TaskSequence_RunCommandLineAction" name="Disable BDE Protectors" description="" disable="false" continueOnError="false" startIn="" successCodeList="0 3010" runIn="WinPEandFullOS">
         <defaultVarList>
@@ -290,9 +290,9 @@
         <variable name="Value">POSTINSTALL</variable>
       </expression>
     </condition>
-      <step name="Copy Scripts" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
-        <action>cscript.exe "%SCRIPTROOT%\LTICopyScripts.wsf"</action>
-      </step>
+    <step name="Copy Scripts" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
+      <action>cscript.exe "%SCRIPTROOT%\LTICopyScripts.wsf"</action>
+    </step>
     <step name="Configure" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIConfigure.wsf"</action>
     </step>
@@ -352,12 +352,15 @@
       <defaultVarList>
         <variable name="ApplicationGUID" property="ApplicationGUID"></variable>
         <variable name="ApplicationSuccessCodes" property="ApplicationSuccessCodes">0 3010</variable>
-     </defaultVarList>
+      </defaultVarList>
     </step>
     <step name="Windows Update (Post-Application Installation)" disable="true" continueOnError="true" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIWindowsUpdate.wsf"</action>
     </step>
     <group name="Custom Tasks" disable="false" continueOnError="false" expand="true" description="">
+      <step type="SMS_TaskSequence_RunCommandLineAction" name="Create native images for .NET assemblies" description="" disable="false" continueOnError="false" startIn="" successCodeList="0 3010" runIn="WinPEandFullOS">
+        <action>PowerShell.exe -Command "Get-ChildItem $env:SystemRoot\Microsoft.NET -Filter Ngen.exe -Recurse | % { &amp; $_.FullName executeQueuedItems }"</action>
+      </step>
     </group>
     <step type="SMS_TaskSequence_EnableBitLockerAction" name="Enable BitLocker" continueOnError="true" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIBde.wsf"</action>
@@ -379,7 +382,7 @@
     <step name="Restore Groups" disable="false" continueOnError="false" successCodeList="0 3010" description="" startIn="">
       <action>cscript.exe "%SCRIPTROOT%\ZTIGroups.wsf" /restore</action>
     </step>
-	<step name="Apply Local GPO Package" description="" disable="false" continueOnError="true" startIn="" successCodeList="0 3010">
+    <step name="Apply Local GPO Package" description="" disable="false" continueOnError="true" startIn="" successCodeList="0 3010">
       <action>cscript.exe "%SCRIPTROOT%\ZTIApplyGPOPack.wsf"</action>
       <condition>
         <expression type="SMS_TaskSequence_VariableConditionExpression">
