@@ -1,0 +1,15 @@
+
+[System.File]
+"%windir%\Assembly\* [*]"
+"%windir%\CSC\* [*]"
+"%windir%\SoftwareDistribution\* [*]"
+"%windir%\System32\winevt\* [*]"
+"%ProgramData%\Microsoft\Windows\WER\* [*]"
+"%windir%\Temp\* [*]"
+"%windir%\Microsoft.NET\* [*]"
+
+[User.File]
+"%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\Temporary Internet Files\* [*]"
+"%CSIDL_LOCAL_APPDATA%\Temp\* [*]"
+"%CSIDL_LOCAL_APPDATA% [IconCache.db]"
+"%CSIDL_LOCAL_APPDATA%\Microsoft\Windows\Explorer\* [*]"
