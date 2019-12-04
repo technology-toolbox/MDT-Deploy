@@ -125,9 +125,10 @@
         <Name>SQL Server 2016 Management Studio</Name>
         <CreatedTime>6/7/2018 5:17:16 PM</CreatedTime>
         <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-        <LastModifiedTime>6/7/2018 5:17:16 PM</LastModifiedTime>
+        <LastModifiedTime>12/4/2019 3:11:41 PM</LastModifiedTime>
         <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
         <ShortName>SSMS-2016</ShortName>
+        <Version>13.0.16106.4</Version>
         <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server 2016\SSMS-Setup-ENU-13.0.16106.4.exe" /install /quiet /norestart</CommandLine>
     </application>
     <application guid="{22796437-5285-4ea8-9b0d-1c3d4702c85c}">
@@ -139,6 +140,19 @@
         <ShortName>SSMS-2017</ShortName>
         <Version>14.0.17289.0</Version>
         <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server 2017\SSMS-Setup-ENU-14.0.17289.0.exe" /install /quiet /norestart</CommandLine>
+    </application>
+    <application guid="{f3e7589b-58d2-40de-a1cd-5a30ea88593b}" hide="False" enable="True">
+        <Name>SQL Server Management Studio</Name>
+        <CreatedTime>12/4/2019 3:08:23 PM</CreatedTime>
+        <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+        <LastModifiedTime>12/4/2019 3:12:18 PM</LastModifiedTime>
+        <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+        <ShortName>SSMS</ShortName>
+        <Version>18.4</Version>
+        <Publisher></Publisher>
+        <Language></Language>
+        <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server Management Studio\18.4\SSMS-Setup-ENU.exe" /install /quiet /norestart</CommandLine>
+        <WorkingDirectory></WorkingDirectory>
     </application>
     <application guid="{9c99f925-73b3-463e-b41d-12f784033b6e}">
         <Name>Microsoft System CLR Types for SQL Server 2014</Name>
