@@ -30,7 +30,7 @@
         <Name>Microsoft</Name>
         <CreatedTime>4/14/2015 2:59:48 PM</CreatedTime>
         <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-        <LastModifiedTime>12/4/2019 3:11:05 PM</LastModifiedTime>
+        <LastModifiedTime>12/4/2019 3:44:42 PM</LastModifiedTime>
         <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
         <Member>{2cc01996-efed-4cbe-b7d2-534c49ab1d6e}</Member>
         <Member>{8b964b36-1c02-4f19-9d72-7a2e9cc22ee5}</Member>
@@ -48,6 +48,7 @@
         <Member>{a59a31db-45b6-4e9f-a690-6d7efaddb44b}</Member>
         <Member>{56f29e9d-c2e7-4bfe-936a-cee7a9205652}</Member>
         <Member>{58a0eec6-7338-4768-bf8b-505e53a6bd98}</Member>
+        <Member>{8d6e112b-a40b-40d1-9137-737a78dae4b6}</Member>
     </group>
     <group guid="{c4ae0335-f65f-43e7-9846-d6bc87e746b8}" enable="True">
         <Name>Mozilla</Name>
