@@ -12,7 +12,7 @@
     <Source>.\Operating Systems\W7Ult-x86</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_8-22-2019-2-44-59-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W7Ult-x86\W7ULT-X86-REF_4-26-2020-9-16-23-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W7ULT-X86-REFCDrive</ImageName>
     <Flags>Ultimate</Flags>
@@ -33,7 +33,7 @@
     <Source>.\Operating Systems\W7Ult-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_8-22-2019-4-29-09-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W7Ult-x64\W7ULT-X64-REF_4-26-2020-9-53-59-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W7ULT-X64-REFCDrive</ImageName>
     <Flags>Ultimate</Flags>
@@ -54,7 +54,7 @@
     <Source>.\Operating Systems\WS2008-R2</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_8-22-2019-2-46-34-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2008-R2\WS2008-R2-REF_4-26-2020-9-56-01-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2008-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -75,7 +75,7 @@
     <Source>.\Operating Systems\W81Ent-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_8-23-2019-5-33-58-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W81Ent-x64\W81ENT-X64-REF_4-27-2020-5-21-34-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W81ENT-X64-REFCDrive</ImageName>
     <Flags>Enterprise</Flags>
@@ -96,7 +96,7 @@
     <Source>.\Operating Systems\WS2012-R2</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_8-23-2019-5-34-36-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2012-R2\WS2012-R2-REF_4-27-2020-5-22-01-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2012-R2-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -117,7 +117,7 @@
     <Source>.\Operating Systems\SP2013-DEV</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_8-24-2019-6-13-55-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\SP2013-DEV\SP2013-DEV-REF_4-27-2020-12-58-35-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>SP2013-DEV-REFCDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -138,7 +138,7 @@
     <Source>.\Operating Systems\W10Ent-x64</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\W10Ent-x64\W10ENT-X64-REF_8-23-2019-3-36-23-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\W10Ent-x64\W10ENT-X64-REF_8-26-2020-9-53-52-AM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>W10ENT-X64-REFDDrive</ImageName>
     <Flags>Enterprise</Flags>
@@ -159,7 +159,7 @@
     <Source>.\Operating Systems\WS2016</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2016\WS2016-REF_8-23-2019-3-37-00-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2016\WS2016-REF_8-26-2020-1-01-18-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2016-REFDDrive</ImageName>
     <Flags>ServerStandard</Flags>
@@ -180,7 +180,7 @@
     <Source>.\Operating Systems\WS2019</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2019\WS2019-REF_8-24-2019-6-12-23-AM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2019\WS2019-REF_8-26-2020-1-02-29-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2019-REFDDrive</ImageName>
     <Flags>ServerStandard</Flags>
