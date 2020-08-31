@@ -145,14 +145,15 @@
         <Name>SQL Server Management Studio</Name>
         <CreatedTime>12/4/2019 3:08:23 PM</CreatedTime>
         <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-        <LastModifiedTime>12/4/2019 3:12:18 PM</LastModifiedTime>
+        <LastModifiedTime>8/31/2020 5:46:15 PM</LastModifiedTime>
         <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
         <ShortName>SSMS</ShortName>
-        <Version>18.4</Version>
+        <Version>18.6</Version>
         <Publisher></Publisher>
         <Language></Language>
-        <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server Management Studio\18.4\SSMS-Setup-ENU.exe" /install /quiet /norestart</CommandLine>
+        <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server Management Studio\18.6\SSMS-Setup-ENU.exe" /install /quiet /norestart</CommandLine>
         <WorkingDirectory></WorkingDirectory>
+        <Reboot>False</Reboot>
     </application>
     <application guid="{9c99f925-73b3-463e-b41d-12f784033b6e}">
         <Name>Microsoft System CLR Types for SQL Server 2014</Name>
