@@ -29,6 +29,7 @@
 "%SystemRoot%\system32\config [security*]"
 "%SystemRoot%\system32\config [software*]"
 "%SystemRoot%\system32\config [system*]"
+"%SystemRoot%\system32\Drivers [WinSetupBoot.sys]"
 "%SystemRoot%\system32\DriverStore\* [*]"
 "%SystemRoot%\system32\SMI\* [*]"
 "%SystemRoot%\servicing\* [*]"

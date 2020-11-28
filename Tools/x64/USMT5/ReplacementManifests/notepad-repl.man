@@ -12,10 +12,9 @@
       version="0.0.0.0"
       />
   <migration
+      replacementSettingsVersionRange="0-1"
       scope="Upgrade,Data"
-      settingsVersion="1"
-      replacementSettingsVersionRange="0"
-      alwaysProcess="yes"
+      settingsVersion="2"
       >
     <migXml xmlns="">
       <rules context="User">

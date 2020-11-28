@@ -16,8 +16,10 @@
     <component displayname="Microsoft-Windows-AppX-Deployment-Server" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/offlineupgrade/Microsoft-Windows-AppX-Deployment-Server/settings"/>
     <component displayname="DiagTrack" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/offlineupgrade/DiagTrack/settings"/>
     <component displayname="Microsoft-OneCore-Bluetooth-Gatt" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/offlineupgrade/Microsoft-OneCore-Bluetooth-Gatt/settings"/>
+    <component displayname="Microsoft-OneCore-LanguageOverlay-LanguageOverlayServer" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/cmi/Microsoft-OneCore-LanguageOverlay-LanguageOverlayServer/Microsoft-OneCore-LanguageOverlay-LanguageOverlayServer/settings"/>
     <component displayname="Microsoft-Windows-BrokerInfrastructure" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/cmi/microsoft-windows-brokerinfrastructure/microsoft-windows-brokerinfrastructure/settings"/>
     <component displayname="Microsoft-Windows-Security-NGC-PopKeySrv" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/cmi/microsoft-windows-security-ngc-popkeysrv/microsoft-windows-security-ngc-popkeysrv/settings"/>
+    <component displayname="Microsoft-Windows-WBioSrvc" migrate="no" ID="http://www.microsoft.com/migration/1.0/migxmlext/cmi/Microsoft-Windows-WBioSrvc/Microsoft-Windows-WBioSrvc/settings"/>
   </WindowsComponents>
   <Policies>
     <ErrorControl>

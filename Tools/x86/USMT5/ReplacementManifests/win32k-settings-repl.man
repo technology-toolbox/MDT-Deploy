@@ -12,14 +12,16 @@
       version="0.0.0.0"
       />
   <migration
+      replacementSettingsVersionRange="0-9"
       scope="Upgrade,MigWiz,USMT"
-      replacementSettingsVersionRange="0-6" 
-      settingsVersion="7"
+      settingsVersion="9"
       >
     <!-- The SettingsVersion was incremented to account for a forcefull, one time
          upgrade to the new default setting for MouseWheelRouting (MSFT: 1142350)-->
     <!-- The SettingsVersion 6 is a result of moving keyboard settings to the first
          boot apply (MSFT: 5587449)-->
+    <!-- 7 to 8 was in order to move wallpaper migration offline -->
+    <!-- 8 to 9 was to move configuration based migration to migXml migration for offline update -->
     <machineSpecific>
       <migXml xmlns="">
         <rules context="System">
@@ -27,8 +29,14 @@
             <objectSet>
               <!-- Digitizer to monitor mapping -->
               <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Wisp\Pen\Digimon\* [*]</pattern>
+              <!-- Excluded Devices -->
+              <pattern type="Registry">HKLM\Software\Microsoft\Wisp\ExcludedDevices [*]</pattern>
               <!-- Precision touch pad settings -->
               <pattern type="Registry">HKLM\Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad\* [*]</pattern>
+              <!-- AutoRotation -->
+              <pattern type="Registry">HKLM\Software\Microsoft\Windows\CurrentVersion\AutoRotation [Enable]</pattern>
+              <pattern type="Registry">HKLM\Software\Microsoft\Windows\CurrentVersion\AutoRotation [SlateEnable]</pattern>
+              <pattern type="Registry">HKLM\Software\Microsoft\Windows\CurrentVersion\AutoRotation [LastOrientation]</pattern>
               <!-- Keyboard settings for .Default -->
               <pattern type="Registry">HKU\.Default\Control Panel\Keyboard\* [*]</pattern>
               <pattern type="Registry">HKU\.Default\Keyboard Layout\* [*]</pattern>
@@ -58,6 +66,14 @@
             <!-- Windows NT current version settings -->
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [DisplayVersion]</pattern>
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [ShutdownWarningDialogTimeout]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [DdeSendTimeout]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [DesktopHeapLogging]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [USERProcessHandleQuota]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [USERPostMessageLimit]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [USERNestedWindowLimit]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [GDIProcessHandleQuota]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [ThreadUnresponsiveLogTimeout]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug [UserDebuggerHotKey]</pattern>
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IMM [LoadIMM]</pattern>
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IMM [DontLoadCTFIME]</pattern>
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Console\FullScreen\* [*]</pattern>
@@ -73,6 +89,13 @@
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Palm [*]</pattern>
             <!-- Pen/touch settings -->
             <pattern type="Registry">HKLM\SOFTWARE\\System\CurrentControlSet\Control\TabletPC\* [*]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Pen\* [*]</pattern>
+            <pattern type="Registry">HKLM\System\CurrentControlSet\Control [ProcessTerminateTimeout]</pattern>
+            <pattern type="Registry">HKLM\System\CurrentControlSet\Control\Windows [ErrorMode]</pattern>
+            <pattern type="Registry">HKLM\System\CurrentControlSet\Control\Terminal Server [NotificationTimeOut]</pattern>
+            <pattern type="Registry">HKLM\System\CurrentControlSet\Control\PriorityControl [Win32PrioritySeparation]</pattern>
+            <pattern type="Registry">HKLM\Software\Policies\Microsoft\Windows\System [GPAllowBlockingApps]</pattern>
+            <pattern type="Registry">HKLM\System\CurrentControlSet\Control\Terminal Server [SnapshotMonitors]</pattern>
           </objectSet>
         </include>
         <exclude>
@@ -103,8 +126,17 @@
             <pattern type="Registry">HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows [MenuDropAlignment]</pattern>
             <!-- Pen/touch settings -->
             <pattern type="Registry">HKCU\Software\Microsoft\Wisp\* [*]</pattern>
+            <pattern type="Registry">HKCU\Software\Microsoft\Windows NT\CurrentVersion\Windows\Pen\* [*]</pattern>
             <!-- Precision touch pad settings -->
             <pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad\* [*]</pattern>
+            <!-- Pen interaction model setting -->
+            <pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\Pen [LegacyPenInteractionModel]</pattern>
+            <pattern type="Registry">HKCU\Control Panel\Keyboard [InitialKeyboardIndicators]</pattern>
+            <pattern type="Registry">HKCU\Control Panel\Keyboard [KeyboardDelay]</pattern>
+            <pattern type="Registry">HKCU\Control Panel\Keyboard [KeyboardSpeed]</pattern>
+            <pattern type="Registry">HKU\.DEFAULT\Control Panel\Keyboard [InitialKeyboardIndicators]</pattern>
+            <pattern type="Registry">HKCU\Control Panel\Accessibility [MessageDuration]</pattern>
+            <pattern type="Registry">HKCU\Control Panel\Accessibility [MinimumHitRadius]</pattern>
           </objectSet>
         </include>
         <!-- Prune out some Console-related registry settings that we want to override on upgrade from pre-Win10 OS's -->
@@ -130,9 +162,6 @@
         <exclude>
           <objectSet>
             <!-- Desktop settings -->
-            <pattern type="Registry">HKCU\Control Panel\Desktop [Wallpaper]</pattern>
-            <pattern type="Registry">HKCU\Control Panel\Desktop [TileWallpaper]</pattern>
-            <pattern type="Registry">HKCU\Control Panel\Desktop [WallpaperStyle]</pattern>
             <pattern type="Registry">HKCU\Control Panel\Desktop [ScreenSaveTimeOut]</pattern>
             <pattern type="Registry">HKCU\Control Panel\Desktop [ScreenSaveActive]</pattern>
             <pattern type="Registry">HKCU\Control Panel\Desktop [ScreenSaverIsSecure]</pattern>

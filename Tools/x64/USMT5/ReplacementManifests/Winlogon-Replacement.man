@@ -149,14 +149,15 @@
       optimizePatterns="no"
       offlineApply="no"
       scope="Upgrade,MigWiz,USMT"
-      replacementSettingsVersionRange="0"
-      settingsVersion="1"
+      replacementSettingsVersionRange="0-2"
+      settingsVersion="3"
       >
     <migXml xmlns="">
       <rules context="User">
         <include>
           <objectSet>
             <pattern type="Registry">HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon [EnableGoodbye]</pattern>
+            <pattern type="Registry">HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce [Application Restart #*]</pattern>
           </objectSet>
         </include>
         <merge script="MigXmlHelper.SourcePriority()">
@@ -189,6 +190,7 @@
             <pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\UserARSO\* [*]</pattern>
             <pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon [TBALIgnorePolicyTestHook]</pattern>
             <pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon [ForceAutoLockOnLogon]</pattern>
+            <pattern type="Registry">HKLM\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Winlogon [Shell]</pattern>
           </objectSet>
         </include>
         <rules context="System">
@@ -223,6 +225,7 @@
             <pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\UserARSO\* [*]</pattern>
             <pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon [TBALIgnorePolicyTestHook]</pattern>
             <pattern type="Registry">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon [ForceAutoLockOnLogon]</pattern>
+            <pattern type="Registry">HKLM\Software\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Winlogon [Shell]</pattern>
           </objectSet>
         </merge>
       </rules>

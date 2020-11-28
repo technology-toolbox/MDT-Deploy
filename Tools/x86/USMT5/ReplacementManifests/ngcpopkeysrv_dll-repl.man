@@ -12,6 +12,7 @@
       version="0.0.0.0"
       />
   <migration
+      offlineApply="no"
       scope="Upgrade,Data"
       settingsVersion="3"
       replacementSettingsVersionRange="0-2" 

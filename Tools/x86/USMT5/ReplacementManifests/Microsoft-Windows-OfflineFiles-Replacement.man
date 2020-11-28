@@ -33,6 +33,7 @@
       <plugin
           classId="{0db12ccb-7cfd-46b6-b4d1-daa6ff0fbcf7}"
           file="Microsoft-Windows-OfflineFiles-Core\Cscmig.dll" 
+          offlineApply="Yes"
           />
       <!-- Move computer preference. In non-upgrade case, we only want to migrate these preferences
            if they are not already defined on the target machine. -->

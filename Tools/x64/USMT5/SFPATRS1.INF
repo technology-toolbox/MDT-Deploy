@@ -1243,6 +1243,8 @@
 "[microsoft.powershell.workflow.servicecore.resources, version=3.0.*]"
 "[microsoft.powershell.workflow.servicecore.resources, version=6.4.*]"
 "[microsoft.powershell.workflow.servicecore.resources, version=10.0.*]"
+"[microsoft.processmitigations.commands, version=10.0.*]"
+"[microsoft.processmitigations.commands.resources, version=10.0.*]"
 "[microsoft.rightsmanagementservices.admin, version=6.4.*]"
 "[microsoft.rightsmanagementservices.admin, version=10.0.*]"
 "[microsoft.rightsmanagementservices.admingui, version=6.4.*]"

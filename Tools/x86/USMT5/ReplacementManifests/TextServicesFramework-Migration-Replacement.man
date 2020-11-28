@@ -22,6 +22,7 @@
         <plugin
             classId="{0b23c863-4410-4153-8733-a60c9b1990fb}"
             file="Microsoft-Windows-TextServicesFramework-Migration\msctfmig.dll"
+            offlineApply="Yes"
             />
         <!-- Gather the registry keys that need to be migrated -->
         <!-- valid only in full ugprade or data-only upgrade   -->
@@ -73,6 +74,7 @@
       <plugin
           classId="{0b23c863-4410-4153-8733-a60c9b1990fb}"
           file="Microsoft-Windows-TextServicesFramework-Migration\msctfmig.dll"
+          offlineApply="Yes"
           />
       <!-- Gather the registry keys that need to be migrated -->
       <!-- valid only in PC to PC migration scenarios        -->

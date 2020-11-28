@@ -15,7 +15,7 @@
       />
     <migration 
       scope="Upgrade,MigWiz,USMT"
-      settingsVersion="2"
+      settingsVersion="4"
       replacementSettingsVersionRange="0"
       replacementVersionRange="6.0-11.0.10120.0">
     <migXml

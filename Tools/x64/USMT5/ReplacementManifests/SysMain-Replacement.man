@@ -31,6 +31,7 @@
           <objectSet>
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\EMDMgmt\* [*]</pattern>
             <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Superfetch [MigratedData]</pattern>
+            <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Superfetch [PfIuHistory]</pattern>
           </objectSet>
         </include>
       </rules>

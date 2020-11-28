@@ -25,6 +25,7 @@
       <plugin
           classId="{617c0a54-d12e-4340-87e7-01cc31bde762}"
           file="WindowsSearchEngine\WSearchMigPlugin.dll"
+          offlineApply="yes"
           />
       <rules context="System">
         <include>

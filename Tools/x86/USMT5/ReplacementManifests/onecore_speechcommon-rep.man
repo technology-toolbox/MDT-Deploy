@@ -12,106 +12,105 @@
       language="neutral"
       />
   <migration
-      replacementSettingsVersionRange="0-1"
+      replacementSettingsVersionRange="0-3"
       scope="Upgrade,MigWiz,USMT"
-      settingsVersion="2"
+      settingsVersion="4"
       >
       <machineSpecific>
         <migXml xmlns="">
-          <rules>
-            <!-- rules to execute special privacy settings migration --> 
-            <conditions operation="AND">
-
-              <!-- the OS version is between 10.0 and 10.0.14393 (TH1 to RS1 inclusive) -->
-              <condition>MigXmlHelper.IsOSLaterThan("NT","10.0")</condition>
-              <condition>MigXmlHelper.IsOSEarlierThan("NT","10.0.14393")</condition>
-
-              <!-- this not a Server edition -->
-              <condition negation="Yes">MigXmlHelper.DoesStringContentContain("Registry", "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion [EditionID]", "Server")</condition>
-
-              <!-- this not PPIPro edition -->
-              <condition negation="Yes">MigXmlHelper.DoesStringContentContain("Registry", "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion [EditionID]", "PPIPro")</condition>
-
-              <!-- system is not joined to a domain, NV Domain does not exist or it's empty --> 
-              <conditions operation="OR">
-                <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters [NV Domain]")</condition>
-                <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters [NV Domain]", "")</condition>
-              </conditions>
-
-              <!-- system is not managed by SCCM, ProductCode does not exist or it's empty --> 
-              <conditions operation="OR">
-                <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\SMS\Mobile Client [ProductCode]")</condition>
-                <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SOFTWARE\Microsoft\SMS\Mobile Client [ProductCode]", "")</condition>
-              </conditions>
-
-              <!-- system is not updated using WSUS -->
-              <condition negation="Yes">MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU [UseWUServer]", "0x00000001")</condition>
-
-              <!-- we don't have an explicit request to perform a normal migration -->
-              <condition negation="Yes">MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CreatorsUpdatePrivacySettings [ShowUI]", "0x00000000")</condition>
-
+          <rules context="System">
+            <conditions>
+              <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Policies\Microsoft\InputPersonalization [AllowInputPersonalization]")</condition>
+              <condition>MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\PolicyManager\Current\Device\Privacy [AllowInputPersonalization]")</condition>
+              <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SOFTWARE\Microsoft\PolicyManager\Current\Device\Privacy [AllowInputPersonalization]", "0x00000000")</condition>
             </conditions>
-
-            <!-- Do not migrate the normal AcceptedPrivacyPolicy value from either HKLM or HKCU -->
-            <rules context="System">
-              <exclude>
-                <objectSet>
-                  <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]</pattern>
-                </objectSet>
-              </exclude>
-            </rules>
-            <rules context="User">
-              <exclude>
-                <objectSet>
-                  <pattern type="Registry">HKCU\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]</pattern>
-                </objectSet>
-              </exclude>
-            </rules>
-
-            <rules context="System">
-              <!-- Simulate the value of the WSD Apps setting if it's not there -->
-              <addObjects>
-                <conditions>
-                  <condition negation="yes">MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CreatorsUpdatePrivacySettings\SettingChoice\EnableSpeechRecognition\HKLM [AcceptedPrivacyPolicy]")</condition>
-                </conditions>
-                <object>
-                  <location type="Registry">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CreatorsUpdatePrivacySettings\SettingChoice\EnableSpeechRecognition\HKLM [AcceptedPrivacyPolicy]</location>
-                  <attributes>dword</attributes>
-                  <bytes>00000000</bytes>
-                </object>
-              </addObjects>
-
-              <!-- and now migrate the WSD App's setting -->
-              <include>
-                <objectSet>
-                  <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CreatorsUpdatePrivacySettings\SettingChoice\EnableSpeechRecognition\HKLM [AcceptedPrivacyPolicy]</pattern>
-                </objectSet>
-              </include>
-            </rules>
-
+            <include>
+              <objectSet>
+                <pattern type="Registry">HKLM\SOFTWARE\Microsoft\PolicyManager\Current\Device\Privacy [AllowInputPersonalization]</pattern>
+              </objectSet>
+            </include>
           </rules>
-
+          <rules context="System">
+            <conditions>
+              <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]")</condition>
+              <condition>MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]")</condition>
+              <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]", "0x00000000")</condition>
+            </conditions>
+            <addObjects>
+              <object>
+                <location type="Registry">HKLM\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]</location>
+                <attributes>dword</attributes>
+                <bytes>00000000</bytes>
+              </object>
+            </addObjects>
+          </rules>
+          <rules context="System">
+            <conditions>
+              <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]")</condition>
+              <condition>MigXmlHelper.DoesObjectExist("Registry", "HKLM\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]")</condition>
+              <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKLM\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]", "0x00000001")</condition>
+            </conditions>
+            <addObjects>
+              <object>
+                <location type="Registry">HKLM\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]</location>
+                <attributes>dword</attributes>
+                <bytes>01000000</bytes>
+              </object>
+            </addObjects>
+          </rules>
           <rules context="System">
             <include>
               <objectSet>
                 <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Personalization\Settings\* [*]</pattern>
+                <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy\* [*]</pattern>
               </objectSet>
             </include>
             <merge script="MigXmlHelper.SourcePriority()">
               <objectSet>
                 <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Personalization\Settings\* [*]</pattern>
+                <pattern type="Registry">HKLM\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy\* [*]</pattern>
               </objectSet>
             </merge>
+          </rules>
+          <rules context="User">
+            <conditions>
+              <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]")</condition>
+              <condition>MigXmlHelper.DoesObjectExist("Registry", "HKCU\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]")</condition>
+              <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKCU\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]", "0x00000000")</condition>
+            </conditions>
+            <addObjects>
+              <object>
+                <location type="Registry">HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]</location>
+                <attributes>dword</attributes>
+                <bytes>00000000</bytes>
+              </object>
+            </addObjects>
+          </rules>
+          <rules context="User">
+            <conditions>
+              <condition negation="Yes">MigXmlHelper.DoesObjectExist("Registry", "HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]")</condition>
+              <condition>MigXmlHelper.DoesObjectExist("Registry", "HKCU\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]")</condition>
+              <condition>MigXmlHelper.DoesStringContentEqual("Registry", "HKCU\SOFTWARE\Microsoft\Personalization\Settings [AcceptedPrivacyPolicy]", "0x00000001")</condition>
+            </conditions>
+            <addObjects>
+              <object>
+                <location type="Registry">HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy [HasAccepted]</location>
+                <attributes>dword</attributes>
+                <bytes>01000000</bytes>
+              </object>
+            </addObjects>
           </rules>
           <rules context="User">
             <include>
               <objectSet>
                 <pattern type="Registry">HKCU\SOFTWARE\Microsoft\Personalization\Settings\* [*]</pattern>
+                <pattern type="Registry">HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy\* [*]</pattern>
               </objectSet>
             </include>
             <merge script="MigXmlHelper.SourcePriority()">
               <objectSet>
                 <pattern type="Registry">HKCU\SOFTWARE\Microsoft\Personalization\Settings\* [*]</pattern>
+                <pattern type="Registry">HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy\* [*]</pattern>
               </objectSet>
             </merge>
           </rules>
