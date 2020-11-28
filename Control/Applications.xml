@@ -53,14 +53,14 @@
     <Reboot>False</Reboot>
   </application>
   <application guid="{d3cb5ee7-9492-492b-9c51-b4cc83e69d9e}" hide="False" enable="True">
-    <Name>Thunderbird</Name>
+    <Name>Thunderbird (32-bit)</Name>
     <CreatedTime>12/27/2016 4:26:24 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/31/2020 5:37:53 PM</LastModifiedTime>
+    <LastModifiedTime>11/23/2020 4:04:09 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
-    <ShortName>Thunderbird</ShortName>
-    <Version>78.2.1</Version>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\Thunderbird Setup 78.2.1.exe" -ms</CommandLine>
+    <ShortName>Thunderbird-x86</ShortName>
+    <Version>78.5.0 (32-bit)</Version>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\x86\Thunderbird Setup 78.5.0.exe" -ms</CommandLine>
     <Reboot>False</Reboot>
   </application>
   <application guid="{ac941f1b-5518-4360-8bf4-1a11bc796151}" hide="False" enable="True">
@@ -270,5 +270,19 @@
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>ConfigMgrTools</ShortName>
     <CommandLine>msiexec.exe /i "\\TT-FS01\Products\Microsoft\System Center 2012 R2\System Center 2012 R2 Configuration Manager Toolkit\ConfigMgrTools.msi" /qr</CommandLine>
+  </application>
+  <application guid="{6d8e41fc-50b7-4f29-825c-eba1e25bcff0}" enable="True" hide="False">
+    <Name>Thunderbird (64-bit)</Name>
+    <CreatedTime>11/23/2020 4:02:08 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>11/23/2020 4:04:18 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ShortName>Thunderbird-x64</ShortName>
+    <Version>78.5.0 (64-bit)</Version>
+    <Publisher></Publisher>
+    <Language></Language>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\x64\Thunderbird Setup 78.5.0.exe" -ms</CommandLine>
+    <WorkingDirectory></WorkingDirectory>
+    <Reboot>False</Reboot>
   </application>
 </applications>
