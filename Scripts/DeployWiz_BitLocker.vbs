@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_BitLocker.vbs
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   BitLocker wizard pane initialization script
 ' // 

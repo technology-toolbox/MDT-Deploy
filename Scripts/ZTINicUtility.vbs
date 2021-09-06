@@ -6,7 +6,7 @@
 ' //
 ' // File:      ZTINicUtility.wsf
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Utility functions For NIC COnfiguration
 ' // 

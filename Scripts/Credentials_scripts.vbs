@@ -6,7 +6,7 @@
 ' //
 ' // File:      Credentials_scripts.vbs
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Scripts to initialize and validate credential wizard
 ' // 

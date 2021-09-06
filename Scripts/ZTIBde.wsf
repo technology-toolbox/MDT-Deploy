@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIBDE.wsf
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Install and configure Bitlocker Drive Encryption
 ' // 
@@ -105,7 +105,7 @@ Class ZTIBDE
 		'//----------------------------------------------------------------------------
 
         
-       '// Save to OSCurrentVersion temporary varibale
+		'// Save to OSCurrentVersion temporary varibale
 		oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
 		iOSCVMajor = oUtility.VersionMajor
 		iOSCVMinor = oUtility.VersionMinor
@@ -269,7 +269,7 @@ Class ZTIBDE
 		'//  If this is Windows Server then make sure that BitLocker role is installed
 		'//----------------------------------------------------------------------------
 
-		If (Left(oEnvironment.item("OSCurrentVersion"),1)) >= 6 and (oEnvironment.Item("IsServerOS"))Then
+		If iOSCVMajor >= 6 and (oEnvironment.Item("IsServerOS")) Then
 
 			Dim sCmd, colServerFeature
 		
@@ -290,9 +290,8 @@ Class ZTIBDE
 
 
 				' Build the command to install the BitLocker feature
-				oUtility.GetMajorMinorVersion(oEnvironment.Item("OSCurrentVersion"))
 
-				If oUtility.VersionMajor = 6 and oUtility.VersionMinor = 0 then
+				If iOSCVMajor = 6 and iOSCVMinor = 0 then
 				
 					' Use ServerManagerCmd.exe or OCSetup.exe to install the feature
 
@@ -307,7 +306,7 @@ Class ZTIBDE
 					' any required dependencies (e.g. enhanced storage).
 	
 					sCmd = "dism.exe /online /enable-feature /featurename:BitLocker"
-					If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 ) then
+					If ((iOSCVMajor = 6 and iOSCVMinor >= 2) or iOSCVMajor >= 10 ) then
 						sCmd = sCmd & " /all"
 					End if
 					sCmd = sCmd & " /NoRestart"

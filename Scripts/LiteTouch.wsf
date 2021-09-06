@@ -12,7 +12,7 @@
 ' //
 ' // File:      Litetouch.wsf
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Drive the lite touch deployment process
 ' // 
@@ -791,11 +791,9 @@ Class Litetouch
 
 		If not oFSO.FileExists(sTSPath & "\TS.XML") then
 
-			' Copy the appropriate TS.XML file
+			' Get the expanded task sequence XML
 
-			oUtility.VerifyPathExists sTSPath
-			oLogging.CreateEntry "Copying " & oEnvironment.Item("DeployRoot") & "\Control\" & oEnvironment.Item("TaskSequenceID") & "\TS.XML to " & sTSPath, LogTypeInfo
-			oFSO.CopyFile oEnvironment.Item("DeployRoot") & "\Control\" & oEnvironment.Item("TaskSequenceID") & "\TS.XML", sTSPath & "\TS.XML", true
+			GetTSXML sTSPath
 
 
 			' Copy the VARIABLES.DAT to where the task sequence can find it
@@ -1725,6 +1723,112 @@ Class Litetouch
 		rc = oUtility.RunWithHeartbeat("x:\Sources\Recovery\RecEnv.exe")
 
 		wscript.quit 0
+
+	End function
+
+	Sub GetTSXML(sTSPath)
+
+		Dim sTSXML, oTS
+		Dim oSub
+
+		' Load the initial TS.xml
+
+		sTSXML = oEnvironment.Item("DeployRoot") & "\Control\" & oEnvironment.Item("TaskSequenceID") & "\TS.XML"
+		oLogging.CreateEntry "Reading " & sTSXML, LogTypeInfo
+		Set oTS = oUtility.CreateXMLDOMObjectSafe(sTSXML)
+
+		' Process nested task sequences
+
+		For each oSub in oTS.selectNodes("//step[@type='SMS_TaskSequence_SubTasksequence']")
+			SubTSXML oTS, oSub
+		Next
+
+		' Save expanded task sequence
+
+		oLogging.CreateEntry "Saving task sequence XML to " & sTSPath & "\TS.XML", LogTypeInfo
+		oUtility.VerifyPathExists sTSPath
+		oTS.Save sTSPath & "\TS.XML"
+
+	End sub
+
+	Function SubTSXML(oTS, oSub)
+
+		Dim sSubID
+		Dim oChildTS
+		Dim sSubTSXML
+		Dim oNewSub
+		Dim oNewGroup
+		Dim oAttribute
+		Dim oCondition
+		Dim sChild
+		Dim oNode, oExisting
+
+
+		' Get the ID of the nested task sequence
+
+		sSubID = oSub.selectSingleNode(".//variable[@name='SubTaskSequenceID']").Text
+		oLogging.CreateEntry "Processing nested task sequence " & sSubID, LogTypeInfo
+
+
+		' Load the nested TS.XML
+
+		sSubTSXML = oEnvironment.Item("DeployRoot") & "\Control\" & sSubID & "\TS.XML"
+		oLogging.CreateEntry "Reading " & sSubTSXML, LogTypeInfo
+		Set oChildTS = oUtility.CreateXMLDOMObjectSafe(sSubTSXML)
+
+
+		' Merge in any new global variables
+
+		For each oNode in oChildTS.documentElement.selectNodes(".//globalVarList/variable")
+			Set oExisting = oTS.documentElement.selectSingleNode(".//globalVarList/variable[@name='" & oNode.attributes.getNamedValue("name").value & "']")
+			If oExisting is Nothing then
+
+				' If there isn't yet a globalVarList, add it
+
+				Set oExisting = oTS.documentElement.SelectSingleNode(".//globalVarList")
+				If oExisting is Nothing then
+					Set oExisting = oTS.createElement("group")
+					oTS.documentElement.appendChild oExisting
+				End if
+
+				' Now add the variable
+
+				oExisting.appendChild oTS.cloneNode(oNode, true)
+				oLogging.CreateEntry "Appended global variable " & oNode.attributes.getNamedValue("name"), LogTypeInfo
+			End if
+		Next
+
+
+		' Recursively process any new nested task sequences
+
+		For each oNewSub in oChildTS.selectNodes("//step[@type='SMS_TaskSequence_SubTasksequence']")
+			SubTSXML oChildTS, oNewSub
+		Next
+
+
+		' Replace the existing step with a group of the same name, copying conditions and continue on error settings from the existing step
+
+		Set oNewGroup = oTS.createElement("group")
+
+		For each sChild in Array("name", "description", "disable", "continueOnError")
+			Set oAttribute = oTS.createAttribute(sChild)
+			oAttribute.Value = oSub.Attributes.getNamedItem(sChild).Value
+			oNewGroup.Attributes.setNamedItem(oAttribute)
+		Next
+		Set oCondition = oSub.SelectSingleNode(".//condition")
+		If not (oCondition is Nothing) then
+			oNewGroup.AppendChild oCondition
+		End if
+
+
+		' Insert the child TS content into the group
+
+		For each oNode in oChildTS.documentElement.childNodes
+			If oNode.nodeName <> "globalVarList" then
+				oNewGroup.appendChild oNode
+			End if
+		Next 
+		oSub.parentNode.replaceChild oTS.importNode(oNewGroup, true), oSub
 
 	End function
 

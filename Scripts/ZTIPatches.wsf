@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIPatches.wsf
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Adds the appropriate OS packages (language packs, security 
 ' //            updates, etc.) to the unattend.xml for offline installation.
@@ -85,10 +85,6 @@ Class ZTIPatches
 		oUtility.VerifyPathExists oUtility.LocalRootPath
 
 
-		' Turn on Drivers.log to get driver injection log
-		oUtility.RegWrite "HKLM\Software\Microsoft\Windows\CurrentVersion\Device Installer\DebugPkgMgr", 1
-
-
 		' Figure out the right platform to inject.  (The OSArchitecture variable is set during ConfigMgr 
 		' deployments based on the OS being installed.  It is set by the "Apply Operating System" step
 		' regardless of whether an OS image package or OS install package is being used.) 
@@ -101,25 +97,6 @@ Class ZTIPatches
 			sPlatform = "x86"
 		End if
 		oLogging.CreateEntry "Operating system being deployed requires " & sPlatform & " updates.", LogTypeInfo
-
-
-		' Only perform package management tasks if we are in the correct state.
-
-		If UCase(oEnvironment.Item("PHASE")) = "PREINSTALL" then
-
-			oLogging.CreateEntry "Pre-Install setup installation state." , LogTypeInfo
-			
-		Elseif uCase(oEnvironment.Item("DeploymentMethod")) = "SCCM" then
-		
-			oLogging.CreateEntry "ConfigMgr patching state." , LogTypeInfo
-			
-		Else
-
-			oLogging.CreateEntry "No patching is required in the current phase." , LogTypeInfo
-			Main = Success
-			Exit Function
-
-		End if
 
 
 		' Find the Unattend.xml file.
@@ -192,6 +169,7 @@ Class ZTIPatches
 
 		End if
 
+
 		' ---------------------------------------------------------------------------
 		' Install all "HotFix" patches
 		' ---------------------------------------------------------------------------
@@ -204,6 +182,7 @@ Class ZTIPatches
 				Exit function
 			End if
 		End if
+
 
 		' Install specified language packs
 
@@ -294,6 +273,7 @@ Class ZTIPatches
 		Dim xmlDoc, oServicingRoot, oPackageRoot, oAssembly, oSource, oPackage
 		Dim item, PatchGUID, count, f, fIsServicingExisting
 		Dim RelativePathToPackage
+		Dim iRetVal
 
 		Set xmlDoc = outility.CreateXMLDOMObjectEx( XMLFile )
 		xmlDoc.setProperty "SelectionNamespaces", "xmlns:unattend='urn:schemas-microsoft-com:unattend'"
@@ -334,25 +314,19 @@ Class ZTIPatches
 					oLogging.CreateEntry vbTab & "The package (patch) GUID " & PatchGUID & " does not exist.", LogTypeError
 				Else
 
+					' Get the package details
+
 					set oPackage = dAllPackages.Item(PatchGUID)
-					
-					Set oAssembly = xmlDoc.createElement("assemblyIdentity")
-					oAssembly.setAttribute "name" , oUtility.SelectSingleNodeString(oPackage, "./ProductName" )
-					For each item in array("Version","ProcessorArchitecture","PublicKeyToken","Language")
-						oAssembly.setAttribute lcase(left(item,1)) & mid(item,2) , oUtility.SelectSingleNodeString(oPackage,"./" & item )
-					Next
 
-
-					Set oSource = xmlDoc.createElement("source")
 					item = oUtility.SelectSingleNodeString(oPackage,"./Source" )
 
-						If Left(item, 1) = "." then
-							RelativePathToPackage = mid ( item, instr(1, item, "\Packages\", vbTextCompare) )
-							RelativePathToPackage = oEnvironment.Item("ResourceRoot") & RelativePathToPackage
-						else
-							' Otherwise assume path is absolute
-							RelativePathToPackage = item
-						end if
+					If Left(item, 1) = "." then
+						RelativePathToPackage = mid ( item, instr(1, item, "\Packages\", vbTextCompare) )
+						RelativePathToPackage = oEnvironment.Item("ResourceRoot") & RelativePathToPackage
+					Else
+						' Otherwise assume path is absolute
+						RelativePathToPackage = item
+					End if
 
 					If not oFSO.FileExists(RelativePathToPackage) then
 						oLogging.CreateEntry oUtility.ScriptName & " Package path not found: " & RelativePathToPackage, LogTypeError
@@ -360,23 +334,54 @@ Class ZTIPatches
 						Exit function
 					End if
 
-					oSource.setAttribute "location", RelativePathToPackage
 
-					If oEnvironment.Item("DeploymentMethod") = "SCCM" Then
-						'Copy packages to another location for download on demand so that the packages don't get deleted
-						oSource.setAttribute "location", PreparePackageLocally(RelativePathToPackage)
+					' Process the package
+
+					If Right(UCase(RelativePathToPackage), 5) = ".APPX" then
+
+						If oEnvironment.Item("PHASE") = "POSTINSTALL" or oEnvironment.Item("DeploymentMethod") = "SCCM" then
+
+							' New language experience pack, needs to be processed directly by DISM, not via unattend.xml
+							oLogging.CreateEntry "Installing Language Experience Pack: " & RelativePathToPackage, LogTypeInfo
+							iRetVal = InstallLXP(Left(XMLFile, 2), RelativePathToPackage)
+							If iRetVal <> 0 then
+								oLogging.CreateEntry "ERROR: Unable to install Language Experience Pack, unexpected return code from DISM.EXE, rc = " & iRetVal & ".  Check the DISM log for more information", LogTypeError
+							End if
+						Else
+							oLogging.CreateEntry "Skipping LXP during Lite Touch preinstall phase.", LogTypeInfo
+						End if
+
+					ElseIf oEnvironment.Item("PHASE") = "PREINSTALL" or oEnvironment.Item("DeploymentMethod") = "SCCM" then
+
+						' Prepare the XML entry
+
+						Set oAssembly = xmlDoc.createElement("assemblyIdentity")
+						oAssembly.setAttribute "name" , oUtility.SelectSingleNodeString(oPackage, "./ProductName" )
+						For each item in array("Version","ProcessorArchitecture","PublicKeyToken","Language")
+							oAssembly.setAttribute lcase(left(item,1)) & mid(item,2) , oUtility.SelectSingleNodeString(oPackage,"./" & item )
+						Next
+
+						Set oSource = xmlDoc.createElement("source")
+						oSource.setAttribute "location", RelativePathToPackage
+
+						If oEnvironment.Item("DeploymentMethod") = "SCCM" Then
+							'Copy packages to another location for download on demand so that the packages don't get deleted
+							oSource.setAttribute "location", PreparePackageLocally(RelativePathToPackage)
+						End if
+
+						Set oPackageRoot = xmlDoc.createElement("package")
+						oPackageRoot.setAttribute "action", "install"
+						oPackageRoot.AppendChild oAssembly
+						oPackageRoot.AppendChild oSource
+
+						oServicingRoot.AppendChild oPackageRoot
+
+						' Only add to count after adding an entry to the unattend.xml (not for LXPs)
+						count = count + 1
+						oLogging.CreateEntry "Package " & PatchGUID & " added.", LogTypeInfo
+
 					End if
 
-					Set oPackageRoot = xmlDoc.createElement("package")
-					oPackageRoot.setAttribute "action", "install"
-					oPackageRoot.AppendChild oAssembly
-					oPackageRoot.AppendChild oSource
-
-					oServicingRoot.AppendChild oPackageRoot
-
-					count = count + 1
-
-					oLogging.CreateEntry "Package " & PatchGUID & " added.", LogTypeInfo
 
 				End if
 
@@ -440,6 +445,62 @@ Class ZTIPatches
 
 
 		RunDISM = iRetVal
+
+	End Function
+
+
+	Function InstallLXP(sUnattendDrive, sPackagePath)
+
+		Dim iRetVal
+		Dim bFoundLicense
+		Dim sCmd
+		Dim sWorkingDir
+		Dim oFile
+
+
+		' Make sure the scratch directory exists
+
+		oUtility.VerifyPathExists oUtility.LocalRootPath & "\Scratch"
+
+
+		' Set USERPROFILE environment variable to point to a valid local directory so that temporary files are placed there
+
+		oEnv("USERPROFILE") = oUtility.LocalRootPath
+
+
+		' Build the command 
+
+		sCmd = "dism.exe /Image:" & sUnattendDrive & "\ /Add-ProvisionedAppxPackage /PackagePath:""" & sPackagePath & """ /ScratchDir:" & oUtility.LocalRootPath & "\Scratch /LogPath:" & oUtility.LogPath & "\ZTIPatches_DISM.log"
+
+
+		' Add the license
+
+		sWorkingDir = oFSO.GetParentFolderName(sPackagePath)
+		bFoundLicense = False
+		For each oFile in oFSO.GetFolder(sWorkingDir).Files
+			If UCase(Right(oFile.Name,4)) = ".XML" then
+				sCmd = sCmd & " /LicensePath:""" & oFile.Path & """"
+				bFoundLicense = True
+			End if
+		Next
+		If not bFoundLicense then
+			sCmd = sCmd & " /SkipLicense"
+		End if
+
+
+		' Run DISM
+
+		iRetVal = oUtility.RunWithConsoleLogging(sCmd)
+
+
+		' Clean up the sandbox folder
+
+		If oFSO.FolderExists(oUtility.LocalRootPath & "\Scratch") then
+			oFileHandling.RemoveFolder oUtility.LocalRootPath & "\Scratch"
+		End if
+
+
+		InstallLXP = iRetVal
 
 	End Function
 

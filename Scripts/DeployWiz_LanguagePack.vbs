@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_LanguagePack.vbs
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Wizard pane for choosing one or more language packs for install
 ' // 
@@ -63,9 +63,9 @@ Function ConstructLPQuery ( isLangPack )
 	ImgBuild  = oEnvironment.Item("ImageBuild")
 
 	If isServer then
-		LPQuery = "PackageType = 'LanguagePack' and ( ProductName = 'Microsoft-Windows-Server-LanguagePack-Package' or ProductName = 'Microsoft-Windows-Server-Refresh-LanguagePack-Package' )"
+		LPQuery = "PackageType = 'LanguagePack' and ( ProductName = 'Microsoft-Windows-Server-LanguagePack-Package' or ProductName = 'Microsoft-Windows-Server-Refresh-LanguagePack-Package' or ProductName = 'Microsoft.LanguageExperiencePack')"
 	Else
-		LPQuery = "PackageType = 'LanguagePack' and ( ProductName = 'Microsoft-Windows-Client-LanguagePack-Package' or ProductName = 'Microsoft-Windows-Client-Refresh-LanguagePack-Package' )"
+		LPQuery = "PackageType = 'LanguagePack' and ( ProductName = 'Microsoft-Windows-Client-LanguagePack-Package' or ProductName = 'Microsoft-Windows-Client-Refresh-LanguagePack-Package' or ProductName = 'Microsoft.LanguageExperiencePack')"
 	End if
 
 	If not isLangPack then
@@ -94,9 +94,9 @@ Function ConstructLPQuery ( isLangPack )
 	End if
 
 	If UCase(oEnvironment.Item("ImageProcessor")) = "X64" then
-		LPQuery = "//packages/package[ProcessorArchitecture = 'amd64' and " & LPQuery & "]"
+		LPQuery = "//packages/package[(ProcessorArchitecture = 'amd64' or ProcessorArchitecture = 'neutral') and " & LPQuery & "]"
 	Else
-		LPQuery = "//packages/package[ProcessorArchitecture = 'x86' and " & LPQuery & "]"
+		LPQuery = "//packages/package[(ProcessorArchitecture = 'x86' or ProcessorArchitecture = 'neutral') and " & LPQuery & "]"
 	End if
 
 	oLogging.CreateEntry vbTab & "QUERY: " & LPQuery, LogTypeInfo

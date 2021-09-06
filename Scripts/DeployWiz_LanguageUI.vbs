@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_LanguageUI.vbs
 ' // 
-' // Version:   6.3.8450.1000
+' // Version:   6.3.8456.1000
 ' // 
 ' // Purpose:   Script methods used for the language UI (locale, timezone) pane
 ' // 
