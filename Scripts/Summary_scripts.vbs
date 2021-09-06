@@ -6,7 +6,7 @@
 ' //
 ' // File:      Summary_scripts.vbs
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Scripts to initialize and validate summary wizard
 ' // 

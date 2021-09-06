@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIBDE.wsf
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Install and configure Bitlocker Drive Encryption
 ' // 
@@ -135,14 +135,9 @@ Class ZTIBDE
 				oLogging.CreateEntry "BitLocker is suspended, pre-provisioning is not required.", LogTypeInfo
 			Elseif (iImageBuildMajor = 6 and iImageBuildMinor >= 1) or iImageBuildMajor >= 10  or (oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 1) or oUtility.VersionMajor >= 10 then 
 				oLogging.CreateEntry "OS build supports Offline BitLocker.", LogTypeInfo
-				If TpmValidate = SUCCESS then
-					oLogging.CreateEntry "TPM is validated.", LogTypeInfo
-					oLogging.CreateEntry "Pre-provisioning BitLocker on drive " & oUtility.GetOSTargetDriveLetter, LogTypeInfo
-					oUtility.RunWithHeartbeat """" & oEnv("SystemRoot") & "\system32\Manage-bde.exe"" -on " & oUtility.GetOSTargetDriveLetter & " -used"
-					oEnvironment.Item("IsBDEPreProvisioned") = oUtility.ConvertBooleanToString(true)
-				Else
-					oLogging.CreateEntry "TPM not validated, offline BitLocker is not possible.", LogTypeInfo
-				End if
+				oLogging.CreateEntry "Pre-provisioning BitLocker on drive " & oUtility.GetOSTargetDriveLetter, LogTypeInfo
+				oUtility.RunWithHeartbeat """" & oEnv("SystemRoot") & "\system32\Manage-bde.exe"" -on " & oUtility.GetOSTargetDriveLetter & " -used"
+				oEnvironment.Item("IsBDEPreProvisioned") = oUtility.ConvertBooleanToString(true)
 			Else
 				oLogging.CreateEntry "Unable to perform Offline BitLocker tasks for this deployment.", LogTypeInfo
 			End if

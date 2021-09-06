@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIOSRole.wsf
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Install or remove the specified operating system roles
 ' // 
@@ -852,6 +852,8 @@ Class ZTIOSRole
 				Else
 					oLogging.CreateEntry "SourcePath was set, but " & oEnvironment.Item("SourcePath") & "\sources\sxs does not exist, not using local source.", LogTypeInfo
 				End if
+			Else
+				GetSource = oUtility.LocalRootPath & "\sources\" & oEnvironment.Item("Architecture")
 			End if
 		End if
 

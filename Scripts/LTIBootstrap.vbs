@@ -6,7 +6,7 @@
 ' //
 ' // File:      LTIBootstrap.ini
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Invoke LiteTouch.wsf from the appropriate folder
 ' // 

@@ -6,7 +6,7 @@
 ' //
 ' // File:      ZTIDiskUtility.vbs
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:	Utility functions for disk operations
 ' // 

@@ -83,7 +83,7 @@
     <Feature DisplayName="Internet Information Services Hostable Web Core" Id="IIS-HostableWebCore" />
     <Feature DisplayName="Media Features" Id="MediaPlayback">
       <Feature DisplayName="Windows DVD Maker" Id="OpticalMediaDisc" Parent="MediaPlayback" />
-      <Feature DisplayName="Windows Media Center" Id="WindowsMediaPlayer" Parent="MediaPlayback" />
+      <Feature DisplayName="Windows Media Center" Id="MediaCenter" Parent="MediaPlayback" />
       <Feature DisplayName="Windows Media Player" Id="WindowsMediaPlayer" Parent="MediaPlayback" />
     </Feature>
     <Feature DisplayName="Microsoft .NET Framework 3.5.1" Id="NetFx3">
@@ -2355,7 +2355,7 @@
           <RoleService DisplayName='FTP Extensibility' Id='Web-Ftp-Ext' />
         </Role>
         <Role DisplayName='Management Tools' Id='Web-Mgmt-Tools' >
-          <Role DisplayName='IIS Management Console' Id='Web-Ftp-Service' />
+          <Role DisplayName='IIS Management Console' Id='Web-Mgmt-Console' />
           <Role DisplayName='IIS 6 Management Compatibility' Id='Web-Mgmt-Compat' >
             <RoleService DisplayName='IIS 6 Metabase Compatibility' Id='Web-Metabase' />
             <RoleService DisplayName='IIS 6 Management Console' Id='Web-Lgcy-Mgmt-Console' />

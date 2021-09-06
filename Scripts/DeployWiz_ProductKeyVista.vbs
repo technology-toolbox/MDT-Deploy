@@ -6,7 +6,7 @@
 ' //
 ' // File:      DeployWiz_Initialization.vbs
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Main Client Deployment Wizard Initialization routines
 ' // 
@@ -48,10 +48,11 @@ Function InitializeProductKey
 		OverrideProductKey.value = ""
 	End if
 	
-	if oProperties("DeploymentType") = "UPGRADE" then
+	If Property("DeploymentType") = "UPGRADE" then
 		document.getElementById("MAK_Text_tr").style.display = "none"
 		document.getElementById("MAK_Radio_tr").style.display = "none"
 	End if
+
 End Function
 
 Function ValidateProductKey

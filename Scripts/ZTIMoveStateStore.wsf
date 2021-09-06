@@ -10,7 +10,7 @@
 ' //
 ' // File:      ZTIMoveStateStore.wsf
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Moves the User State and Backup files to windows\temp
 ' // 
@@ -65,9 +65,8 @@ Class ZTIMoveStateStore
 
 		iRetVal = Success
 
-		If oFSO.FolderExists(oUtility.LocalRootPath & "\StateStore") then
-			
-			
+		If oFSO.FolderExists(oUtility.StatePath) then
+						
 			If oEnv("SystemDrive") = "X:" Then
 
 				'Find the OS partition
@@ -94,24 +93,23 @@ Class ZTIMoveStateStore
 				On Error Goto 0
 			End if
 
-			oLogging.CreateEntry "Moving " & oUtility.LocalRootPath & "\StateStore" & " to " & sArchiveDir & "\StateStore", LogTypeInfo
+			oLogging.CreateEntry "Moving " & oUtility.StatePath & " to " & sArchiveDir & "\StateStore", LogTypeInfo
 
 			
 			'Check to see if the StateStore directory is on the same drive as the ArchiveDir
 			If Left(oUtility.LocalRootPath,2) = Left(sArchiveDir,2) Then
 				On Error Resume Next
-				oFSO.MoveFolder oUtility.LocalRootPath & "\StateStore", sArchiveDir & "\StateStore"
+				oFSO.MoveFolder oUtility.StatePath, sArchiveDir & "\StateStore"
 				wscript.sleep 30000
 				If Err then
-					oLogging.CreateEntry "Error moving " & oUtility.LocalRootPath & "\StateStore" & " to " & sArchiveDir & "\StateStore: " & Err.Description & " (" & Err.Number & ").  Trying to copy", LogTypeWarning
-		
+					oLogging.CreateEntry "Error moving " & oUtility.StatePath & " to " & sArchiveDir & "\StateStore: " & Err.Description & " (" & Err.Number & ").  Trying to copy", LogTypeWarning
 				End if
 				On Error Goto 0
 			Else
 				On Error Resume Next
-				OFSO.CopyFolder oUtility.LocalRootPath & "\StateStore", sArchiveDir & "\StateStore"
+				OFSO.CopyFolder oUtility.StatePath, sArchiveDir & "\StateStore"
 				If Err then
-					oLogging.CreateEntry "Error Copying " & oUtility.LocalRootPath & "\StateStore" & " to " & sArchiveDir & "\StateStore: " & Err.Description & " (" & Err.Number & ").  Trying to copy", LogTypeWarning
+					oLogging.CreateEntry "Error Copying " & oUtility.StatePath & " to " & sArchiveDir & "\StateStore: " & Err.Description & " (" & Err.Number & ").  Trying to copy", LogTypeWarning
 				End If
 				On Error Goto 0
 			End If

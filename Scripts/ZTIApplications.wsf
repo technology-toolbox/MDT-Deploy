@@ -11,7 +11,7 @@
 ' //
 ' // File:      ZTIApplications.wsf
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Install a list of applications
 ' // 
@@ -526,7 +526,7 @@ Class ZTIApplications
 		If oFSO.FolderExists(sWorkingDir & "\Dependencies") then
 			For each sDependencyArch in Array("x86", "x64", ".")
 				For each oFile in oFSO.GetFolder(sWorkingDir & "\Dependencies\" & sDependencyArch).Files
-					If UCase(Right(oFile.Name,4)) = ".APPX" then
+					If UCase(Right(oFile.Name,5)) = ".APPX" then
 						sCmd = sCmd & " /DependencyPackagePath:""" & oFile.Path & """"
 					End if
 				Next
@@ -539,7 +539,7 @@ Class ZTIApplications
 		bFoundLicense = False
 		If oFSO.FolderExists(sWorkingDir) then
 			For each oFile in oFSO.GetFolder(sWorkingDir).Files
-				If UCase(Right(oFile.Name,3)) = ".XML" then
+				If UCase(Right(oFile.Name,4)) = ".XML" then
 					sCmd = sCmd & " /LicensePath:""" & oFile.Path & """"
 					bFoundLicense = True
 				End if

@@ -12,7 +12,7 @@
 ' //
 ' // File:      Litetouch.wsf
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Drive the lite touch deployment process
 ' // 
@@ -236,20 +236,16 @@ Class Litetouch
 
 		If oUtility.Arguments.Exists("start") then
 		
-			If (oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1") then
-				oLogging.CreateEntry "Running OS Upgrade", LogTypeInfo				
-			Else			
-				' Remove the LTIDirtyOS flag as we're getting into the new OS exactly how we expected
+			' Remove the LTIDirtyOS flag as we're getting into the new OS exactly how we expected
 			
-				oEnvironment.Item("LTIDirtyOS") = "FALSE"
+			oEnvironment.Item("LTIDirtyOS") = "FALSE"
 			
-				' Create the startup group item if needed
+			' Create the startup group item if needed
 
-				SetStartMDT
-				If oFSO.FileExists(oEnv("SystemRoot") & "\Explorer.exe") and UCase(oEnvironment.Item("HideShell")) <> "YES" then						
-					Main = Success
-					Exit Function
-				End If
+			SetStartMDT
+			If oFSO.FileExists(oEnv("SystemRoot") & "\Explorer.exe") and UCase(oEnvironment.Item("HideShell")) <> "YES" then						
+				Main = Success
+				Exit Function
 			End If
 			
 		End if
@@ -372,7 +368,7 @@ Class Litetouch
 
 		' Set the phase if it isn't already set
 
-		If oEnvironment.Item("PHASE") = "" or (oEnvironment.Item("IsOSUpgrade") <> "" and oEnvironment.Item("IsOSUpgrade") = "1") then
+		If oEnvironment.Item("LTIFirstTime") = "" then
 
 			If oEnv("SystemDrive") = "X:" then  ' Running in PE
 			
@@ -385,9 +381,7 @@ Class Litetouch
 			
 				oEnvironment.Item("PHASE") = "VALIDATION"
 				If oEnvironment.Item("IsOSUpgrade") = "1" then
-					oEnvironment.Item("DeploymentType") = "UPGRADE"					
-					oEnvironment.Item("PHASE") = ""
-					oLogging.CreateEntry "This is Upgrade, setting Phase =  (empty)" & oEnvironment.Item("Phase"), LogTypeInfo
+					oEnvironment.Item("DeploymentType") = "UPGRADE"
 				ElseIf oEnvironment.Item("DeploymentType") = "" then				
 					oEnvironment.Item("DeploymentType") = "REFRESH"
 				End if
@@ -402,7 +396,12 @@ Class Litetouch
 		' Do the full gathering process and display the wizard the first time, otherwise
 		' just refresh the environment
 
-		If (oEnvironment.Item("PHASE") = "VALIDATION") or (oEnvironment.Item("PHASE") = "PREINSTALL" and oEnvironment.Item("DeploymentType") = "NEWCOMPUTER") then
+		If oEnvironment.Item("LTIFirstTime") = "" then
+
+			' Record that we've done this
+
+			oEnvironment.Item("LTIFirstTime") = "NO"
+
 
 			' Try to create the welcome wizard to display progress
 
@@ -887,7 +886,12 @@ Class Litetouch
 				oEnvironment.Item("PHASE") = "CUSTOM"
 				
 			End If
-			If oEnv("SystemDrive") = "X:" then
+			If oEnv("_MDTUpgrade") = "TRUE" then
+
+				' Exit with a return code to indicate that a reboot is needed, Setup*.cmd will handle the reboot
+				WScript.Quit -2147021886
+
+			ElseIf oEnv("SystemDrive") = "X:" then
 
 					If oEnvironment.Item("LTISuspend") = "True" then
 						oShell.Popup "The task sequence has been suspended. Reboot WinPE (Close all windows) to resume.", 60, "Suspended", 48
@@ -897,11 +901,11 @@ Class Litetouch
 					WScript.Quit 0
 
 			Else
-				If oEnvironment.Item("BootPE") <> "True" and oEnvironment.Item("IsOSUpgrade") <> "1" then
+				If oEnvironment.Item("BootPE") <> "True" then
 					PopulateAutoAdminLogon
 				End If
 				If oEnvironment.Item("LTISuspend") = "" then
-					If OEnvironment.Item("BootPE") <> "True" and oEnvironment.Item("IsOSUpgrade") <> "1" then
+					If OEnvironment.Item("BootPE") <> "True" then
 						SetStartMDT
 					End If
 					'Reset the variable

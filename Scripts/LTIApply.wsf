@@ -13,7 +13,7 @@
 ' //
 ' // File:      LTIApply.wsf
 ' // 
-' // Version:   6.3.8443.1000
+' // Version:   6.3.8450.1000
 ' // 
 ' // Purpose:   Apply image (OS or PE) to the hard drive
 ' // 
@@ -972,18 +972,10 @@ Class LTIApply
 					oFSO.DeleteFile Left(oBootDrive.Drive,2) & "\efi\microsoft\boot\bcd", true
 				End if
 
-				' When using Windows ADK, specify that we want to update the UEFI BCD (in firmware).
-				' When using Windows AIK, don't specify a store as it *should* figure it out.
 
-				If oEnvironment.Item("OSCurrentVersion") <> "" then
-				
-					oUtility.GetMajorMinorVersion( oEnvironment.Item("OSCurrentVersion"))
-					If ((oUtility.VersionMajor = 6 and oUtility.VersionMinor >= 2) or oUtility.VersionMajor >= 10 )then
-						TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " /s " & left(oBootDrive.Drive,2) & " /f UEFI"), 5616, "Verify BCDBootEx"
-					Else
-						TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " "), 5616,"Verify BCDBootEx"
-					End if
-				End if
+				' When using Windows ADK, specify that we want to update the UEFI BCD (in firmware).
+
+				TestAndFail RunBCDBootEx( sDestinationDrive & "\windows", " "), 5616,"Verify BCDBootEx"
 
 
 				' Make sure the boot menu timeout is 0
