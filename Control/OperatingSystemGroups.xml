@@ -65,4 +65,12 @@
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <Member>{bfd6dba0-e5a6-4278-ace4-ff4ee984f6dc}</Member>
   </group>
+  <group guid="{c638344d-f7e6-499c-bcaa-76f581dbda9e}" enable="True">
+    <Name>Windows Server 2022</Name>
+    <CreatedTime>9/7/2021 9:05:18 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>9/7/2021 9:06:37 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <Member>{9da337bc-e3b0-41e2-9063-795a2e062d3a}</Member>
+  </group>
 </groups>
