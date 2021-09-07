@@ -108,4 +108,15 @@
     <Version>1.0</Version>
     <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
   </ts>
+  <ts guid="{996a5a33-10de-492a-923a-806036ccf011}" enable="True">
+    <Name>Windows Server 2022</Name>
+    <Comments>Production image</Comments>
+    <CreatedTime>9/7/2021 9:11:04 PM</CreatedTime>
+    <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
+    <LastModifiedTime>9/7/2021 9:11:04 PM</LastModifiedTime>
+    <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
+    <ID>WS2022</ID>
+    <Version>1.0</Version>
+    <TaskSequenceTemplate>Server.xml</TaskSequenceTemplate>
+  </ts>
 </tss>
