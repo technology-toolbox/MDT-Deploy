@@ -145,13 +145,13 @@
     <Name>SQL Server Management Studio</Name>
     <CreatedTime>12/4/2019 3:08:23 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/31/2020 5:46:15 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:19:01 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>SSMS</ShortName>
-    <Version>18.6</Version>
+    <Version>18.9.2</Version>
     <Publisher></Publisher>
     <Language></Language>
-    <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server Management Studio\18.6\SSMS-Setup-ENU.exe" /install /quiet /norestart</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Microsoft\SQL Server Management Studio\18.9.2\SSMS-Setup-ENU.exe" /install /quiet /norestart</CommandLine>
     <WorkingDirectory></WorkingDirectory>
     <Reboot>False</Reboot>
   </application>
