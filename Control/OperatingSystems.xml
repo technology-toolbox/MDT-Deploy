@@ -201,7 +201,7 @@
     <Source>.\Operating Systems\WS2022</Source>
     <IncludesSetup>False</IncludesSetup>
     <SMSImage>False</SMSImage>
-    <ImageFile>.\Operating Systems\WS2022\WS2022-REF_9-7-2021-1-30-27-PM.wim</ImageFile>
+    <ImageFile>.\Operating Systems\WS2022\WS2022-REF_9-7-2021-3-25-26-PM.wim</ImageFile>
     <ImageIndex>1</ImageIndex>
     <ImageName>WS2022-REFDDrive</ImageName>
     <Flags>ServerStandard</Flags>
