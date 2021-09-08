@@ -31,10 +31,10 @@
     <Name>Chrome (32-bit)</Name>
     <CreatedTime>4/14/2015 2:57:46 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/31/2020 5:35:14 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:11:00 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Chrome-x86</ShortName>
-    <Version>85.0.4183.83</Version>
+    <Version>93.0.4577.63</Version>
     <CommandLine>msiexec /i "\\TT-FS01\Products\Google\Chrome\GoogleChromeEnterpriseBundle\Installers\GoogleChromeStandaloneEnterprise.msi" /q</CommandLine>
     <Reboot>False</Reboot>
   </application>
@@ -42,13 +42,13 @@
     <Name>Firefox (32-bit)</Name>
     <CreatedTime>11/2/2017 2:12:33 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/31/2020 5:37:21 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:12:44 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox-x86</ShortName>
-    <Version>80.0 (32-bit)</Version>
+    <Version>92.0 (32-bit)</Version>
     <Publisher></Publisher>
     <Language></Language>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x86\Firefox Setup 80.0.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x86\Firefox Setup 92.0.exe" -ms</CommandLine>
     <WorkingDirectory></WorkingDirectory>
     <Reboot>False</Reboot>
   </application>
@@ -56,21 +56,21 @@
     <Name>Thunderbird (32-bit)</Name>
     <CreatedTime>12/27/2016 4:26:24 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>11/23/2020 4:04:09 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:13:44 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Thunderbird-x86</ShortName>
-    <Version>78.5.0 (32-bit)</Version>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\x86\Thunderbird Setup 78.5.0.exe" -ms</CommandLine>
+    <Version>91.1.0 (32-bit)</Version>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\x86\Thunderbird Setup 91.1.0.exe" -ms</CommandLine>
     <Reboot>False</Reboot>
   </application>
   <application guid="{ac941f1b-5518-4360-8bf4-1a11bc796151}" hide="False" enable="True">
     <Name>Chrome (64-bit)</Name>
     <CreatedTime>11/2/2017 2:01:03 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/31/2020 5:35:58 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:11:52 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Chrome-x64</ShortName>
-    <Version>85.0.4183.83</Version>
+    <Version>93.0.4577.63</Version>
     <Publisher></Publisher>
     <Language></Language>
     <CommandLine>msiexec /i "\\TT-FS01\Products\Google\Chrome\GoogleChromeEnterpriseBundle64\Installers\GoogleChromeStandaloneEnterprise64.msi" /q</CommandLine>
@@ -82,13 +82,13 @@
     <Name>Firefox (64-bit)</Name>
     <CreatedTime>11/2/2017 2:06:33 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>8/31/2020 5:37:03 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:13:08 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Firefox-x64</ShortName>
-    <Version>80.0 (64-bit)</Version>
+    <Version>92.0 (64-bit)</Version>
     <Publisher></Publisher>
     <Language></Language>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x64\Firefox Setup 80.0.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Firefox\x64\Firefox Setup 92.0.exe" -ms</CommandLine>
     <WorkingDirectory></WorkingDirectory>
     <Reboot>False</Reboot>
     <SupportedPlatform>All x64 Windows 7 and Newer</SupportedPlatform>
@@ -275,13 +275,13 @@
     <Name>Thunderbird (64-bit)</Name>
     <CreatedTime>11/23/2020 4:02:08 PM</CreatedTime>
     <CreatedBy>TECHTOOLBOX\jjameson-admin</CreatedBy>
-    <LastModifiedTime>11/23/2020 4:04:18 PM</LastModifiedTime>
+    <LastModifiedTime>9/8/2021 12:14:02 PM</LastModifiedTime>
     <LastModifiedBy>TECHTOOLBOX\jjameson-admin</LastModifiedBy>
     <ShortName>Thunderbird-x64</ShortName>
-    <Version>78.5.0 (64-bit)</Version>
+    <Version>91.1.0 (64-bit)</Version>
     <Publisher></Publisher>
     <Language></Language>
-    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\x64\Thunderbird Setup 78.5.0.exe" -ms</CommandLine>
+    <CommandLine>"\\TT-FS01\Products\Mozilla\Thunderbird\x64\Thunderbird Setup 91.1.0.exe" -ms</CommandLine>
     <WorkingDirectory></WorkingDirectory>
     <Reboot>False</Reboot>
   </application>
